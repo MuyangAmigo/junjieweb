@@ -1,0 +1,35 @@
+# Vault content (not published to GitHub)
+Notes/
+Journal/
+Yearbook/
+Attachments/
+.obsidian/
+
+# Backups
+_backup_before_reorg/
+_backup_before_image_rename/
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Vault-only scripts and mappings
+scripts/execute-reorganization.py
+scripts/generate-mapping.py
+scripts/rename-images.py
+scripts/fix-images-and-convert-links.py
+scripts/*.csv
+
+# Git LFS attributes (vault media only)
+.gitattributes
+
+# Environment secrets
+.env
+
+# Hugo build output
+site/public/
+site/resources/
+site/static/images/
