@@ -4,80 +4,98 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A personal Obsidian vault and knowledge management system for notes, journals, and attachments. The `/scripts/` directory contains Python utilities for file reorganization and image management.
+A personal Obsidian vault and knowledge management system, plus a Hugo-based personal blog deployed on Azure Static Web Apps.
 
-## Scripts
+- **Vault** (local only): Notes, journals, attachments — not tracked in git
+- **Blog** (pushed to GitHub): Hugo site with PaperMod theme, CI/CD via GitHub Actions
 
-All scripts live in `/scripts/`. The reorganization scripts (`generate-mapping.py`, `execute-reorganization.py`) use only Python 3 stdlib. The image scripts (`rename-images.py`, `fix-images-and-convert-links.py`) additionally require the `openai` package and use Azure AI Foundry for vision-based image naming.
+## Blog Architecture
 
-### Note Reorganization
+### GitHub & Deployment
 
-```bash
-# Step 1: Generate a CSV mapping of old→new file paths
-python3 scripts/generate-mapping.py
-# Output: scripts/reorganization-mapping.csv
+- **Repo**: `MuyangAmigo/junjie-blog` (private) — GitHub account `MuyangAmigo`
+- **Site URL**: https://victorious-desert-01d544110.2.azurestaticapps.net
+- **CI/CD**: Push to `main` → GitHub Actions builds Hugo → deploys to Azure Static Web Apps
+- **Azure resource group**: `junjieweb` (East Asia, Visual Studio Enterprise Subscription)
+- **Azure Static Web App**: `junjie-blog` (Free tier)
+- **Image storage**: Azure Blob Storage account `junjieblob`, container `images` (public read)
+  - URL pattern: `https://junjieblob.blob.core.windows.net/images/<filename>`
 
-# Step 2: Execute the reorganization from the mapping
-python3 scripts/execute-reorganization.py
+### What's Tracked in Git
+
+Only blog infrastructure files — no vault content, images, or sensitive data:
+
+```
+.github/workflows/azure-static-web-apps.yml  # CI/CD pipeline
+.gitignore
+CLAUDE.md
+scripts/obsidian-to-hugo.py    # Transforms vault notes → Hugo posts
+scripts/publish.sh             # One-command publish workflow
+site/hugo.toml                 # Hugo config (PaperMod theme, zh-cn)
+site/archetypes/default.md
+site/content/posts/            # Generated Hugo posts (committed locally)
+site/themes/PaperMod           # Git submodule
 ```
 
-`execute-reorganization.py` automatically backs up files to `_backup_before_reorg/` before making changes.
+### Publishing Workflow
 
-### Image Renaming & Link Conversion
+To publish a new article:
 
-```bash
-# Rename images to descriptive kebab-case names using a vision model
-python3 scripts/rename-images.py
-# Output: scripts/image-rename-mapping.csv, backs up to _backup_before_image_rename/
+1. Add YAML frontmatter with `publish: true` to any vault `.md` file:
+   ```yaml
+   ---
+   title: "Article Title"
+   date: 2026-03-21
+   publish: true
+   categories: [Career]
+   tags: [some-tag]
+   ---
+   ```
+2. Run the publish script:
+   ```bash
+   ./scripts/publish.sh
+   ```
+   This does everything: transforms notes → uploads images to blob storage → commits → pushes → CI deploys.
 
-# Fix remaining unnamed images + convert Obsidian wikilinks to standard Markdown image syntax
-python3 scripts/fix-images-and-convert-links.py
-```
+### Scripts
 
-## Script Architecture
+**`scripts/obsidian-to-hugo.py`** — Content transformation:
+- Scans vault for `.md` files with `publish: true` in frontmatter
+- Converts image paths (`../../Attachments/Images/file.png` and `![[file.png]]`) → Azure Blob Storage URLs
+- Converts Obsidian `[[wikilinks]]` → plain text
+- Strips Apple Notes HTML artifacts and bare Obsidian `#Tags`
+- Builds Hugo-compatible YAML frontmatter
+- Outputs to `site/content/posts/`
+- Requires: `pyyaml`
+- Configurable via `BLOB_STORAGE_URL` env var
 
-**`generate-mapping.py`** — Analysis pass only (no file mutations):
-- `FOLDER_MAP`: Old folder paths → new paths (e.g., `"Apple Notes/📋资料"` → `"Notes/Reference"`)
-- `FILENAME_TRANSLATIONS`: ~200 Chinese→English filename mappings
-- `RECATEGORIZE_MAP`: Rules for placing root-level files into proper folders
-- `translate_filename()` / `clean_filename()`: Converts to English kebab-case
-- `process_journal_file()`: Special handling for date-based journal entries
-- Outputs `reorganization-mapping.csv` with columns: `old_path`, `new_path`, `category`, `notes`
+**`scripts/publish.sh`** — One-command publish:
+- Runs `obsidian-to-hugo.py`
+- Detects referenced images in generated posts
+- Uploads new images to Azure Blob Storage (skips existing)
+- Commits and pushes changes
 
-**`execute-reorganization.py`** — Mutation pass (reads from CSV):
-- `update_wikilinks()`: The critical function — rewrites Obsidian `[[wikilink]]` and `![[embed]]` syntax (including `[[target|alias]]` forms) across all `.md` files when file stems change
-- `update_obsidian_config()`: Updates `attachmentFolderPath` in `.obsidian/app.json`
-- `verify_links()`: Post-run scan for broken links
+### Vault-Only Scripts (not tracked in git)
 
-**`rename-images.py`** — Vision-based image renaming:
-- Uses Azure AI Foundry (GPT model) to analyze images and generate descriptive kebab-case filenames
-- Runs concurrently (50 workers) within API rate limits
-- Converts HEIC → JPEG via `sips` for API compatibility
-- Deduplicates names (appends -2, -3, etc. for collisions)
-- Updates all wikilinks/embeds in `.md` files after renaming
-- Backs up originals to `_backup_before_image_rename/`
-- Outputs `image-rename-mapping.csv`
+These live locally for vault management:
 
-**`fix-images-and-convert-links.py`** — Two-phase cleanup:
-- Phase 1: Re-names any remaining `unnamed-image-N` files via the vision API, then updates wikilinks
-- Phase 2: Converts all Obsidian image wikilinks (`![[image.ext]]`) to standard Markdown syntax (`![alt](relative/path/image.ext)`) so images render in VS Code and GitHub
+- `scripts/generate-mapping.py` / `scripts/execute-reorganization.py` — Note reorganization with CSV mapping
+- `scripts/rename-images.py` / `scripts/fix-images-and-convert-links.py` — Vision-based image renaming via Azure AI Foundry
 
-## Vault Structure
+## Vault Structure (local only)
 
 ```
 Notes/          # Topical notes (Life, Career, Travel, Reference, Fitness, Uncategorized)
 Journal/        # Daily/personal journal entries by year (2023–2026), plus misc/
 Yearbook/       # Weekly review summaries and templates
 Attachments/    # Images/, Videos/, Documents/, Other/
-scripts/        # Python reorganization and image-management utilities
-_backup_before_reorg/          # Backup created before note reorganization
-_backup_before_image_rename/   # Backup created before image renaming
-.obsidian/      # Obsidian app configuration (do not edit manually)
+.obsidian/      # Obsidian app configuration
 ```
 
 ## Key Constraints
 
-- Obsidian wikilinks use `[[filename]]` (stem only, no path) — the `update_wikilinks()` function must handle all link variants when renaming files
-- Attachment folder is configured in `.obsidian/app.json` under `attachmentFolderPath`
-- Always generate and review CSV mappings before executing — check the `notes` column for `collision`, `sensitive`, and `tiny_file` flags
-- Media files (images, videos, PDFs) are tracked with Git LFS (see `.gitattributes`)
+- Obsidian wikilinks use `[[filename]]` (stem only, no path)
+- Only files with `publish: true` in frontmatter are published — everything else is excluded by default
+- Vault content, images, and sensitive data must never be committed to git
+- Images are served from Azure Blob Storage, not from the Hugo static dir
+- The git history was cleaned (orphan branch) to remove any prior vault content
