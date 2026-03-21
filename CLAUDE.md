@@ -4,19 +4,36 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A personal knowledge management system with a Hugo-based blog, deployed on Azure Static Web Apps.
+A personal knowledge management system with a multi-purpose personal website (resume + blog), deployed on Azure Static Web Apps.
 
 - **Vault** (git-synced): Notes, journals, yearbook — markdown files tracked in git for cross-device editing
 - **Media** (Azure only): Images, videos, documents — stored in Azure Blob Storage, not in git
-- **Blog** (auto-deployed): Hugo site with PaperMod theme, CI/CD via GitHub Actions
+- **Website** (auto-deployed): Next.js site with resume/portfolio + blog, CI/CD via GitHub Actions
 
-## Blog Architecture
+## Site Architecture
+
+### Tech Stack
+
+- **Framework**: Next.js 16 with App Router, TypeScript, static export (`output: "export"`)
+- **Styling**: Tailwind CSS v4 with monochrome technical dark theme
+- **Fonts**: Inter (body) + JetBrains Mono (labels, dates, metadata)
+- **Theme**: Dark by default, light mode toggle available (`.light` class on `<html>`)
+- **Blog**: Markdown posts rendered via gray-matter + remark + remark-html
+
+### Pages
+
+| Page | Path | Description |
+|------|------|-------------|
+| Home | `/` | Hero with bio, career timeline, latest 5 posts |
+| About | `/about` | Full resume — experience, education, skills, publication |
+| Posts | `/posts` | Blog listing grouped by year, tag cloud |
+| Post | `/posts/[slug]` | Individual post with markdown rendering |
 
 ### GitHub & Deployment
 
 - **Repo**: `MuyangAmigo/junjie-blog` (private) — GitHub account `MuyangAmigo`
 - **Site URL**: https://victorious-desert-01d544110.2.azurestaticapps.net
-- **CI/CD**: Push to `main` → GitHub Actions builds Hugo → deploys to Azure Static Web Apps
+- **CI/CD**: Push to `main` → GitHub Actions installs deps → `npx next build` → deploys `site-next/out/` to Azure Static Web Apps
 - **Azure resource group**: `junjieweb` (East Asia, Visual Studio Enterprise Subscription)
 - **Azure Static Web App**: `junjie-blog` (Free tier)
 - **Media storage**: Azure Blob Storage account `junjieblob`, container `images` (public read)
@@ -26,8 +43,6 @@ A personal knowledge management system with a Hugo-based blog, deployed on Azure
 
 ### What's Tracked in Git
 
-Vault markdown content and blog infrastructure:
-
 ```
 Notes/                         # Topical notes (Life, Career, Travel, Reference, Fitness, Uncategorized)
 Journal/                       # Daily/personal journal entries by year (2023–2026), plus misc/
@@ -35,22 +50,28 @@ Yearbook/                      # Weekly review summaries and templates
 .github/workflows/azure-static-web-apps.yml  # CI/CD pipeline
 .gitignore
 CLAUDE.md
-scripts/obsidian-to-hugo.py    # Transforms vault notes → Hugo posts
+scripts/obsidian-to-hugo.py    # Transforms vault notes → blog posts (outputs to both site/ and site-next/)
 scripts/publish.sh             # One-command publish workflow
 scripts/sync-media.py          # Detect new media, upload to Azure, fix note refs
 scripts/upload-media.sh        # Upload media to Azure, get markdown embed
-scripts/migrate-attachments-to-azure.sh  # One-time bulk upload (migration)
-scripts/migrate-note-links.py  # One-time link rewriter (migration)
-site/hugo.toml                 # Hugo config (PaperMod theme, zh-cn)
-site/archetypes/default.md
-site/content/posts/            # Generated Hugo posts
-site/themes/PaperMod           # Git submodule
+scripts/migrate-attachments-to-azure.sh  # One-time bulk upload (migration, reference only)
+scripts/migrate-note-links.py  # One-time link rewriter (migration, reference only)
+site-next/                     # Active Next.js personal site
+  src/app/                     # App Router pages (home, about, posts, post detail)
+  src/components/              # Header, Footer
+  src/lib/                     # Data (resume info), posts (markdown reader)
+  content/posts/               # Generated blog posts (markdown)
+  next.config.ts               # Static export config
+  postcss.config.mjs           # Tailwind CSS v4
+  package.json / package-lock.json
+site/                          # Legacy Hugo site (kept as reference, no longer deployed)
 ```
 
 ### What's NOT in Git
 
 - `Attachments/` — media files (images, videos, docs) are in Azure Blob Storage
 - `.obsidian/` — Obsidian app config (optional, local only)
+- `site-next/.next/`, `site-next/out/`, `site-next/node_modules/` — Next.js build artifacts
 - Backup dirs, CSV mappings, vault-only scripts
 
 ### Daily Workflow
@@ -69,11 +90,17 @@ site/themes/PaperMod           # Git submodule
 # → Detects new files in Attachments/, uploads to Azure, fixes note refs
 ```
 
+**Local development**:
+```bash
+cd site-next && npx next dev
+# → Open http://localhost:3000
+```
+
 **Publishing blog posts**:
 1. Add `publish: true` to any note's YAML frontmatter
 2. Run `./scripts/publish.sh` — syncs media, transforms notes, commits, pushes, CI deploys
 
-Note: just pushing to GitHub is not enough — `publish.sh` (or `obsidian-to-hugo.py`) must run first to generate Hugo posts in `site/content/posts/`. CI/CD only builds what's in `site/`.
+Note: `publish.sh` (or `obsidian-to-hugo.py`) must run first to generate posts in `site-next/content/posts/`. CI/CD only builds what's in `site-next/`.
 
 ### Scripts
 
@@ -82,13 +109,13 @@ Note: just pushing to GitHub is not enough — `publish.sh` (or `obsidian-to-hug
 - Converts Obsidian `[[wikilinks]]` → plain text
 - Strips Apple Notes HTML artifacts and bare Obsidian `#Tags`
 - Builds Hugo-compatible YAML frontmatter
-- Outputs to `site/content/posts/`
+- Outputs to both `site/content/posts/` (legacy) and `site-next/content/posts/` (active)
 - Requires: `pyyaml`
 
 **`scripts/publish.sh`** — One-command publish:
 - Syncs media to Azure (runs `sync-media.py`)
 - Runs `obsidian-to-hugo.py`
-- Commits and pushes generated posts
+- Commits and pushes generated posts from both content directories
 
 **`scripts/sync-media.py`** — Ongoing media sync:
 - Detects new files in `Attachments/` not yet on Azure (compares against remote blob list)
@@ -101,18 +128,32 @@ Note: just pushing to GitHub is not enough — `publish.sh` (or `obsidian-to-hug
 - Prints markdown embed for copy-paste into notes
 - Skips if file already exists on Azure
 
-**`scripts/migrate-attachments-to-azure.sh`** — One-time migration:
-- Bulk-uploads all files from `Attachments/` to Azure Blob Storage
-- Supports `--dry-run` flag
-
-**`scripts/migrate-note-links.py`** — One-time migration:
-- Rewrites local attachment paths in all notes to Azure Blob Storage URLs
-- Supports `--dry-run` flag
-
 ### Vault-Only Scripts (not tracked in git)
 
 - `scripts/generate-mapping.py` / `scripts/execute-reorganization.py` — Note reorganization with CSV mapping
 - `scripts/rename-images.py` / `scripts/fix-images-and-convert-links.py` — Vision-based image renaming via Azure AI Foundry
+
+### Next.js Site Structure
+
+```
+site-next/
+  src/
+    app/
+      layout.tsx          # Root layout (Inter + JetBrains Mono fonts, Header, Footer)
+      globals.css         # CSS variables (dark/light), prose styles, animations
+      page.tsx            # Home page (hero, timeline, latest posts)
+      about/page.tsx      # Resume page (experience, education, skills)
+      posts/page.tsx      # Blog listing (grouped by year)
+      posts/[slug]/page.tsx  # Individual post
+    components/
+      Header.tsx          # Nav bar with theme toggle, mobile menu
+      Footer.tsx          # Footer with social links
+    lib/
+      data.ts             # Profile, experience, education, skills data
+      posts.ts            # Markdown post reader (gray-matter + remark)
+  content/posts/          # Blog post markdown files
+  next.config.ts          # Static export for Azure Static Web Apps
+```
 
 ## Vault Structure
 
@@ -129,8 +170,9 @@ Attachments/    # Local only — Images/, Videos/, Documents/, Other/ (not in gi
 - Only files with `publish: true` in frontmatter are published to the blog
 - Media (images, videos, docs) must never be committed to git — use Azure Blob Storage
 - All media references in notes use Azure Blob Storage URLs (not local paths)
-- Obsidian wikilinks `[[filename]]` are still used for note-to-note links (converted to plain text for Hugo)
+- Obsidian wikilinks `[[filename]]` are still used for note-to-note links (converted to plain text for blog)
 - Sensitive data (`.env`, credentials) must never be committed
+- Resume/profile data lives in `site-next/src/lib/data.ts` — update there for career changes
 
 ## Publishing Guidelines
 
@@ -147,8 +189,16 @@ Notes in `Notes/Career/` have been reviewed. Currently published: 18 articles (c
 
 ## Migration Status
 
-The one-time migration from local attachments to Azure Blob Storage is **complete** (2026-03-22):
+**Hugo → Next.js migration** completed 2026-03-22:
+- Built Next.js personal site with monochrome technical dark theme
+- Home page with hero, career timeline, latest posts
+- About page with full resume (experience, education, skills)
+- Blog system with markdown rendering (18 posts migrated)
+- CI/CD updated to build Next.js and deploy `site-next/out/`
+- Legacy Hugo site kept at `site/` for reference
+
+**Attachments → Azure Blob Storage migration** completed 2026-03-22:
 - 590 media files uploaded (572 images, 9 videos, 9 documents)
 - 126 note files rewritten from local paths to Azure Blob URLs
-- Migration scripts (`migrate-attachments-to-azure.sh`, `migrate-note-links.py`) are kept for reference but should not need to run again
+- Migration scripts kept for reference but should not need to run again
 - Ongoing media sync is handled by `sync-media.py`

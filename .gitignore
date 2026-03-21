@@ -32,3 +32,8 @@ scripts/*.csv
 site/public/
 site/resources/
 site/static/images/
+
+# Next.js build output
+site-next/.next/
+site-next/out/
+site-next/node_modules/

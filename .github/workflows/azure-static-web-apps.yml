@@ -16,18 +16,21 @@ jobs:
     name: Build and Deploy
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          hugo-version: "latest"
-          extended: true
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: site-next/package-lock.json
 
-      - name: Build Hugo site
-        working-directory: site
-        run: hugo --minify
+      - name: Install dependencies
+        working-directory: site-next
+        run: npm ci
+
+      - name: Build Next.js site
+        working-directory: site-next
+        run: npx next build
 
       - name: Deploy to Azure Static Web Apps
         id: deploy
@@ -37,7 +40,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           skip_app_build: true
-          app_location: "site/public"
+          app_location: "site-next/out"
 
   close_pull_request:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

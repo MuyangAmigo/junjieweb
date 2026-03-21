@@ -1,139 +1,122 @@
 <div align="center">
 
-# ✨ Junjie's Blog ✨
+# Junjie Li — Personal Site
 
-**Notes on career, tech, and life.**
+**Senior Product Manager at Microsoft | Career, Tech & Life**
 
-[![Hugo](https://img.shields.io/badge/Hugo-FF4088?style=for-the-badge&logo=hugo&logoColor=white)](https://gohugo.io/)
+[![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![Tailwind](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Azure](https://img.shields.io/badge/Azure_Static_Web_Apps-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/en-us/products/app-service/static)
-[![PaperMod](https://img.shields.io/badge/Theme-PaperMod-blue?style=for-the-badge)](https://github.com/adityatelange/hugo-PaperMod)
 
-[🌐 **Visit the Live Site**](https://victorious-desert-01d544110.2.azurestaticapps.net/)
+[**Visit the Live Site**](https://victorious-desert-01d544110.2.azurestaticapps.net/)
 
 </div>
 
 ---
 
-## 🧠 What Is This?
+## What Is This?
 
-A personal **knowledge vault** + **blog** in one repo. Write notes in Markdown anywhere, flip a switch, and they become blog posts — automatically built and deployed.
+A multi-purpose personal website and knowledge vault in one repo:
 
-> 📝 **Vault** — Notes, journals, weekly reviews, all in Markdown
-> 📸 **Media** — Images, videos, docs stored on Azure Blob Storage (not in git!)
-> 🚀 **Blog** — Hugo + PaperMod, auto-deployed via GitHub Actions
+- **Website** — Next.js personal site with resume/portfolio and blog, auto-deployed via GitHub Actions
+- **Vault** — Notes, journals, weekly reviews, all in Markdown, synced across devices via git
+- **Media** — Images, videos, docs stored on Azure Blob Storage (not in git)
 
----
+## Tech Stack
 
-## 📂 Repository Structure
+| Layer | Technology |
+|:------|:-----------|
+| Framework | Next.js 16, TypeScript, App Router, static export |
+| Styling | Tailwind CSS v4, monochrome dark theme |
+| Fonts | Inter + JetBrains Mono |
+| Blog | Markdown rendered via gray-matter + remark |
+| Deployment | Azure Static Web Apps, GitHub Actions CI/CD |
+| Media | Azure Blob Storage |
+
+## Repository Structure
 
 ```
-📁 Notes/                  → Topical notes (Life, Career, Travel, Reference, Fitness, ...)
-📁 Journal/                → Daily journal entries organized by year
-📁 Yearbook/               → Weekly review summaries and templates
-📁 Attachments/            → Local-only media (☁️ synced to Azure, not tracked in git)
-📁 site/
-   ├── hugo.toml           → Hugo configuration
-   ├── content/posts/      → Generated Hugo posts
-   └── themes/PaperMod     → Theme (git submodule)
-📁 scripts/                → Automation scripts
-📁 .github/workflows/      → CI/CD pipeline
+Notes/                  # Topical notes (Life, Career, Travel, Reference, Fitness)
+Journal/                # Daily journal entries by year
+Yearbook/               # Weekly review summaries
+site-next/              # Active Next.js personal site
+  src/app/              #   Pages: home, about, posts, post detail
+  src/components/       #   Header, Footer
+  src/lib/              #   Resume data, markdown post reader
+  content/posts/        #   Blog post markdown files
+site/                   # Legacy Hugo site (reference only)
+scripts/                # Automation scripts
+.github/workflows/      # CI/CD pipeline
 ```
 
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
-| Tool | Purpose |
-|:-----|:--------|
-| [Hugo](https://gohugo.io/installation/) (extended) | Static site generator |
-| [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) | Media uploads to Blob Storage |
-| Python 3 + `pyyaml` | Note transformation scripts |
+- [Node.js](https://nodejs.org/) 20+
+- [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) (for media uploads)
+- Python 3 + `pyyaml` (for note transformation)
 
 ### Setup
 
 ```bash
-git clone --recurse-submodules https://github.com/MuyangAmigo/junjie-blog.git
+git clone https://github.com/MuyangAmigo/junjie-blog.git
 cd junjie-blog
-pip install pyyaml
+cd site-next && npm install
 ```
 
-### 👀 Local Preview
+### Local Preview
 
 ```bash
-cd site
-hugo server -D
-# → Open http://localhost:1313
+cd site-next
+npx next dev
+# Open http://localhost:3000
 ```
 
----
+## Workflow
 
-## ✍️ Workflow
+### Write
 
-### 1. 📝 Write
+Edit Markdown files in `Notes/`, `Journal/`, or `Yearbook/` using any editor.
 
-Edit Markdown files in `Notes/`, `Journal/`, or `Yearbook/` using any editor — VS Code, Obsidian, github.dev, your phone, whatever works.
-
-### 2. 🖼️ Add Media
+### Add Media
 
 ```bash
-# Upload a single file → get a Markdown embed to paste
 ./scripts/upload-media.sh path/to/image.png
-
-# Or batch-sync all new local attachments
-./scripts/sync-media.py
+# Uploads to Azure, prints markdown embed to paste into your note
 ```
 
-### 3. 🎯 Publish
+### Publish
 
-Add `publish: true` to a note's frontmatter, then run one command:
+Add `publish: true` to a note's frontmatter, then:
 
 ```bash
 ./scripts/publish.sh
 ```
 
-That's it! The script will:
+This syncs media, transforms notes into blog posts, commits, and pushes. GitHub Actions deploys automatically.
 
-1. ☁️ Sync new media to Azure
-2. 🔄 Transform notes → Hugo posts
-3. 📤 Commit & push — GitHub Actions deploys automatically
-
----
-
-## 🛠️ Scripts
+## Scripts
 
 | Script | What it does |
 |:-------|:-------------|
-| 🚀 `publish.sh` | **One-command publish** — sync media, transform notes, commit & push |
-| 🔄 `obsidian-to-hugo.py` | Convert vault notes with `publish: true` into Hugo posts |
-| ☁️ `sync-media.py` | Detect new local media, upload to Azure, rewrite note references |
-| 📤 `upload-media.sh` | Upload a single file to Azure and print Markdown embed |
+| `publish.sh` | One-command publish — sync media, transform notes, commit & push |
+| `obsidian-to-hugo.py` | Convert vault notes with `publish: true` into blog posts |
+| `sync-media.py` | Detect new local media, upload to Azure, rewrite note references |
+| `upload-media.sh` | Upload a single file to Azure and print markdown embed |
 
----
-
-## ⚡ Deployment Pipeline
+## Deployment
 
 ```
- ✏️ Write note        🎯 publish: true        🚀 publish.sh        ☁️ GitHub Actions
- ───────────► add frontmatter ──────────► run script ──────────► auto-deploy
-                                                                      │
-                                                                      ▼
-                                                              🌐 Live on Azure!
+Write note → add publish: true → run publish.sh → GitHub Actions → Live on Azure
 ```
 
-> ⚠️ **Note**: Just pushing to GitHub won't publish new content. You must run `publish.sh` first to generate Hugo posts in `site/content/posts/`.
-
----
-
-## 📜 License
-
-This is a personal project. All content is copyright **Junjie Li**.
+Push to `main` triggers: `npm ci` → `npx next build` → deploy `site-next/out/` to Azure Static Web Apps.
 
 ---
 
 <div align="center">
 
-Made with ❤️, Markdown, and way too many terminal commands.
+Built by Junjie Li.
 
 </div>

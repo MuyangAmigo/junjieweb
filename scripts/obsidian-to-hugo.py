@@ -19,8 +19,10 @@ import yaml
 from pathlib import Path
 
 VAULT_ROOT = Path(__file__).resolve().parent.parent
+# Output to both Hugo (site/) and Next.js (site-next/) content directories
 SITE_DIR = VAULT_ROOT / "site"
-CONTENT_DIR = SITE_DIR / "content" / "posts"
+HUGO_CONTENT_DIR = SITE_DIR / "content" / "posts"
+NEXT_CONTENT_DIR = VAULT_ROOT / "site-next" / "content" / "posts"
 
 
 def parse_frontmatter(text: str):
@@ -112,10 +114,12 @@ def process_file(fpath: Path, fm: dict, body: str):
     hugo_fm = build_hugo_frontmatter(fm, fpath)
     output = f"{hugo_fm}\n\n{body}\n"
 
-    CONTENT_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = CONTENT_DIR / fpath.name
-    out_path.write_text(output, encoding="utf-8")
-    print(f"  → {out_path.relative_to(VAULT_ROOT)}")
+    # Write to both Hugo and Next.js content directories
+    for content_dir in (HUGO_CONTENT_DIR, NEXT_CONTENT_DIR):
+        content_dir.mkdir(parents=True, exist_ok=True)
+        out_path = content_dir / fpath.name
+        out_path.write_text(output, encoding="utf-8")
+        print(f"  → {out_path.relative_to(VAULT_ROOT)}")
 
 
 def main():

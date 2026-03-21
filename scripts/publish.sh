@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Publish blog posts: transform notes → commit → push
+# Publish blog posts: transform notes → build Next.js → commit → push
 # Images are already Azure Blob URLs in source notes (no upload needed).
 # Usage: ./scripts/publish.sh
 
@@ -10,13 +10,13 @@ echo "==> Syncing media to Azure..."
 python3 scripts/sync-media.py
 
 echo ""
-echo "==> Transforming Obsidian notes to Hugo posts..."
+echo "==> Transforming Obsidian notes to posts..."
 python3 scripts/obsidian-to-hugo.py
 
-# Stage and commit generated posts
+# Stage and commit generated posts + Next.js output
 echo ""
 echo "==> Committing and pushing..."
-git add site/content/posts/
+git add site/content/posts/ site-next/content/posts/
 if git diff --cached --quiet; then
     echo "  No changes to commit."
 else
