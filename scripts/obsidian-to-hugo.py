@@ -3,12 +3,13 @@
 Transform Obsidian vault articles into Hugo-compatible posts.
 
 Only processes .md files that contain `publish: true` in their YAML frontmatter.
-- Converts image paths to Azure Blob Storage URLs
-- Converts Obsidian wikilinks to standard markdown links
+- Converts Obsidian wikilinks to plain text
 - Strips HTML artifacts from Apple Notes
+- Builds Hugo-compatible YAML frontmatter
 - Outputs processed .md to site/content/posts/
 
-Set BLOB_STORAGE_URL env var to override the default image base URL.
+Note: Image/media URLs are already Azure Blob Storage URLs in the source notes
+(converted by the one-time migrate-note-links.py migration).
 """
 
 import os
@@ -20,9 +21,6 @@ from pathlib import Path
 VAULT_ROOT = Path(__file__).resolve().parent.parent
 SITE_DIR = VAULT_ROOT / "site"
 CONTENT_DIR = SITE_DIR / "content" / "posts"
-
-# Azure Blob Storage base URL for images (no trailing slash)
-BLOB_STORAGE_URL = os.environ.get("BLOB_STORAGE_URL", "https://junjieblob.blob.core.windows.net/images")
 
 
 def parse_frontmatter(text: str):
@@ -58,34 +56,6 @@ def find_publishable_files():
             if fm and fm.get("publish") is True:
                 results.append((fpath, fm, body))
     return results
-
-
-def convert_image_paths(body: str, source_file: Path):
-    """Convert relative image paths and wikilink embeds to Azure Blob Storage URLs."""
-
-    # Pattern 1: Standard markdown images ![alt](path)
-    def replace_md_image(m):
-        alt = m.group(1)
-        path = m.group(2)
-        fname = Path(path).name
-        return f"![{alt}]({BLOB_STORAGE_URL}/{fname})"
-
-    body = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", replace_md_image, body)
-
-    # Pattern 2: Obsidian wikilink embeds ![[image.ext]]
-    def replace_wiki_image(m):
-        fname = m.group(1)
-        alt = Path(fname).stem.replace("-", " ")
-        return f"![{alt}]({BLOB_STORAGE_URL}/{fname})"
-
-    body = re.sub(
-        r"!\[\[([^\]]+\.(?:png|jpg|jpeg|gif|webp|svg|heic))\]\]",
-        replace_wiki_image,
-        body,
-        flags=re.IGNORECASE,
-    )
-
-    return body
 
 
 def convert_wikilinks(body: str):
@@ -135,7 +105,6 @@ def process_file(fpath: Path, fm: dict, body: str):
     """Process a single file and write to Hugo content dir."""
     print(f"Processing: {fpath.relative_to(VAULT_ROOT)}")
 
-    body = convert_image_paths(body, fpath)
     body = convert_wikilinks(body)
     body = strip_html_artifacts(body)
     body = strip_obsidian_tags(body)

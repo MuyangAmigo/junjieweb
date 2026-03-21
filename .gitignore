@@ -1,8 +1,7 @@
-# Vault content (not published to GitHub)
-Notes/
-Journal/
-Yearbook/
+# Media attachments (stored in Azure Blob Storage, not git)
 Attachments/
+
+# Obsidian app config (optional, local only)
 .obsidian/
 
 # Backups
