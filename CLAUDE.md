@@ -63,9 +63,17 @@ site/themes/PaperMod           # Git submodule
 # → Uploads to Azure, prints markdown to paste into your note
 ```
 
-**Publishing a blog post**:
+**Syncing new media** (after pasting images in Obsidian):
+```bash
+./scripts/sync-media.py
+# → Detects new files in Attachments/, uploads to Azure, fixes note refs
+```
+
+**Publishing blog posts**:
 1. Add `publish: true` to any note's YAML frontmatter
-2. Run `./scripts/publish.sh` — transforms, commits, pushes, CI deploys
+2. Run `./scripts/publish.sh` — syncs media, transforms notes, commits, pushes, CI deploys
+
+Note: just pushing to GitHub is not enough — `publish.sh` (or `obsidian-to-hugo.py`) must run first to generate Hugo posts in `site/content/posts/`. CI/CD only builds what's in `site/`.
 
 ### Scripts
 
@@ -123,3 +131,24 @@ Attachments/    # Local only — Images/, Videos/, Documents/, Other/ (not in gi
 - All media references in notes use Azure Blob Storage URLs (not local paths)
 - Obsidian wikilinks `[[filename]]` are still used for note-to-note links (converted to plain text for Hugo)
 - Sensitive data (`.env`, credentials) must never be committed
+
+## Publishing Guidelines
+
+When reviewing notes for publishing, **do NOT publish** notes containing:
+- Real names, employee IDs, student IDs, or other PII
+- Bank account numbers, card numbers, or financial details
+- Internal company information (org charts, internal tools, project codenames, internal transfer docs)
+- Employment records (resignation certificates, separation documents)
+- Private contact info (phone numbers, emails, addresses)
+- Chat/messaging conversations (WeChat, etc.)
+- Performance ratings or salary information
+
+Notes in `Notes/Career/` have been reviewed. Currently published: 18 articles (career development, PM frameworks, communication techniques, design, professional growth). Sensitive files (e.g., `microsoft-onboarding-checklist.md`, `internal-transfer-materials.md`, `undergrad-summary.md`, `trip-com-resignation-certificate.md`) are kept private.
+
+## Migration Status
+
+The one-time migration from local attachments to Azure Blob Storage is **complete** (2026-03-22):
+- 590 media files uploaded (572 images, 9 videos, 9 documents)
+- 126 note files rewritten from local paths to Azure Blob URLs
+- Migration scripts (`migrate-attachments-to-azure.sh`, `migrate-note-links.py`) are kept for reference but should not need to run again
+- Ongoing media sync is handled by `sync-media.py`
