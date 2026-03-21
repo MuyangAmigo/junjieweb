@@ -37,6 +37,7 @@ Yearbook/                      # Weekly review summaries and templates
 CLAUDE.md
 scripts/obsidian-to-hugo.py    # Transforms vault notes → Hugo posts
 scripts/publish.sh             # One-command publish workflow
+scripts/sync-media.py          # Detect new media, upload to Azure, fix note refs
 scripts/upload-media.sh        # Upload media to Azure, get markdown embed
 scripts/migrate-attachments-to-azure.sh  # One-time bulk upload (migration)
 scripts/migrate-note-links.py  # One-time link rewriter (migration)
@@ -77,8 +78,15 @@ site/themes/PaperMod           # Git submodule
 - Requires: `pyyaml`
 
 **`scripts/publish.sh`** — One-command publish:
+- Syncs media to Azure (runs `sync-media.py`)
 - Runs `obsidian-to-hugo.py`
 - Commits and pushes generated posts
+
+**`scripts/sync-media.py`** — Ongoing media sync:
+- Detects new files in `Attachments/` not yet on Azure (compares against remote blob list)
+- Uploads new files to Azure Blob Storage
+- Rewrites `![[wikilink]]` and relative-path references in notes to Azure Blob URLs
+- Flags: `--dry-run`, `--upload-only`, `--rewrite-only`
 
 **`scripts/upload-media.sh`** — Media upload helper:
 - Uploads a file to Azure Blob Storage (auto-detects type → correct path prefix)

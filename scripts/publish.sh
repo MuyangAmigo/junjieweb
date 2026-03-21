@@ -6,6 +6,10 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+echo "==> Syncing media to Azure..."
+python3 scripts/sync-media.py
+
+echo ""
 echo "==> Transforming Obsidian notes to Hugo posts..."
 python3 scripts/obsidian-to-hugo.py
 
