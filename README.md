@@ -29,7 +29,7 @@ A multi-purpose personal website and knowledge vault in one repo:
 | Framework | Next.js 16, TypeScript, App Router, static export |
 | Styling | Tailwind CSS v4, monochrome dark theme |
 | Fonts | Inter + JetBrains Mono |
-| Blog | Markdown rendered via gray-matter + remark |
+| Blog | External posts from Microsoft developer blogs |
 | Deployment | Azure Static Web Apps, GitHub Actions CI/CD |
 | Media | Azure Blob Storage |
 
@@ -42,8 +42,8 @@ Yearbook/               # Weekly review summaries
 site-next/              # Active Next.js personal site
   src/app/              #   Pages: home, about, posts, post detail
   src/components/       #   Header, Footer
-  src/lib/              #   Resume data, markdown post reader
-  content/posts/        #   Blog post markdown files
+  src/lib/              #   Resume data, external posts data
+  content/posts/        #   Legacy blog post markdown files (unlisted)
 site/                   # Legacy Hugo site (reference only)
 scripts/                # Automation scripts
 .github/workflows/      # CI/CD pipeline
@@ -96,6 +96,16 @@ Add `publish: true` to a note's frontmatter, then:
 
 This syncs media, transforms notes into blog posts, commits, and pushes. GitHub Actions deploys automatically.
 
+### Update External Posts
+
+Fetch latest posts from Microsoft developer blogs:
+
+```bash
+node scripts/fetch-external-posts.mjs
+```
+
+Or trigger the "Fetch External Posts" workflow from the GitHub Actions tab — it creates a PR with any new posts found.
+
 ## Scripts
 
 | Script | What it does |
@@ -104,6 +114,7 @@ This syncs media, transforms notes into blog posts, commits, and pushes. GitHub 
 | `obsidian-to-hugo.py` | Convert vault notes with `publish: true` into blog posts |
 | `sync-media.py` | Detect new local media, upload to Azure, rewrite note references |
 | `upload-media.sh` | Upload a single file to Azure and print markdown embed |
+| `fetch-external-posts.mjs` | Fetch posts from Microsoft blogs and update `data.ts` |
 
 ## Deployment
 

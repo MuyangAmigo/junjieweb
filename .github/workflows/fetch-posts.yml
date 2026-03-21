@@ -1,0 +1,48 @@
+name: Fetch External Posts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fetch_and_update:
+    runs-on: ubuntu-latest
+    name: Fetch Posts & Redeploy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Fetch latest external posts
+        run: node scripts/fetch-external-posts.mjs
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet site-next/src/lib/data.ts; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No new posts found."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "New posts detected!"
+          fi
+
+      - name: Create pull request
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="update-external-posts-$(date +%Y%m%d-%H%M%S)"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add site-next/src/lib/data.ts
+          git commit -m "Update external posts from Microsoft blogs"
+          git push -u origin "$BRANCH"
+          gh pr create \
+            --title "Update external posts from Microsoft blogs" \
+            --body "Auto-fetched latest posts from Microsoft developer blogs." \
+            --base main \
+            --head "$BRANCH"

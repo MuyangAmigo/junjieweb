@@ -135,6 +135,160 @@ export const skills = {
   ],
 };
 
+export interface ExternalPost {
+  title: string;
+  date: string;
+  url: string;
+  source: "Microsoft 365 Developer Blog" | "Microsoft Tech Community";
+}
+
+export const externalPosts: ExternalPost[] = [
+  {
+    title: "🚀 AI Toolkit for VS Code — March 2026 Update",
+    date: "2026-03-16",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/%F0%9F%9A%80-ai-toolkit-for-vs-code-%E2%80%94-march-2026-update/4502517",
+    source: "Microsoft Tech Community",
+  },
+  {
+    title: "🚀 AI Toolkit for VS Code — February 2026 Update",
+    date: "2026-02-13",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/%F0%9F%9A%80-ai-toolkit-for-vs-code-%E2%80%94-february-2026-update/4493673",
+    source: "Microsoft Tech Community",
+  },
+  {
+    title: "🚀 AI Toolkit for VS Code: January 2026 Update",
+    date: "2026-01-13",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/%F0%9F%9A%80-ai-toolkit-for-vs-code-january-2026-update/4485205",
+    source: "Microsoft Tech Community",
+  },
+  {
+    title: "AI Toolkit for VS Code October Update",
+    date: "2025-10-24",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/ai-toolkit-for-vs-code-october-update/4463365",
+    source: "Microsoft Tech Community",
+  },
+  {
+    title: "GPT-5 Family of Models & GPT OSS Are Now Available in AI Toolkit for VS Code",
+    date: "2025-08-09",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/gpt-5-family-of-models--gpt-oss-are-now-available-in-ai-toolkit-for-vs-code/4441394",
+    source: "Microsoft Tech Community",
+  },
+  {
+    title: "AI Toolkit for VS Code July Update",
+    date: "2025-07-11",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/ai-toolkit-for-vs-code-july-update/4431548",
+    source: "Microsoft Tech Community",
+  },
+  {
+    title: "AI Toolkit for VS Code June Update",
+    date: "2025-06-10",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/ai-toolkit-for-vs-code-june-update/4422079",
+    source: "Microsoft Tech Community",
+  },
+  {
+    title: "Build AI Agents with MCP Tool Use in Minutes with AI Toolkit for VSCode",
+    date: "2025-04-29",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/build-ai-agents-with-mcp-tool-use-in-minutes-with-ai-toolkit-for-vscode/4407959",
+    source: "Microsoft Tech Community",
+  },
+  {
+    title: "AI Toolkit for VS Code March Update",
+    date: "2025-03-31",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/ai-toolkit-for-vs-code-march-update/4396880",
+    source: "Microsoft Tech Community",
+  },
+  {
+    title: "Teams Toolkit for Visual Studio Code update – January 2025",
+    date: "2025-01-08",
+    url: "https://devblogs.microsoft.com/microsoft365dev/teams-toolkit-for-visual-studio-code-update-january-2025/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Teams Toolkit for Visual Studio Code update – November 2024",
+    date: "2024-11-26",
+    url: "https://devblogs.microsoft.com/microsoft365dev/teams-toolkit-for-visual-studio-code-update-november-2024/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Streamline your workflow: Embracing Adaptive Cards Templating",
+    date: "2024-08-27",
+    url: "https://devblogs.microsoft.com/microsoft365dev/streamline-your-workflow-embracing-adaptive-cards-templating/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Teams Toolkit for Visual Studio Code prerelease update – August 2024",
+    date: "2024-08-14",
+    url: "https://devblogs.microsoft.com/microsoft365dev/teams-toolkit-for-visual-studio-code-update-august-2024/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Teams Toolkit for Visual Studio Code update – July 2024",
+    date: "2024-07-22",
+    url: "https://devblogs.microsoft.com/microsoft365dev/teams-toolkit-for-visual-studio-code-update-july-2024/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Build intelligent apps for Microsoft 365 with Teams Toolkit",
+    date: "2024-06-02",
+    url: "https://devblogs.microsoft.com/microsoft365dev/build-intelligent-apps-for-microsoft-365-with-teams-toolkit/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Teams Toolkit for Visual Studio Code update – March 2024",
+    date: "2024-03-20",
+    url: "https://devblogs.microsoft.com/microsoft365dev/teams-toolkit-for-visual-studio-code-update-march-2024/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Teams Toolkit for Visual Studio Code update – January 2024",
+    date: "2024-01-24",
+    url: "https://devblogs.microsoft.com/microsoft365dev/teams-toolkit-for-visual-studio-code-update-january-2024/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Introducing Teams App Test Tool",
+    date: "2023-11-29",
+    url: "https://devblogs.microsoft.com/microsoft365dev/introducing-teams-app-test-tool/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Teams Toolkit for Visual Studio Code update – November 2023",
+    date: "2023-11-27",
+    url: "https://devblogs.microsoft.com/microsoft365dev/teams-toolkit-for-visual-studio-code-update-november-2023/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Announcing public preview for Microsoft Adaptive Card Previewer",
+    date: "2023-11-01",
+    url: "https://devblogs.microsoft.com/microsoft365dev/announcing-public-preview-for-microsoft-adaptive-card-previewer/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Teams Toolkit for Visual Studio Code update with new AI chat bot template",
+    date: "2023-08-20",
+    url: "https://devblogs.microsoft.com/microsoft365dev/teams-toolkit-for-visual-studio-code-update-with-new-ai-chat-bot-template/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Teams Toolkit for Visual Studio Code update – July 2023",
+    date: "2023-07-19",
+    url: "https://devblogs.microsoft.com/microsoft365dev/teams-toolkit-for-visual-studio-code-update-july-2023/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Teams Toolkit for Visual Studio Code Update – April 2023",
+    date: "2023-04-18",
+    url: "https://devblogs.microsoft.com/microsoft365dev/teams-toolkit-for-visual-studio-code-update-april-2023/",
+    source: "Microsoft 365 Developer Blog",
+  },
+  {
+    title: "Teams Toolkit for Visual Studio Code update – March 2023",
+    date: "2023-03-21",
+    url: "https://devblogs.microsoft.com/microsoft365dev/teams-toolkit-for-visual-studio-code-update-march-2023/",
+    source: "Microsoft 365 Developer Blog",
+  },
+];
+
 export const highlights = [
   { stat: "300%", label: "MAU growth in 6 months", icon: "rocket" },
   { stat: "20K+", label: "Monthly active developers", icon: "code" },

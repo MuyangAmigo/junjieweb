@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { getAllPosts } from "@/lib/posts";
-import { profile, experience } from "@/lib/data";
+import { profile, experience, externalPosts } from "@/lib/data";
 
 export default function Home() {
-  const posts = getAllPosts().slice(0, 5);
+  const posts = externalPosts.slice(0, 5);
 
   return (
     <>
@@ -143,25 +142,25 @@ export default function Home() {
 
           <div className="space-y-2">
             {posts.map((post) => (
-              <Link
-                key={post.slug}
-                href={`/posts/${post.slug}`}
+              <a
+                key={post.url}
+                href={post.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group flex items-center justify-between gap-4 px-4 py-3.5 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent)] hover:bg-[#0F1117] transition-all"
               >
                 <div className="min-w-0">
                   <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors truncate">
                     {post.title}
                   </h3>
-                  {post.categories[0] && (
-                    <span className="font-mono text-[11px] text-[var(--accent)]">
-                      {post.categories[0]}
-                    </span>
-                  )}
+                  <span className="font-mono text-[11px] text-[var(--accent)]">
+                    {post.source}
+                  </span>
                 </div>
                 <span className="font-mono text-[11px] text-[var(--text-muted)] whitespace-nowrap shrink-0">
                   {post.date}
                 </span>
-              </Link>
+              </a>
             ))}
           </div>
         </section>

@@ -18,7 +18,7 @@ A personal knowledge management system with a multi-purpose personal website (re
 - **Styling**: Tailwind CSS v4 with monochrome technical dark theme
 - **Fonts**: Inter (body) + JetBrains Mono (labels, dates, metadata)
 - **Theme**: Dark by default, light mode toggle available (`.light` class on `<html>`)
-- **Blog**: Markdown posts rendered via gray-matter + remark + remark-html
+- **Blog**: External posts from Microsoft developer blogs, linked via `externalPosts` in `data.ts`
 
 ### Pages
 
@@ -26,8 +26,7 @@ A personal knowledge management system with a multi-purpose personal website (re
 |------|------|-------------|
 | Home | `/` | Hero with bio, career timeline, latest 5 posts |
 | About | `/about` | Full resume — experience, education, skills, publication |
-| Posts | `/posts` | Blog listing grouped by year, tag cloud |
-| Post | `/posts/[slug]` | Individual post with markdown rendering |
+| Posts | `/posts` | External blog posts grouped by year, links to Microsoft blogs |
 
 ### GitHub & Deployment
 
@@ -47,13 +46,15 @@ A personal knowledge management system with a multi-purpose personal website (re
 Notes/                         # Topical notes (Life, Career, Travel, Reference, Fitness, Uncategorized)
 Journal/                       # Daily/personal journal entries by year (2023–2026), plus misc/
 Yearbook/                      # Weekly review summaries and templates
-.github/workflows/azure-static-web-apps.yml  # CI/CD pipeline
+.github/workflows/azure-static-web-apps.yml  # CI/CD pipeline (deploy on push to main)
+.github/workflows/fetch-posts.yml             # Manual workflow: fetch external posts → PR
 .gitignore
 CLAUDE.md
 scripts/obsidian-to-hugo.py    # Transforms vault notes → blog posts (outputs to both site/ and site-next/)
 scripts/publish.sh             # One-command publish workflow
 scripts/sync-media.py          # Detect new media, upload to Azure, fix note refs
 scripts/upload-media.sh        # Upload media to Azure, get markdown embed
+scripts/fetch-external-posts.mjs  # Fetch posts from Microsoft blogs → update data.ts
 scripts/migrate-attachments-to-azure.sh  # One-time bulk upload (migration, reference only)
 scripts/migrate-note-links.py  # One-time link rewriter (migration, reference only)
 site-next/                     # Active Next.js personal site
@@ -128,6 +129,14 @@ Note: `publish.sh` (or `obsidian-to-hugo.py`) must run first to generate posts i
 - Prints markdown embed for copy-paste into notes
 - Skips if file already exists on Azure
 
+**`scripts/fetch-external-posts.mjs`** — External post indexer:
+- Fetches posts from Microsoft 365 Developer Blog and Microsoft Tech Community
+- Parses HTML (DevBlog) and Apollo GraphQL cache (Tech Community) for titles, dates, URLs
+- Updates `externalPosts` array in `site-next/src/lib/data.ts`
+- Safe no-op if no posts are found (won't wipe existing data)
+- Run manually: `node scripts/fetch-external-posts.mjs`
+- Also available as GitHub Actions workflow: "Fetch External Posts" (manual trigger → creates PR)
+
 ### Vault-Only Scripts (not tracked in git)
 
 - `scripts/generate-mapping.py` / `scripts/execute-reorganization.py` — Note reorganization with CSV mapping
@@ -149,9 +158,9 @@ site-next/
       Header.tsx          # Nav bar with theme toggle, mobile menu
       Footer.tsx          # Footer with social links
     lib/
-      data.ts             # Profile, experience, education, skills data
-      posts.ts            # Markdown post reader (gray-matter + remark)
-  content/posts/          # Blog post markdown files
+      data.ts             # Profile, experience, education, skills, external posts data
+      posts.ts            # Markdown post reader (gray-matter + remark, legacy)
+  content/posts/          # Legacy blog post markdown files (unlisted)
   next.config.ts          # Static export for Azure Static Web Apps
 ```
 
@@ -173,6 +182,8 @@ Attachments/    # Local only — Images/, Videos/, Documents/, Other/ (not in gi
 - Obsidian wikilinks `[[filename]]` are still used for note-to-note links (converted to plain text for blog)
 - Sensitive data (`.env`, credentials) must never be committed
 - Resume/profile data lives in `site-next/src/lib/data.ts` — update there for career changes
+- Blog posts section shows external links to Microsoft developer blogs (not local markdown)
+- External posts are managed via `externalPosts` in `data.ts`, updated by `fetch-external-posts.mjs`
 
 ## Publishing Guidelines
 
@@ -185,7 +196,7 @@ When reviewing notes for publishing, **do NOT publish** notes containing:
 - Chat/messaging conversations (WeChat, etc.)
 - Performance ratings or salary information
 
-Notes in `Notes/Career/` have been reviewed. Currently published: 18 articles (career development, PM frameworks, communication techniques, design, professional growth). Sensitive files (e.g., `microsoft-onboarding-checklist.md`, `internal-transfer-materials.md`, `undergrad-summary.md`, `trip-com-resignation-certificate.md`) are kept private.
+Notes in `Notes/Career/` have been reviewed. Previously published 18 local articles (now unlisted). Blog section now links to 24 external posts on Microsoft developer blogs. Sensitive files (e.g., `microsoft-onboarding-checklist.md`, `internal-transfer-materials.md`, `undergrad-summary.md`, `trip-com-resignation-certificate.md`) are kept private.
 
 ## Migration Status
 
