@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A personal knowledge management system with a multi-purpose personal website (resume + blog), deployed on Azure Static Web Apps.
+A personal website (resume + blog) with a publishing pipeline from an Obsidian vault, deployed on Azure Static Web Apps.
 
-- **Vault** (git-synced): Notes, journals, yearbook — markdown files tracked in git for cross-device editing
+- **Vault** (iCloud, not git): Obsidian notes at `/Users/junjieli/Library/Mobile Documents/iCloud~md~obsidian/Documents/NoteBrain`
 - **Media** (Azure only): Images, videos, documents — stored in Azure Blob Storage, not in git
 - **Website** (auto-deployed): Next.js site with resume/portfolio + blog, CI/CD via GitHub Actions
 
@@ -43,9 +43,6 @@ A personal knowledge management system with a multi-purpose personal website (re
 ### What's Tracked in Git
 
 ```
-Notes/                         # Topical notes (Life, Career, Travel, Reference, Fitness, Uncategorized)
-Journal/                       # Daily/personal journal entries by year (2023–2026), plus misc/
-Yearbook/                      # Weekly review summaries and templates
 .github/workflows/azure-static-web-apps.yml  # CI/CD pipeline (deploy on push to main)
 .github/workflows/fetch-posts.yml             # Manual workflow: fetch external posts → PR
 .gitignore
@@ -70,6 +67,7 @@ site/                          # Legacy Hugo site (kept as reference, no longer 
 
 ### What's NOT in Git
 
+- `Notes/`, `Journal/`, `Yearbook/` — vault content lives in iCloud (see Vault path above)
 - `Attachments/` — media files (images, videos, docs) are in Azure Blob Storage
 - `.obsidian/` — Obsidian app config (optional, local only)
 - `site-next/.next/`, `site-next/out/`, `site-next/node_modules/` — Next.js build artifacts
@@ -77,18 +75,18 @@ site/                          # Legacy Hugo site (kept as reference, no longer 
 
 ### Daily Workflow
 
-**Editing notes**: Edit markdown files anywhere (VS Code, Obsidian, github.dev, any device). Commit and push via git.
+**Editing notes**: Edit in Obsidian on any device — vault syncs via iCloud automatically.
+
+**One-time setup** (after cloning repo):
+```bash
+cp .env.example .env
+# Edit .env — VAULT_PATH is already set to the correct iCloud path
+```
 
 **Adding media to a note**:
 ```bash
 ./scripts/upload-media.sh path/to/image.png
 # → Uploads to Azure, prints markdown to paste into your note
-```
-
-**Syncing new media** (after pasting images in Obsidian):
-```bash
-./scripts/sync-media.py
-# → Detects new files in Attachments/, uploads to Azure, fixes note refs
 ```
 
 **Local development**:
@@ -98,14 +96,15 @@ cd site-next && npx next dev
 ```
 
 **Publishing blog posts**:
-1. Add `publish: true` to any note's YAML frontmatter
-2. Run `./scripts/publish.sh` — syncs media, transforms notes, commits, pushes, CI deploys
+1. Add `publish: true` to any note's YAML frontmatter in Obsidian
+2. Run `./scripts/publish.sh` from this repo — reads vault from `VAULT_PATH`, transforms notes, commits, pushes, CI deploys
 
 Note: `publish.sh` (or `obsidian-to-hugo.py`) must run first to generate posts in `site-next/content/posts/`. CI/CD only builds what's in `site-next/`.
 
 ### Scripts
 
 **`scripts/obsidian-to-hugo.py`** — Content transformation:
+- Reads vault from `VAULT_PATH` env var (set in `.env`); falls back to repo root
 - Scans vault for `.md` files with `publish: true` in frontmatter
 - Converts Obsidian `[[wikilinks]]` → plain text
 - Strips Apple Notes HTML artifacts and bare Obsidian `#Tags`
@@ -114,7 +113,7 @@ Note: `publish.sh` (or `obsidian-to-hugo.py`) must run first to generate posts i
 - Requires: `pyyaml`
 
 **`scripts/publish.sh`** — One-command publish:
-- Syncs media to Azure (runs `sync-media.py`)
+- Loads `.env` (requires `VAULT_PATH` to be set)
 - Runs `obsidian-to-hugo.py`
 - Commits and pushes generated posts from both content directories
 
@@ -165,6 +164,8 @@ site-next/
 ```
 
 ## Vault Structure
+
+Vault lives at `/Users/junjieli/Library/Mobile Documents/iCloud~md~obsidian/Documents/NoteBrain` (iCloud, not tracked in this repo).
 
 ```
 Notes/          # Topical notes (Life, Career, Travel, Reference, Fitness, Uncategorized)

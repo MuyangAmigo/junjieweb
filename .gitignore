@@ -1,4 +1,7 @@
-# Media attachments (stored in Azure Blob Storage, not git)
+# Obsidian vault content (lives in iCloud, not git)
+Notes/
+Journal/
+Yearbook/
 Attachments/
 
 # Obsidian app config (optional, local only)
