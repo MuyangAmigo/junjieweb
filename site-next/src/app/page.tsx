@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="max-w-[660px] mx-auto px-6 pt-16 pb-12 md:pt-24 md:pb-16" aria-label="Introduction">
+      <section className="max-w-[820px] mx-auto px-6 pt-16 pb-12 md:pt-24 md:pb-16" aria-label="Introduction">
         <div className="animate-fade-in-up opacity-0">
           <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md text-xs font-mono border border-[var(--border)] text-[var(--text-muted)] mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -15,11 +15,11 @@ export default function Home() {
           </span>
         </div>
 
-        <h1 className="text-3xl md:text-[2.75rem] font-bold tracking-tight text-white mb-5 leading-[1.1] animate-fade-in-up opacity-0 animation-delay-100">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-5 leading-[1.1] animate-fade-in-up opacity-0 animation-delay-100">
           {profile.name}
         </h1>
 
-        <p className="text-base text-[var(--text-secondary)] leading-relaxed mb-8 max-w-lg animate-fade-in-up opacity-0 animation-delay-200">
+        <p className="text-lg text-[var(--text-secondary)] leading-relaxed mb-8 max-w-lg animate-fade-in-up opacity-0 animation-delay-200">
           {profile.bio}
         </p>
 
@@ -67,11 +67,11 @@ export default function Home() {
       </section>
 
       {/* ===== DIVIDER ===== */}
-      <div className="max-w-[660px] mx-auto px-6"><hr className="border-[var(--border)]" /></div>
+      <div className="max-w-[820px] mx-auto px-6"><hr className="border-[var(--border)]" /></div>
 
       {/* ===== TIMELINE ===== */}
-      <section className="max-w-[660px] mx-auto px-6 py-12" aria-label="Career journey">
-        <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)] mb-8">
+      <section className="max-w-[820px] mx-auto px-6 py-12" aria-label="Career journey">
+        <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)] mb-8">
           Experience
         </h2>
 
@@ -87,12 +87,12 @@ export default function Home() {
                     : "border-2 border-[var(--border-hover)] bg-[var(--bg)]"
                 }`} />
                 <div>
-                  <div className="text-sm font-semibold text-[var(--text-primary)]">
+                  <div className="text-base font-semibold text-[var(--text-primary)]">
                     {exp.company}
                   </div>
                   {exp.roles.map((role, j) => (
                     <div key={j} className={j > 0 ? "mt-1.5" : "mt-0.5"}>
-                      <div className={`text-sm font-medium ${i === 0 && j === 0 ? "text-[var(--accent)]" : "text-[var(--text-secondary)]"}`}>
+                      <div className={`text-[15px] font-medium ${i === 0 && j === 0 ? "text-[var(--accent)]" : "text-[var(--text-secondary)]"}`}>
                         {role.title}
                       </div>
                       <div className="font-mono text-xs text-[var(--text-muted)]">
@@ -120,13 +120,13 @@ export default function Home() {
       </section>
 
       {/* ===== DIVIDER ===== */}
-      <div className="max-w-[660px] mx-auto px-6"><hr className="border-[var(--border)]" /></div>
+      <div className="max-w-[820px] mx-auto px-6"><hr className="border-[var(--border)]" /></div>
 
       {/* ===== LATEST POSTS ===== */}
       {posts.length > 0 && (
-        <section className="max-w-[660px] mx-auto px-6 py-12 pb-20" aria-label="Latest blog posts">
+        <section className="max-w-[820px] mx-auto px-6 py-12 pb-20" aria-label="Latest blog posts">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)]">
+            <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)]">
               Recent Posts
             </h2>
             <Link
@@ -150,14 +150,14 @@ export default function Home() {
                 className="group flex items-center justify-between gap-4 px-4 py-3.5 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent)] hover:bg-[#0F1117] transition-all"
               >
                 <div className="min-w-0">
-                  <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors truncate">
+                  <h3 className="text-base font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors truncate">
                     {post.title}
                   </h3>
-                  <span className="font-mono text-[11px] text-[var(--accent)]">
+                  <span className="font-mono text-xs text-[var(--accent)]">
                     {post.source}
                   </span>
                 </div>
-                <span className="font-mono text-[11px] text-[var(--text-muted)] whitespace-nowrap shrink-0">
+                <span className="font-mono text-xs text-[var(--text-muted)] whitespace-nowrap shrink-0">
                   {post.date}
                 </span>
               </a>

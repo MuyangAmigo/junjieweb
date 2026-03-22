@@ -66,7 +66,7 @@ export default function Header() {
           : "bg-transparent"
       }`}
     >
-      <nav className="max-w-[660px] mx-auto px-6 h-16 flex items-center justify-between">
+      <nav className="max-w-[820px] mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link
           href="/"
@@ -140,7 +140,7 @@ export default function Header() {
 
       {menuOpen && (
         <div className="md:hidden bg-[var(--bg-translucent)] backdrop-blur-xl border-b border-[var(--border)]">
-          <div className="max-w-[660px] mx-auto px-6 py-3 flex flex-col gap-1">
+          <div className="max-w-[820px] mx-auto px-6 py-3 flex flex-col gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}

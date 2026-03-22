@@ -1,6 +1,58 @@
 import type { Metadata } from "next";
 import { profile, experience, education, skills } from "@/lib/data";
 
+function CompanyLogo({ company }: { company: string }) {
+  if (company === "Microsoft") {
+    return (
+      <svg viewBox="0 0 21 21" width="20" height="20" aria-label="Microsoft">
+        <rect x="1" y="1" width="9" height="9" fill="#f25022" />
+        <rect x="11" y="1" width="9" height="9" fill="#7fba00" />
+        <rect x="1" y="11" width="9" height="9" fill="#00a4ef" />
+        <rect x="11" y="11" width="9" height="9" fill="#ffb900" />
+      </svg>
+    );
+  }
+  if (company === "Apple") {
+    return (
+      <svg viewBox="0 0 814 1000" width="18" height="18" fill="currentColor" className="text-[var(--text-secondary)]" aria-label="Apple">
+        <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.9-164-39.9c-76.5 0-103.7 40.8-165.9 40.8s-105-57.9-155.5-127.4C46 790.7 0 663 0 541.8c0-207.5 135.4-317.3 268.5-317.3 70.1 0 128.4 46.4 172.5 46.4 42.8 0 109.7-49.3 188.2-49.3zM639.5 98.8c33.7-40.8 57.7-97.7 57.7-154.6 0-8.1-.6-16.2-2-23.7-54.5 2-118.4 36.3-158 81.3-30.7 35.7-58.3 92.6-58.3 150.2 0 8.7 1.4 17.4 2 20.1 3.2.6 8.1 1.4 13 1.4 48.7 0 109.4-32.4 145.6-74.7z" />
+      </svg>
+    );
+  }
+  if (company === "Trip.com Group") {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src="https://dimg04.tripcdn.com/images/05E5012000rqtcwsyC749.png"
+        alt="Trip.com"
+        width={20}
+        height={20}
+        className="object-contain"
+      />
+    );
+  }
+  return (
+    <span className="text-[var(--accent)] font-bold text-sm">{company[0]}</span>
+  );
+}
+
+function SchoolLogo({ school }: { school: string }) {
+  if (school === "Northwestern University") {
+    return (
+      <svg viewBox="0 0 32 32" width="20" height="20" aria-label="Northwestern University">
+        <rect width="32" height="32" rx="4" fill="#4E2A84" />
+        <text x="16" y="23" textAnchor="middle" fill="white" fontSize="18" fontWeight="bold" fontFamily="serif">N</text>
+      </svg>
+    );
+  }
+  // Generic graduation cap for other schools
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" className="text-[var(--text-secondary)]" aria-label={school}>
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" />
+    </svg>
+  );
+}
+
 export const metadata: Metadata = {
   title: "About",
   description: `${profile.name} — ${profile.title} at ${profile.company}. Full resume and career details.`,
@@ -8,10 +60,10 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="max-w-[660px] mx-auto px-6 py-12 md:py-20">
+    <div className="max-w-[820px] mx-auto px-6 py-12 md:py-20">
       {/* ===== HERO ===== */}
       <section className="mb-16">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-3">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-3">
           About Me
         </h1>
         <div className="flex items-center gap-2 mb-5">
@@ -22,7 +74,7 @@ export default function AboutPage() {
             {profile.location}
           </span>
         </div>
-        <p className="text-[var(--text-secondary)] leading-relaxed">
+        <p className="text-[17px] text-[var(--text-secondary)] leading-relaxed">
           I build developer tools that turn complex AI capabilities into accessible experiences.
           With a background spanning software engineering at Apple, product management at Trip.com,
           and now leading AI developer tooling at Microsoft, I bring a unique blend of technical
@@ -66,7 +118,7 @@ export default function AboutPage() {
 
       {/* ===== EXPERIENCE ===== */}
       <section className="mb-16">
-        <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)] mb-6">
+        <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)] mb-6">
           Experience
         </h2>
 
@@ -77,10 +129,10 @@ export default function AboutPage() {
               className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-5 hover:border-[var(--border-hover)] transition-colors"
             >
               <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-[var(--bg-muted)] border border-[var(--border)] flex items-center justify-center text-[var(--accent)] font-bold text-sm">
-                  {exp.logo}
+                <div className="w-8 h-8 rounded-lg bg-[var(--bg-muted)] border border-[var(--border)] flex items-center justify-center">
+                  <CompanyLogo company={exp.company} />
                 </div>
-                <span className="font-semibold text-[var(--text-primary)]">
+                <span className="font-semibold text-base text-[var(--text-primary)]">
                   {exp.company}
                 </span>
               </div>
@@ -88,15 +140,17 @@ export default function AboutPage() {
               <div className="space-y-4">
                 {exp.roles.map((role, j) => (
                   <div key={j} className={j > 0 ? "pt-4 border-t border-[var(--border)]" : ""}>
-                    <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2.5">
-                      <h3 className="text-sm font-semibold text-[var(--accent)]">
-                        {role.title}
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-[15px] font-semibold text-[var(--accent)]">
+                          {role.title}
+                        </h3>
                         {role.current && (
-                          <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                             Current
                           </span>
                         )}
-                      </h3>
+                      </div>
                       <span className="font-mono text-xs text-[var(--text-muted)]">
                         {role.period}
                       </span>
@@ -105,7 +159,7 @@ export default function AboutPage() {
                       {role.bullets.map((bullet, k) => (
                         <li
                           key={k}
-                          className="relative pl-3.5 text-sm text-[var(--text-secondary)] leading-relaxed before:absolute before:left-0 before:top-[9px] before:w-1 before:h-1 before:rounded-full before:bg-[var(--text-muted)]"
+                          className="relative pl-3.5 text-[15px] text-[var(--text-secondary)] leading-relaxed before:absolute before:left-0 before:top-[10px] before:w-1 before:h-1 before:rounded-full before:bg-[var(--text-muted)]"
                         >
                           {bullet}
                         </li>
@@ -121,40 +175,47 @@ export default function AboutPage() {
 
       {/* ===== EDUCATION ===== */}
       <section className="mb-16">
-        <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)] mb-6">
+        <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)] mb-6">
           Education
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-3">
+        <div className="grid md:grid-cols-2 gap-4">
           {education.map((edu, i) => (
             <div
               key={i}
-              className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-4 hover:border-[var(--border-hover)] transition-colors"
+              className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-5 hover:border-[var(--border-hover)] transition-colors"
             >
-              <div className="text-sm font-semibold text-[var(--text-primary)] mb-0.5">
-                {edu.school}
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className="w-8 h-8 rounded-lg bg-[var(--bg-muted)] border border-[var(--border)] flex items-center justify-center">
+                  <SchoolLogo school={edu.school} />
+                </div>
+                <span className="font-semibold text-[var(--text-primary)]">{edu.school}</span>
               </div>
-              <div className="text-sm font-medium text-[var(--accent)] mb-1">
+              <div className="text-[15px] font-medium text-[var(--accent)] mb-1">
                 {edu.degree}
               </div>
-              <div className="font-mono text-[11px] text-[var(--text-muted)]">
+              <div className="font-mono text-xs text-[var(--text-muted)] mb-3">
                 GPA: {edu.gpa} &middot; {edu.period}
               </div>
+              {"dualDegree" in edu && edu.dualDegree && (
+                <div className="text-xs text-[var(--text-secondary)] border-t border-[var(--border)] pt-2.5 mb-2.5">
+                  {edu.dualDegree}
+                </div>
+              )}
+              {"publication" in edu && edu.publication && (
+                <div className="text-xs text-[var(--text-secondary)] border-t border-[var(--border)] pt-2.5">
+                  <span className="font-semibold text-[var(--text-muted)] uppercase tracking-wide text-[10px] font-mono">Publication · </span>
+                  {edu.publication}
+                </div>
+              )}
             </div>
           ))}
-        </div>
-
-        <div className="mt-4 rounded-lg bg-[var(--bg-card)] border-l-2 border-[var(--accent)] px-4 py-3">
-          <p className="text-sm text-[var(--text-secondary)]">
-            <span className="font-semibold text-[var(--text-primary)]">Publication: </span>
-            &ldquo;Personal Access Control System Using Moving Object Detection and Face Recognition&rdquo; — IEEE Journal
-          </p>
         </div>
       </section>
 
       {/* ===== SKILLS ===== */}
       <section>
-        <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)] mb-6">
+        <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)] mb-6">
           Skills &amp; Expertise
         </h2>
 

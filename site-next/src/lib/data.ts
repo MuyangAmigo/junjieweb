@@ -91,13 +91,8 @@ export const education = [
     degree: "B.E. Communication Engineering",
     gpa: "3.84/5.00",
     period: "2011 — 2015",
-  },
-  {
-    school: "New York Institute of Technology",
-    location: "New York, NY",
-    degree: "B.S. Electrical & Electronics Engineering",
-    gpa: "3.56/4.00",
-    period: "Dual Degree Program",
+    dualDegree: "B.S. Electrical & Electronics Engineering — New York Institute of Technology (Dual Degree)",
+    publication: "\"Personal Access Control System Using Moving Object Detection and Face Recognition\" — IEEE Journal",
   },
 ];
 

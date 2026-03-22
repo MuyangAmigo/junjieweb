@@ -25,7 +25,7 @@ A personal knowledge management system with a multi-purpose personal website (re
 | Page | Path | Description |
 |------|------|-------------|
 | Home | `/` | Hero with bio, career timeline, latest 5 posts |
-| About | `/about` | Full resume — experience, education, skills, publication |
+| About | `/about` | Full resume — experience (with company logos), education (with school logos, dual degree, publication collapsed in), skills |
 | Posts | `/posts` | External blog posts grouped by year, links to Microsoft blogs |
 
 ### GitHub & Deployment
