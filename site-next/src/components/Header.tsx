@@ -60,7 +60,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         scrolled
           ? "bg-[var(--bg-translucent)] backdrop-blur-xl border-b border-[var(--border)]"
           : "bg-transparent"
@@ -70,7 +70,7 @@ export default function Header() {
         {/* Logo */}
         <Link
           href="/"
-          className="font-mono text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
+          className="font-mono text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors duration-200"
         >
           junjie.li
         </Link>
@@ -81,10 +81,10 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`px-3 py-1.5 rounded-md text-sm transition-all ${
+              className={`px-3 py-1.5 rounded-[var(--radius-md)] text-sm transition-colors duration-200 ${
                 isActive(link.href)
                   ? "text-[var(--text-primary)]"
-                  : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+                  : "text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-[var(--bg-muted)]"
               }`}
             >
               {link.label}
@@ -94,7 +94,7 @@ export default function Header() {
           <button
             onClick={toggleTheme}
             aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-            className="ml-2 p-2 rounded-md text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-all"
+            className="ml-2 p-2 rounded-[var(--radius-md)] text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] transition-colors duration-200"
           >
             {theme === "dark" ? (
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -114,7 +114,7 @@ export default function Header() {
 
         {/* Mobile */}
         <div className="flex md:hidden items-center gap-1">
-          <button onClick={toggleTheme} aria-label="Toggle theme" className="p-2 rounded-md text-[var(--text-muted)]">
+          <button onClick={toggleTheme} aria-label="Toggle theme" className="p-2 rounded-[var(--radius-md)] text-[var(--text-muted)] hover:bg-[var(--bg-muted)] transition-colors duration-200">
             {theme === "dark" ? (
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>
             ) : (
@@ -125,7 +125,7 @@ export default function Header() {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
-            className="p-2 rounded-md text-[var(--text-muted)]"
+            className="p-2 rounded-[var(--radius-md)] text-[var(--text-muted)] hover:bg-[var(--bg-muted)] transition-colors duration-200"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               {menuOpen ? (
@@ -146,7 +146,7 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className={`px-3 py-2.5 rounded-md text-sm transition-all ${
+                className={`px-3 py-2.5 rounded-[var(--radius-md)] text-sm transition-colors duration-200 ${
                   isActive(link.href) ? "text-[var(--text-primary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
                 }`}
               >

@@ -15,18 +15,18 @@ A personal website (resume + blog) with a publishing pipeline from an Obsidian v
 ### Tech Stack
 
 - **Framework**: Next.js 16 with App Router, TypeScript, static export (`output: "export"`)
-- **Styling**: Tailwind CSS v4 with monochrome technical dark theme
+- **Styling**: Tailwind CSS v4 with Fluent UI-inspired design tokens (colors, shadows, radii, motion)
 - **Fonts**: Inter (body) + JetBrains Mono (labels, dates, metadata)
-- **Theme**: Dark by default, light mode toggle available (`.light` class on `<html>`)
+- **Theme**: Dark by default, light mode toggle available (`.light` class on `<html>`). Both themes use Fluent UI neutral/brand color scales.
 - **Blog**: External posts from Microsoft developer blogs, linked via `externalPosts` in `data.ts`
 
 ### Pages
 
 | Page | Path | Description |
 |------|------|-------------|
-| Home | `/` | Hero with bio, career timeline, latest 5 posts |
-| About | `/about` | Full resume — experience (with company logos), education (with school logos, dual degree, publication collapsed in), skills |
-| Posts | `/posts` | External blog posts grouped by year, links to Microsoft blogs |
+| Home | `/` | Hero with bio, experience cards, latest 5 posts |
+| About | `/about` | Full resume — experience (table layout), education (vertical stack), skills |
+| Posts | `/posts` | External blog posts grouped by year (current year full-width, older years 2-column grid) |
 
 ### GitHub & Deployment
 
@@ -148,8 +148,8 @@ site-next/
   src/
     app/
       layout.tsx          # Root layout (Inter + JetBrains Mono fonts, Header, Footer)
-      globals.css         # CSS variables (dark/light), prose styles, animations
-      page.tsx            # Home page (hero, timeline, latest posts)
+      globals.css         # Fluent UI design tokens (colors, shadows, radii, motion), prose styles
+      page.tsx            # Home page (hero, experience cards, latest posts)
       about/page.tsx      # Resume page (experience, education, skills)
       posts/page.tsx      # Blog listing (grouped by year)
       posts/[slug]/page.tsx  # Individual post
@@ -208,6 +208,14 @@ Notes in `Notes/Career/` have been reviewed. Previously published 18 local artic
 - Blog system with markdown rendering (18 posts migrated)
 - CI/CD updated to build Next.js and deploy `site-next/out/`
 - Legacy Hugo site kept at `site/` for reference
+
+**Fluent UI design system alignment** completed 2026-03-24:
+- Adopted Fluent UI color tokens (brand blue, neutral grey scale) for both dark and light themes
+- Dual-layer shadow system (ambient + key) with hover elevation on cards
+- Tighter border radius scale (4px/6px/8px matching Fluent medium/large/xlarge)
+- Snappier motion: 300ms fade-in with Fluent curveDecelerateMid, 200ms transitions
+- Condensed experience bullet points (2 per role), vertical education layout
+- Posts page: current year full-width, older years 2-column grid
 
 **Attachments → Azure Blob Storage migration** completed 2026-03-22:
 - 590 media files uploaded (572 images, 9 videos, 9 documents)
