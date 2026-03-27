@@ -103,7 +103,7 @@ Note: `publish.sh` (or `obsidian-to-hugo.py`) must run first to generate posts i
 - Scans vault for `.md` files with `publish: true` in frontmatter
 - Converts Obsidian `[[wikilinks]]` → plain text
 - Strips Apple Notes HTML artifacts and bare Obsidian `#Tags`
-- Builds Hugo-compatible YAML frontmatter
+- Builds YAML frontmatter
 - Outputs to `site-next/content/posts/`
 - Requires: `pyyaml`
 
@@ -202,6 +202,8 @@ Notes in `Notes/Career/` have been reviewed. Previously published 18 local artic
 - About page with full resume (experience, education, skills)
 - Blog system with markdown rendering (18 posts migrated)
 - CI/CD updated to build Next.js and deploy `site-next/out/`
+- Legacy Hugo site removed from repo (2026-03-28)
+
 **Fluent UI design system alignment** completed 2026-03-24:
 - Adopted Fluent UI color tokens (brand blue, neutral grey scale) for both dark and light themes
 - Dual-layer shadow system (ambient + key) with hover elevation on cards
