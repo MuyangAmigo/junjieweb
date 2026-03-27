@@ -11,6 +11,9 @@ Attachments/
 _backup_before_reorg/
 _backup_before_image_rename/
 
+# Legacy Hugo site (removed, ignore leftovers)
+site/
+
 # macOS
 .DS_Store
 
@@ -32,6 +35,7 @@ scripts/*.csv
 .env
 
 # Next.js build output
+.next/
 site-next/.next/
 site-next/out/
 site-next/node_modules/
