@@ -31,11 +31,6 @@ scripts/*.csv
 # Environment secrets
 .env
 
-# Hugo build output
-site/public/
-site/resources/
-site/static/images/
-
 # Next.js build output
 site-next/.next/
 site-next/out/

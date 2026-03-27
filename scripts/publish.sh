@@ -24,7 +24,7 @@ python3 scripts/obsidian-to-hugo.py
 # Stage and commit generated posts
 echo ""
 echo "==> Committing and pushing..."
-git add site/content/posts/ site-next/content/posts/
+git add site-next/content/posts/
 if git diff --cached --quiet; then
     echo "  No changes to commit."
 else

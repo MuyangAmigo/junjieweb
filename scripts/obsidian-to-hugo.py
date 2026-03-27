@@ -6,7 +6,7 @@ Only processes .md files that contain `publish: true` in their YAML frontmatter.
 - Converts Obsidian wikilinks to plain text
 - Strips HTML artifacts from Apple Notes
 - Builds Hugo-compatible YAML frontmatter
-- Outputs processed .md to site/content/posts/
+- Outputs processed .md to site-next/content/posts/
 
 Note: Image/media URLs are already Azure Blob Storage URLs in the source notes
 (converted by the one-time migrate-note-links.py migration).
@@ -21,9 +21,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 # VAULT_PATH env var points to the Obsidian vault (e.g. iCloud). Falls back to repo root.
 VAULT_ROOT = Path(os.environ.get("VAULT_PATH", str(REPO_ROOT)))
-# Output to both Hugo (site/) and Next.js (site-next/) content directories
-SITE_DIR = REPO_ROOT / "site"
-HUGO_CONTENT_DIR = SITE_DIR / "content" / "posts"
+# Output to Next.js content directory
 NEXT_CONTENT_DIR = REPO_ROOT / "site-next" / "content" / "posts"
 
 
@@ -116,12 +114,10 @@ def process_file(fpath: Path, fm: dict, body: str):
     hugo_fm = build_hugo_frontmatter(fm, fpath)
     output = f"{hugo_fm}\n\n{body}\n"
 
-    # Write to both Hugo and Next.js content directories
-    for content_dir in (HUGO_CONTENT_DIR, NEXT_CONTENT_DIR):
-        content_dir.mkdir(parents=True, exist_ok=True)
-        out_path = content_dir / fpath.name
-        out_path.write_text(output, encoding="utf-8")
-        print(f"  → {out_path.relative_to(REPO_ROOT)}")
+    NEXT_CONTENT_DIR.mkdir(parents=True, exist_ok=True)
+    out_path = NEXT_CONTENT_DIR / fpath.name
+    out_path.write_text(output, encoding="utf-8")
+    print(f"  → {out_path.relative_to(REPO_ROOT)}")
 
 
 def main():

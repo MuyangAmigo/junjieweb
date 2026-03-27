@@ -43,7 +43,7 @@ A personal website (resume + blog) with a publishing pipeline from an Obsidian v
 .github/workflows/fetch-posts.yml             # Manual workflow: fetch external posts → PR
 .gitignore
 CLAUDE.md
-scripts/obsidian-to-hugo.py    # Transforms vault notes → blog posts (outputs to both site/ and site-next/)
+scripts/obsidian-to-hugo.py    # Transforms vault notes → blog posts (outputs to site-next/)
 scripts/publish.sh             # One-command publish workflow
 scripts/sync-media.py          # Detect new media, upload to Azure, fix note refs
 scripts/upload-media.sh        # Upload media to Azure, get markdown embed
@@ -58,7 +58,6 @@ site-next/                     # Active Next.js personal site
   next.config.ts               # Static export config
   postcss.config.mjs           # Tailwind CSS v4
   package.json / package-lock.json
-site/                          # Legacy Hugo site (kept as reference, no longer deployed)
 ```
 
 ### What's NOT in Git
@@ -105,13 +104,13 @@ Note: `publish.sh` (or `obsidian-to-hugo.py`) must run first to generate posts i
 - Converts Obsidian `[[wikilinks]]` → plain text
 - Strips Apple Notes HTML artifacts and bare Obsidian `#Tags`
 - Builds Hugo-compatible YAML frontmatter
-- Outputs to both `site/content/posts/` (legacy) and `site-next/content/posts/` (active)
+- Outputs to `site-next/content/posts/`
 - Requires: `pyyaml`
 
 **`scripts/publish.sh`** — One-command publish:
 - Loads `.env` (requires `VAULT_PATH` to be set)
 - Runs `obsidian-to-hugo.py`
-- Commits and pushes generated posts from both content directories
+- Commits and pushes generated posts
 
 **`scripts/sync-media.py`** — Ongoing media sync:
 - Detects new files in `Attachments/` not yet on Azure (compares against remote blob list)
@@ -203,8 +202,6 @@ Notes in `Notes/Career/` have been reviewed. Previously published 18 local artic
 - About page with full resume (experience, education, skills)
 - Blog system with markdown rendering (18 posts migrated)
 - CI/CD updated to build Next.js and deploy `site-next/out/`
-- Legacy Hugo site kept at `site/` for reference
-
 **Fluent UI design system alignment** completed 2026-03-24:
 - Adopted Fluent UI color tokens (brand blue, neutral grey scale) for both dark and light themes
 - Dual-layer shadow system (ambient + key) with hover elevation on cards
