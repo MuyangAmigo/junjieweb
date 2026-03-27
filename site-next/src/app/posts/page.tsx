@@ -65,14 +65,14 @@ export default function PostsPage() {
                 </div>
               ) : (
                 /* Older years: 2-column grid */
-                <div className="grid md:grid-cols-2 gap-1.5">
+                <div className="grid md:grid-cols-2 gap-1.5 min-w-0">
                   {yearPosts.map((post) => (
                     <a
                       key={post.url}
                       href={post.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="fluent-card group flex items-center justify-between gap-3 px-4 py-3.5 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent)]"
+                      className="fluent-card group flex items-center justify-between gap-3 px-4 py-3.5 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent)] overflow-hidden"
                     >
                       <div className="min-w-0">
                         <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 truncate">
