@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A personal website (resume + blog) with a publishing pipeline from an Obsidian vault, deployed on Azure Static Web Apps.
 
-- **Vault** (iCloud, not git): Obsidian notes at `/Users/junjieli/Library/Mobile Documents/iCloud~md~obsidian/Documents/NoteBrain`
+- **Vault** (iCloud, not git): Obsidian notes (path configured via `VAULT_PATH` in `.env`)
 - **Media** (Azure only): Images, videos, documents — stored in Azure Blob Storage, not in git
 - **Website** (auto-deployed): Next.js site with resume/portfolio + blog, CI/CD via GitHub Actions
 
@@ -30,15 +30,11 @@ A personal website (resume + blog) with a publishing pipeline from an Obsidian v
 
 ### GitHub & Deployment
 
-- **Repo**: `MuyangAmigo/junjie-blog` (private) — GitHub account `MuyangAmigo`
-- **Site URL**: https://victorious-desert-01d544110.2.azurestaticapps.net
 - **CI/CD**: Push to `main` → GitHub Actions installs deps → `npx next build` → deploys `site-next/out/` to Azure Static Web Apps
-- **Azure resource group**: `junjieweb` (East Asia, Visual Studio Enterprise Subscription)
-- **Azure Static Web App**: `junjie-blog` (Free tier)
-- **Media storage**: Azure Blob Storage account `junjieblob`, container `images` (public read)
-  - Images: `https://junjieblob.blob.core.windows.net/images/<filename>`
-  - Videos: `https://junjieblob.blob.core.windows.net/images/videos/<filename>`
-  - Documents: `https://junjieblob.blob.core.windows.net/images/documents/<filename>`
+- **Media storage**: Azure Blob Storage (account and container configured via `AZURE_STORAGE_ACCOUNT` and `AZURE_STORAGE_CONTAINER` env vars)
+  - Images: `https://<account>.blob.core.windows.net/<container>/<filename>`
+  - Videos: `https://<account>.blob.core.windows.net/<container>/videos/<filename>`
+  - Documents: `https://<account>.blob.core.windows.net/<container>/documents/<filename>`
 
 ### What's Tracked in Git
 
@@ -80,7 +76,7 @@ site/                          # Legacy Hugo site (kept as reference, no longer 
 **One-time setup** (after cloning repo):
 ```bash
 cp .env.example .env
-# Edit .env — VAULT_PATH is already set to the correct iCloud path
+# Edit .env — set VAULT_PATH to your Obsidian vault and AZURE_STORAGE_ACCOUNT to your storage account
 ```
 
 **Adding media to a note**:
@@ -165,7 +161,7 @@ site-next/
 
 ## Vault Structure
 
-Vault lives at `/Users/junjieli/Library/Mobile Documents/iCloud~md~obsidian/Documents/NoteBrain` (iCloud, not tracked in this repo).
+Vault lives in iCloud (path configured via `VAULT_PATH` in `.env`, not tracked in this repo).
 
 ```
 Notes/          # Topical notes (Life, Career, Travel, Reference, Fitness, Uncategorized)
@@ -197,7 +193,7 @@ When reviewing notes for publishing, **do NOT publish** notes containing:
 - Chat/messaging conversations (WeChat, etc.)
 - Performance ratings or salary information
 
-Notes in `Notes/Career/` have been reviewed. Previously published 18 local articles (now unlisted). Blog section now links to 24 external posts on Microsoft developer blogs. Sensitive files (e.g., `microsoft-onboarding-checklist.md`, `internal-transfer-materials.md`, `undergrad-summary.md`, `trip-com-resignation-certificate.md`) are kept private.
+Notes in `Notes/Career/` have been reviewed. Previously published 18 local articles (now unlisted). Blog section now links to 24 external posts on Microsoft developer blogs. Certain sensitive files are kept private.
 
 ## Migration Status
 

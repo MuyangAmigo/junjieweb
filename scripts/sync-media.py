@@ -21,8 +21,8 @@ from pathlib import Path
 
 VAULT_ROOT = Path(__file__).resolve().parent.parent
 ATTACHMENTS_DIR = VAULT_ROOT / "Attachments"
-STORAGE_ACCOUNT = "junjieblob"
-CONTAINER = "images"
+STORAGE_ACCOUNT = os.environ["AZURE_STORAGE_ACCOUNT"]
+CONTAINER = os.environ.get("AZURE_STORAGE_CONTAINER", "images")
 BLOB_BASE = f"https://{STORAGE_ACCOUNT}.blob.core.windows.net/{CONTAINER}"
 
 IMAGE_EXTS = {"png", "jpg", "jpeg", "gif", "webp", "svg", "heic"}

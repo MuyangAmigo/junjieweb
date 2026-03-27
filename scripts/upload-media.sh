@@ -6,8 +6,8 @@
 
 set -euo pipefail
 
-STORAGE_ACCOUNT="junjieblob"
-CONTAINER="images"
+STORAGE_ACCOUNT="${AZURE_STORAGE_ACCOUNT:?Set AZURE_STORAGE_ACCOUNT in .env}"
+CONTAINER="${AZURE_STORAGE_CONTAINER:-images}"
 BLOB_BASE="https://${STORAGE_ACCOUNT}.blob.core.windows.net/${CONTAINER}"
 
 if [ $# -eq 0 ]; then

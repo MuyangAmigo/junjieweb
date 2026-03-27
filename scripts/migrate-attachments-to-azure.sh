@@ -6,8 +6,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-STORAGE_ACCOUNT="junjieblob"
-CONTAINER="images"
+STORAGE_ACCOUNT="${AZURE_STORAGE_ACCOUNT:?Set AZURE_STORAGE_ACCOUNT in .env}"
+CONTAINER="${AZURE_STORAGE_CONTAINER:-images}"
 DRY_RUN=false
 
 if [[ "${1:-}" == "--dry-run" ]]; then

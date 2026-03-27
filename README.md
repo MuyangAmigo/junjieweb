@@ -8,7 +8,7 @@
 [![Tailwind](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Azure](https://img.shields.io/badge/Azure_Static_Web_Apps-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/en-us/products/app-service/static)
 
-[**Visit the Live Site**](https://victorious-desert-01d544110.2.azurestaticapps.net/)
+[**Visit the Live Site**](#) <!-- Update with your deployed URL -->
 
 </div>
 
