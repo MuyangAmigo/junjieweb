@@ -107,8 +107,13 @@ body {
 }
 
 ::selection {
-  background: var(--accent);
-  color: white;
+  background: #ffc800;
+  color: #141414;
+}
+
+.light ::selection {
+  background: #ffc800;
+  color: #242424;
 }
 
 /* Focus visible for keyboard accessibility */

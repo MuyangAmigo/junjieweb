@@ -6,7 +6,7 @@ export const profile = {
   email: "junjieli0909@foxmail.com",
   github: "https://github.com/MuyangAmigo",
   linkedin: "https://www.linkedin.com/in/junjieli0909/",
-  bio: "Building developer tools that empower millions. From AI Toolkit to Microsoft 365 platform, I bridge the gap between cutting-edge technology and developer experience.",
+  bio: "Senior Product Manager at Microsoft with a computer science background from Northwestern University and engineering roots at Apple. From building scalable web services to leading flight booking platforms at Trip.com, I now shape AI developer tooling in CoreAI — turning complex AI capabilities into tools developers love.",
   location: "Shanghai, China",
 };
 

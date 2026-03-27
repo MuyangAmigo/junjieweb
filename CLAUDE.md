@@ -24,8 +24,8 @@ A personal website (resume + blog) with a publishing pipeline from an Obsidian v
 
 | Page | Path | Description |
 |------|------|-------------|
-| Home | `/` | Hero with bio, experience cards, latest 5 posts |
-| About | `/about` | Full resume — experience (table layout), education (vertical stack), skills |
+| Home | `/` | Profile photo + bio, CTAs, latest 5 posts |
+| About | `/about` | Compact profile card, experience (table layout), education, skills |
 | Posts | `/posts` | External blog posts grouped by year (current year full-width, older years 2-column grid) |
 
 ### GitHub & Deployment
@@ -50,9 +50,11 @@ scripts/upload-media.sh        # Upload media to Azure, get markdown embed
 scripts/fetch-external-posts.mjs  # Fetch posts from Microsoft blogs → update data.ts
 scripts/migrate-attachments-to-azure.sh  # One-time bulk upload (migration, reference only)
 scripts/migrate-note-links.py  # One-time link rewriter (migration, reference only)
+docs/                          # Site improvement plans and documentation
 site-next/                     # Active Next.js personal site
+  public/                      # Static assets (profile photo)
   src/app/                     # App Router pages (home, about, posts, post detail)
-  src/components/              # Header, Footer
+  src/components/              # Header, Footer, Icons
   src/lib/                     # Data (resume info), posts (markdown reader)
   content/posts/               # Generated blog posts (markdown)
   next.config.ts               # Static export config
@@ -144,13 +146,14 @@ site-next/
     app/
       layout.tsx          # Root layout (Inter + JetBrains Mono fonts, Header, Footer)
       globals.css         # Fluent UI design tokens (colors, shadows, radii, motion), prose styles
-      page.tsx            # Home page (hero, experience cards, latest posts)
-      about/page.tsx      # Resume page (experience, education, skills)
+      page.tsx            # Home page (profile photo, bio, latest posts)
+      about/page.tsx      # Resume page (compact profile card, experience, education, skills)
       posts/page.tsx      # Blog listing (grouped by year)
       posts/[slug]/page.tsx  # Individual post
     components/
       Header.tsx          # Nav bar with theme toggle, mobile menu
       Footer.tsx          # Footer with social links
+      Icons.tsx           # Shared SVG icon components (GitHub, LinkedIn, Email, ArrowRight)
     lib/
       data.ts             # Profile, experience, education, skills, external posts data
       posts.ts            # Markdown post reader (gray-matter + remark, legacy)
