@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Junjie Li — Senior Product Manager at Microsoft",
     description: profile.bio,
     url: "https://junjie.li",
-    images: [{ url: "/profile.jpg", width: 800, height: 800, alt: "Junjie Li" }],
+    images: [{ url: "https://junjieblob.blob.core.windows.net/images/profile.jpg", width: 800, height: 800, alt: "Junjie Li" }],
   },
   twitter: {
     card: "summary",
@@ -29,7 +29,7 @@ export default function Home() {
       <section className="max-w-[820px] mx-auto px-6 pt-16 pb-12 md:pt-24 md:pb-16" aria-label="Introduction">
         <div className="flex items-center gap-5 mb-6 animate-fade-in-up opacity-0">
           <Image
-            src="/profile.jpg"
+            src="https://junjieblob.blob.core.windows.net/images/profile.jpg"
             alt={profile.name}
             width={80}
             height={80}

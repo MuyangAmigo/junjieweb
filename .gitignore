@@ -28,8 +28,8 @@ scripts/rename-images.py
 scripts/fix-images-and-convert-links.py
 scripts/*.csv
 
-# Git LFS attributes (vault media only)
-.gitattributes
+# Profile photo (served from Azure Blob Storage)
+site-next/public/profile.jpg
 
 # Environment secrets
 .env

@@ -48,7 +48,7 @@ export default function AboutPage() {
         <div className="fluent-card rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-card)] p-6 hover:border-[var(--border-hover)]">
           <div className="flex items-center gap-5 mb-5">
             <Image
-              src="/profile.jpg"
+              src="https://junjieblob.blob.core.windows.net/images/profile.jpg"
               alt={profile.name}
               width={80}
               height={80}
