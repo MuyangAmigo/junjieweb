@@ -52,7 +52,7 @@ scripts/migrate-attachments-to-azure.sh  # One-time bulk upload (migration, refe
 scripts/migrate-note-links.py  # One-time link rewriter (migration, reference only)
 docs/                          # Site improvement plans and documentation
 site-next/                     # Active Next.js personal site
-  public/                      # Static assets (profile photo)
+  public/                      # Static assets (currently empty; profile photo served from Azure)
   src/app/                     # App Router pages (home, about, posts, post detail)
   src/components/              # Header, Footer, Icons
   src/lib/                     # Data (resume info), posts (markdown reader)
