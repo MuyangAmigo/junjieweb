@@ -30,8 +30,11 @@ export default async function Home({
   return (
     <div className="max-w-[960px] mx-auto px-6">
       {/* ===== SECTION A: HERO & FOCUS ===== */}
-      <section className="pt-12 pb-16 md:pt-20 md:pb-20" aria-label="Introduction">
-        <h1 className="display-heading text-4xl md:text-6xl lg:text-7xl text-[var(--text-primary)] mb-6 max-w-[800px] animate-fade-in-up opacity-0">
+      <section className="pt-12 pb-16 md:pt-20 md:pb-20 relative" aria-label="Introduction">
+        {/* Breathing gradient orb */}
+        <div className="hero-orb" style={{ top: "20%", left: "70%" }} />
+
+        <h1 className="display-heading text-4xl md:text-6xl lg:text-7xl text-[var(--text-primary)] mb-6 max-w-[800px] animate-fade-in-up opacity-0 relative z-1">
           {dict.home.heroHeading}
         </h1>
 
@@ -112,24 +115,26 @@ export default async function Home({
             <Link
               key={project.slug}
               href={`/${locale}/work/${project.slug}`}
-              className="group minimal-card rounded-[var(--radius-xl)] p-6 flex flex-col"
+              className="group spatial-card p-2"
             >
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-[var(--text-muted)] uppercase tracking-widest">{project.team}</span>
-                <span className="font-mono text-[10px] text-[var(--text-muted)]">{project.period}</span>
-              </div>
-              <h3 className="text-lg font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-3">{project.title}</h3>
-              <p className="text-sm text-[var(--text-secondary)] leading-[1.7] mb-4 flex-1">
-                {i === 0 ? dict.home.aiToolkitSummary : dict.home.m365ToolkitSummary}
-              </p>
-              <div className="flex items-center justify-between">
-                <span className="px-2.5 py-1 rounded-[var(--radius-full)] text-xs font-mono bg-[rgba(14,165,233,0.05)] border border-[rgba(14,165,233,0.2)] text-[#7dd3fc]">
-                  {project.stats[0].value} {project.stats[0].label.toLowerCase()}
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-all duration-200">
-                  {dict.home.viewCaseStudy}
-                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5"><ArrowRightIcon size={14} /></span>
-                </span>
+              <div className="rounded-[var(--radius-xl)] bg-[var(--bg-surface)] p-5 flex flex-col h-full">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="micro text-[var(--text-muted)]">{project.team}</span>
+                  <span className="micro text-[var(--text-muted)]">{project.period}</span>
+                </div>
+                <h3 className="text-lg font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-3">{project.title}</h3>
+                <p className="text-sm text-[var(--text-secondary)] leading-[1.7] mb-4 flex-1">
+                  {i === 0 ? dict.home.aiToolkitSummary : dict.home.m365ToolkitSummary}
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-1 rounded-[var(--radius-full)] text-xs font-mono bg-[rgba(14,165,233,0.05)] border border-[rgba(14,165,233,0.2)] text-[#7dd3fc]">
+                    {project.stats[0].value} {project.stats[0].label.toLowerCase()}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-all duration-200">
+                    {dict.home.viewCaseStudy}
+                    <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5"><ArrowRightIcon size={14} /></span>
+                  </span>
+                </div>
               </div>
             </Link>
           ))}

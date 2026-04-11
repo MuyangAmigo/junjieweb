@@ -10,45 +10,46 @@
 }
 
 /* ============================================
-   Custom Properties — Structured Minimal
+   Custom Properties — Spatial UI
    ============================================ */
 
 :root {
-  /* Brand — Single accent, used sparingly */
+  /* Brand — Single accent, sparingly */
   --accent: #00b4d8;
   --accent-hover: #48cae4;
   --accent-subtle: rgba(0, 180, 216, 0.08);
   --accent-glow: rgba(0, 180, 216, 0.15);
 
-  /* Surfaces — Structured dark with depth */
+  /* Surfaces — Cinematic depth */
   --bg: #050506;
   --bg-card: #0a0a0a;
   --bg-muted: rgba(255, 255, 255, 0.06);
   --bg-translucent: rgba(5, 5, 6, 0.88);
   --bg-surface: rgba(255, 255, 255, 0.02);
 
-  /* Text — High contrast grayscale hierarchy */
-  --text-primary: #ededef;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
+  /* Text — Never pure white; WCAG AAA */
+  --text-primary: rgba(255, 255, 255, 0.92);
+  --text-secondary: rgba(255, 255, 255, 0.55);
+  --text-muted: rgba(255, 255, 255, 0.32);
 
-  /* Borders — Top-lit gradient simulation */
-  --border: rgba(255, 255, 255, 0.06);
+  /* Borders — Top-lit 3D simulation */
+  --border: rgba(255, 255, 255, 0.05);
   --border-hover: rgba(255, 255, 255, 0.14);
-  --border-top: rgba(255, 255, 255, 0.12);
+  --border-top: rgba(255, 255, 255, 0.1);
   --border-bottom: rgba(255, 255, 255, 0.02);
 
-  /* Shadows — Minimal, depth through light not shadow */
+  /* Shadows */
   --shadow-4: 0 1px 3px rgba(0,0,0,0.3);
   --shadow-8: 0 2px 8px rgba(0,0,0,0.3);
   --shadow-16: 0 4px 16px rgba(0,0,0,0.3);
   --shadow-28: 0 8px 28px rgba(0,0,0,0.3);
 
-  /* Border radius — Clean, not playful */
+  /* Radius — Nested: outer 16, inner 12 (16 - 4 padding) */
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+  --radius-2xl: 20px;
   --radius-full: 9999px;
 }
 
@@ -64,9 +65,9 @@
   --bg-translucent: rgba(250, 250, 250, 0.88);
   --bg-surface: rgba(0, 0, 0, 0.02);
 
-  --text-primary: #171717;
-  --text-secondary: #525252;
-  --text-muted: #a3a3a3;
+  --text-primary: rgba(0, 0, 0, 0.88);
+  --text-secondary: rgba(0, 0, 0, 0.55);
+  --text-muted: rgba(0, 0, 0, 0.32);
 
   --border: rgba(0, 0, 0, 0.06);
   --border-hover: rgba(0, 0, 0, 0.14);
@@ -82,6 +83,7 @@
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+  --radius-2xl: 20px;
   --radius-full: 9999px;
 }
 
@@ -104,11 +106,12 @@ body {
   font-feature-settings: "rlig" 1, "calt" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
   line-height: 1.65;
   position: relative;
 }
 
-/* Blueprint dot-matrix background — 40px grid, barely visible */
+/* Blueprint dot-matrix — 40px grid, barely visible */
 body::before {
   content: '';
   position: fixed;
@@ -142,16 +145,209 @@ body > * {
 }
 
 /* ============================================
-   Global Typography — "Air"
+   §1 Typographic Precision
    ============================================ */
 
-h1, h2, h3, h4, h5, h6 {
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+/* Display headings: tight tracking, no leading */
+.display-heading {
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
 }
 
+/* Section headings: editorial tight */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+/* Body: slight negative tracking, relaxed leading */
 p, li, dd {
+  letter-spacing: -0.01em;
   line-height: 1.7;
+}
+
+/* Micro-copy: dates, tags, labels */
+.micro {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+/* ============================================
+   §2 Spatial Cards — Bento / Passepartout
+   ============================================ */
+
+/*
+   The "machined hardware" card:
+   - Outer: border + inset shadow for 3D volume
+   - Hover: magnetic scale + brighter top border
+   Images inside cards should use .spatial-image wrapper:
+     card has p-2, image inside has rounded-xl (nested radius)
+*/
+
+.spatial-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-2xl);
+  transition:
+    transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spatial-card:hover {
+  transform: scale(1.01);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    var(--shadow-16);
+}
+
+.light .spatial-card {
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.light .spatial-card:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    var(--shadow-16);
+}
+
+/* Passepartout image wrapper — nested inside spatial-card with p-2 */
+.spatial-image {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+/* Legacy minimal-card — upgraded with inset shadow */
+.minimal-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition:
+    border-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    background 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.minimal-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    var(--shadow-8);
+}
+
+.light .minimal-card {
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.light .minimal-card:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* Legacy fluent-card — same treatment */
+.fluent-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition:
+    border-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    background 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fluent-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    var(--shadow-8);
+}
+
+/* ============================================
+   §3 Cinematic Motion — Spring-like via CSS
+   ============================================ */
+
+@keyframes spatial-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Spring-like easing: cubic-bezier(0.22, 1.0, 0.36, 1.0) simulates overshoot */
+.animate-fade-in-up {
+  animation: spatial-enter 0.7s cubic-bezier(0.22, 1.0, 0.36, 1.0) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s cubic-bezier(0.22, 1.0, 0.36, 1.0) forwards;
+}
+
+/* Stagger: 100ms per child for cinematic cascade */
+.animation-delay-100 { animation-delay: 0.1s; }
+.animation-delay-200 { animation-delay: 0.2s; }
+.animation-delay-300 { animation-delay: 0.3s; }
+.animation-delay-400 { animation-delay: 0.4s; }
+.animation-delay-500 { animation-delay: 0.5s; }
+.animation-delay-600 { animation-delay: 0.7s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .spatial-card:hover {
+    transform: none;
+  }
+}
+
+/* ============================================
+   §4 Live Metadata — Gradient orb
+   ============================================ */
+
+@keyframes orb-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
+  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.2; }
+}
+
+.hero-orb {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+  filter: blur(120px);
+  animation: orb-breathe 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================
+   Clickable elements
+   ============================================ */
+
+a, button, [role="button"], summary {
+  cursor: pointer;
 }
 
 /* ============================================
@@ -177,7 +373,7 @@ p, li, dd {
 
 .prose h1, .prose h2, .prose h3, .prose h4 {
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   margin-top: 2em;
   margin-bottom: 0.8em;
 }
@@ -186,193 +382,17 @@ p, li, dd {
 .prose h2 { font-size: 1.5rem; }
 .prose h3 { font-size: 1.25rem; }
 
-.prose p {
-  margin-bottom: 1.25em;
-  color: var(--text-primary);
-}
-
-.prose a {
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  transition: text-decoration-color 150ms ease;
-}
-
-.prose a:hover {
-  text-decoration-thickness: 2px;
-}
-
-.prose code {
-  font-size: 0.875em;
-  background: var(--bg-muted);
-  padding: 0.2em 0.4em;
-  border-radius: var(--radius-sm);
-  font-weight: 500;
-}
-
-.prose pre {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1rem 1.25rem;
-  overflow-x: auto;
-  margin: 1.5em 0;
-}
-
-.prose pre code {
-  background: none;
-  padding: 0;
-  font-size: 0.875rem;
-  line-height: 1.7;
-}
-
-.prose blockquote {
-  border-left: 3px solid var(--accent);
-  padding-left: 1rem;
-  color: var(--text-secondary);
-  font-style: italic;
-  margin: 1.5em 0;
-}
-
-.prose img {
-  border-radius: var(--radius-lg);
-  margin: 1.5em 0;
-}
-
-.prose ul, .prose ol {
-  padding-left: 1.5em;
-  margin-bottom: 1.25em;
-}
-
-.prose li {
-  margin-bottom: 0.5em;
-}
-
-.prose hr {
-  border-color: var(--border);
-  margin: 2em 0;
-}
-
-.prose table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1.5em 0;
-}
-
-.prose th, .prose td {
-  border: 1px solid var(--border);
-  padding: 0.5em 0.75em;
-  text-align: left;
-}
-
-.prose th {
-  background: var(--bg-muted);
-  font-weight: 600;
-}
-
-/* ============================================
-   Clickable elements
-   ============================================ */
-
-a, button, [role="button"], summary {
-  cursor: pointer;
-}
-
-/* ============================================
-   Card Styles — Top-lit micro-border elevation
-   ============================================ */
-
-.minimal-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-top-color: var(--border-top);
-  border-bottom-color: var(--border-bottom);
-  transition:
-    border-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
-    background 200ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.minimal-card:hover {
-  border-color: var(--border-hover);
-  border-top-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.light .minimal-card:hover {
-  border-top-color: rgba(0, 0, 0, 0.12);
-  background: rgba(0, 0, 0, 0.02);
-}
-
-/* Legacy fluent-card compat */
-.fluent-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-top-color: var(--border-top);
-  border-bottom-color: var(--border-bottom);
-  transition:
-    border-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
-    background 200ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.fluent-card:hover {
-  border-color: var(--border-hover);
-  border-top-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: var(--shadow-8);
-}
-
-/* ============================================
-   Animations — Staggered reveals
-   ============================================ */
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animation-delay-100 { animation-delay: 0.04s; }
-.animation-delay-200 { animation-delay: 0.12s; }
-.animation-delay-300 { animation-delay: 0.2s; }
-.animation-delay-400 { animation-delay: 0.3s; }
-.animation-delay-500 { animation-delay: 0.4s; }
-.animation-delay-600 { animation-delay: 0.6s; }
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-fade-in-up,
-  .animate-fade-in {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* ============================================
-   Display Typography
-   ============================================ */
-
-.display-heading {
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
+.prose p { margin-bottom: 1.25em; }
+.prose a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; transition: text-decoration-color 150ms ease; }
+.prose a:hover { text-decoration-thickness: 2px; }
+.prose code { font-size: 0.875em; background: var(--bg-muted); padding: 0.2em 0.4em; border-radius: var(--radius-sm); font-weight: 500; }
+.prose pre { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; overflow-x: auto; margin: 1.5em 0; }
+.prose pre code { background: none; padding: 0; font-size: 0.875rem; line-height: 1.7; }
+.prose blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--text-secondary); font-style: italic; margin: 1.5em 0; }
+.prose img { border-radius: var(--radius-lg); margin: 1.5em 0; }
+.prose ul, .prose ol { padding-left: 1.5em; margin-bottom: 1.25em; }
+.prose li { margin-bottom: 0.5em; }
+.prose hr { border-color: var(--border); margin: 2em 0; }
+.prose table { width: 100%; border-collapse: collapse; margin: 1.5em 0; }
+.prose th, .prose td { border: 1px solid var(--border); padding: 0.5em 0.75em; text-align: left; }
+.prose th { background: var(--bg-muted); font-weight: 600; }

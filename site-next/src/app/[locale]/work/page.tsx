@@ -24,9 +24,9 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
       <h1 className="display-heading text-3xl md:text-5xl text-[var(--text-primary)] text-center mb-12">{dict.work.projects}</h1>
       <div className="space-y-8">
         {projects.map((project) => (
-          <Link key={project.slug} href={`/${locale}/work/${project.slug}`} className="group block minimal-card rounded-[var(--radius-xl)] overflow-hidden">
+          <Link key={project.slug} href={`/${locale}/work/${project.slug}`} className="group block spatial-card p-2">
             {project.heroImage && (
-              <div className="aspect-[16/9] overflow-hidden">
+              <div className="spatial-image aspect-[16/9]">
                 <Image src={project.heroImage} alt={project.title} width={960} height={540} className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" />
               </div>
             )}
