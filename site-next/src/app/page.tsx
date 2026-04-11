@@ -37,31 +37,32 @@ const tagColors: Record<string, string> = {
 };
 
 export default function Home() {
-  const posts = externalPosts.slice(0, 5);
-  const [featuredPost, ...sidePosts] = posts;
+  const recentPosts = externalPosts.slice(0, 3);
 
   return (
     <div className="max-w-[960px] mx-auto px-6">
-      {/* ===== HERO ===== */}
-      <section className="pt-12 pb-16 md:pt-20 md:pb-24" aria-label="Introduction">
-        <div className="animate-fade-in-up opacity-0">
+      {/* ===== SECTION A: HERO & FOCUS ===== */}
+      <section className="pt-12 pb-16 md:pt-20 md:pb-20" aria-label="Introduction">
+        <h1 className="display-heading text-4xl md:text-6xl lg:text-7xl text-[var(--text-primary)] mb-6 max-w-[800px] animate-fade-in-up opacity-0">
+          Building developer tools that empower millions.
+        </h1>
+
+        <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-[1.7] max-w-[600px] mb-6 animate-fade-in-up opacity-0 animation-delay-100">
+          Senior Product Manager at Microsoft. Bridging my engineering roots with product strategy to turn complex AI capabilities into tools developers love.
+        </p>
+
+        {/* Current Focus Pill */}
+        <div className="animate-fade-in-up opacity-0 animation-delay-200 mb-10">
           <Link
             href="/work/ai-toolkit"
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-[var(--radius-full)] bg-[var(--accent-subtle)] border border-[var(--accent)]/20 text-sm text-[var(--accent)] font-medium hover:bg-[var(--accent)]/15 transition-colors duration-200 mb-8"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-[var(--radius-full)] bg-[var(--accent-subtle)] border border-[var(--accent)]/20 text-sm text-[var(--accent)] font-medium hover:bg-[var(--accent)]/15 transition-colors duration-200"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
-            Building AI Toolkit — 1M+ installs
+            Currently building: AI agents powered by GitHub Copilot in AI Toolkit
           </Link>
         </div>
 
-        <h1 className="display-heading text-4xl md:text-6xl lg:text-7xl text-[var(--text-primary)] mb-6 max-w-[800px] animate-fade-in-up opacity-0 animation-delay-100">
-          Building developer tools that empower millions
-        </h1>
-
-        <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed max-w-[560px] mb-10 animate-fade-in-up opacity-0 animation-delay-200">
-          {profile.bio}
-        </p>
-
+        {/* CTA with avatar + social */}
         <div className="flex flex-wrap items-center gap-3 animate-fade-in-up opacity-0 animation-delay-300">
           <Link
             href="/about"
@@ -102,179 +103,147 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== FEATURED PROJECT ===== */}
-      <section className="pb-16 md:pb-24 animate-fade-in-up opacity-0 animation-delay-500" aria-label="Featured project">
-        {(() => {
-          const featured = projects[0];
-          return (
-            <Link
-              href={`/work/${featured.slug}`}
-              className="group block minimal-card rounded-[var(--radius-xl)] overflow-hidden"
-            >
-              {featured.heroImage && (
-                <div className="aspect-[16/9] overflow-hidden">
-                  <Image
-                    src={featured.heroImage}
-                    alt={featured.title}
-                    width={960}
-                    height={540}
-                    className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                    priority
-                  />
-                </div>
-              )}
-              <div className="p-6 md:p-8">
-                <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
-                  <h3 className="text-xl md:text-2xl font-semibold text-[var(--text-primary)] md:flex-[5]">
-                    {featured.title}
-                  </h3>
-                  <div className="md:flex-[7]">
-                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
-                      {featured.description}
-                    </p>
-                    <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)]">
-                      Read case study
-                      <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
-                        <ArrowRightIcon size={14} />
-                      </span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          );
-        })()}
-      </section>
-
-      {/* ===== LATEST FROM THE BLOG — Featured 2/3 + 1/3 layout ===== */}
-      {posts.length > 0 && (
-        <section className="pb-16 md:pb-24 animate-fade-in-up opacity-0 animation-delay-600" aria-label="Latest blog posts">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="h-px flex-1 bg-[var(--border)]" />
-            <h2 className="text-sm font-medium text-[var(--text-muted)] shrink-0">
-              Latest from the blog
-            </h2>
-            <div className="h-px flex-1 bg-[var(--border)]" />
-          </div>
-
-          {/* Featured post (2/3) + side stack (1/3) */}
-          <div className="grid md:grid-cols-[2fr_1fr] gap-3">
-            {/* Featured post — large card with top-lit border */}
-            <a
-              href={featuredPost.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col minimal-card rounded-[var(--radius-xl)] p-6 hover:shadow-[var(--shadow-16)]"
-            >
-              <div className="flex items-center gap-2.5 mb-4">
-                <span className={`px-2.5 py-0.5 rounded-[var(--radius-full)] text-xs font-medium border ${tagColors[featuredPost.tag]}`}>
-                  {featuredPost.tag}
-                </span>
-                <span className="font-mono text-xs text-[var(--text-muted)]">
-                  {featuredPost.date}
-                </span>
-              </div>
-              <h3 className="text-lg md:text-xl font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-3">
-                {featuredPost.title}
-              </h3>
-              <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4 flex-1">
-                {featuredPost.summary}
-              </p>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-[var(--text-muted)]">
-                  {featuredPost.source}
-                </span>
-                <span className="inline-flex items-center gap-1 text-sm font-medium text-[var(--accent)]">
-                  Read
-                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
-                    <ArrowRightIcon size={12} />
-                  </span>
-                </span>
-              </div>
-            </a>
-
-            {/* Side stack — compact cards */}
-            <div className="flex flex-col gap-3">
-              {sidePosts.slice(0, 3).map((post) => (
-                <a
-                  key={post.url}
-                  href={post.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col flex-1 minimal-card rounded-[var(--radius-lg)] p-4"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className={`px-2 py-0.5 rounded-[var(--radius-full)] text-[10px] font-medium border ${tagColors[post.tag]}`}>
-                      {post.tag}
-                    </span>
-                    <span className="font-mono text-[10px] text-[var(--text-muted)]">
-                      {post.date.slice(5)}
-                    </span>
-                  </div>
-                  <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 line-clamp-2 mb-1">
-                    {post.title}
-                  </h3>
-                  <p className="text-xs text-[var(--text-muted)] line-clamp-1 mt-auto">
-                    {post.subtitle}
-                  </p>
-                </a>
-              ))}
+      {/* ===== SECTION B: IMPACT STRIP ===== */}
+      <section className="pb-16 md:pb-20 animate-fade-in-up opacity-0 animation-delay-400" aria-label="Impact metrics">
+        <div className="minimal-card rounded-[var(--radius-xl)] p-6 md:p-8">
+          <div className="grid grid-cols-3 gap-6 text-center">
+            <div>
+              <div className="text-2xl md:text-3xl font-semibold text-[var(--text-primary)]">1M+</div>
+              <div className="font-mono text-xs text-[var(--text-muted)] uppercase tracking-wide mt-1">Total Installs</div>
+            </div>
+            <div className="border-x border-[var(--border)]">
+              <div className="text-2xl md:text-3xl font-semibold text-[var(--text-primary)]">130K</div>
+              <div className="font-mono text-xs text-[var(--text-muted)] uppercase tracking-wide mt-1">Peak MAU</div>
+            </div>
+            <div>
+              <div className="text-2xl md:text-3xl font-semibold text-[var(--text-primary)]">2</div>
+              <div className="font-mono text-xs text-[var(--text-muted)] uppercase tracking-wide mt-1">Toolkits Launched</div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="text-center mt-6">
-            <Link
-              href="/posts"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] hover:underline transition-colors duration-200"
-            >
-              View all posts <ArrowRightIcon size={12} />
-            </Link>
-          </div>
-        </section>
-      )}
+      {/* ===== SECTION C: SELECTED WORK (Gateway) ===== */}
+      <section className="pb-16 md:pb-20 animate-fade-in-up opacity-0 animation-delay-500" aria-label="Selected work">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-sm font-medium text-[var(--text-muted)] uppercase tracking-wide">
+            Selected Work
+          </h2>
+          <Link
+            href="/work"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] hover:underline transition-colors duration-200"
+          >
+            View all
+            <span className="inline-block transition-transform duration-200 hover:translate-x-0.5">
+              <ArrowRightIcon size={12} />
+            </span>
+          </Link>
+        </div>
 
-      {/* ===== MORE PROJECTS ===== */}
-      {projects.length > 1 && (
-        <section className="pb-20 md:pb-32 animate-fade-in-up opacity-0 animation-delay-600" aria-label="More projects">
-          {projects.slice(1).map((project) => (
+        {/* 2-column compact work cards */}
+        <div className="grid md:grid-cols-2 gap-4">
+          {projects.map((project) => (
             <Link
               key={project.slug}
               href={`/work/${project.slug}`}
-              className="group block minimal-card rounded-[var(--radius-xl)] overflow-hidden"
+              className="group minimal-card rounded-[var(--radius-xl)] p-6 flex flex-col"
             >
-              {project.heroImage && (
-                <div className="aspect-[16/9] overflow-hidden">
-                  <Image
-                    src={project.heroImage}
-                    alt={project.title}
-                    width={960}
-                    height={540}
-                    className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                  />
-                </div>
-              )}
-              <div className="p-6 md:p-8">
-                <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
-                  <h3 className="text-xl md:text-2xl font-semibold text-[var(--text-primary)] md:flex-[5]">
-                    {project.title}
-                  </h3>
-                  <div className="md:flex-[7]">
-                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
-                      {project.description}
-                    </p>
-                    <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)]">
-                      Read case study
-                      <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
-                        <ArrowRightIcon size={14} />
-                      </span>
-                    </span>
-                  </div>
-                </div>
+              {/* Team + period */}
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono text-[10px] text-[var(--text-muted)] uppercase tracking-widest">
+                  {project.team}
+                </span>
+                <span className="font-mono text-[10px] text-[var(--text-muted)]">
+                  {project.period}
+                </span>
+              </div>
+
+              {/* Title */}
+              <h3 className="text-lg font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-3">
+                {project.title}
+              </h3>
+
+              {/* One-sentence problem → impact */}
+              <p className="text-sm text-[var(--text-secondary)] leading-[1.7] mb-4 flex-1">
+                {project.slug === "ai-toolkit"
+                  ? "Reducing AI integration complexity for developers — unified model discovery, agent building, and deployment inside VS Code."
+                  : "Eliminating M365 developer boilerplate — one-command scaffolding, auth, and deployment for Teams, Copilot, and Outlook agents."}
+              </p>
+
+              {/* Primary metric pill + CTA */}
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-1 rounded-[var(--radius-full)] text-xs font-mono bg-[rgba(14,165,233,0.05)] border border-[rgba(14,165,233,0.2)] text-[#7dd3fc]">
+                  {project.stats[0].value} {project.stats[0].label.toLowerCase()}
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-all duration-200">
+                  View Case Study
+                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
+                    <ArrowRightIcon size={14} />
+                  </span>
+                </span>
               </div>
             </Link>
           ))}
-        </section>
-      )}
+        </div>
+      </section>
+
+      {/* ===== SECTION D: LATEST WRITING ===== */}
+      <section className="pb-20 md:pb-32 animate-fade-in-up opacity-0 animation-delay-600" aria-label="Latest writing">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="h-px flex-1 bg-[var(--border)]" />
+          <h2 className="text-sm font-medium text-[var(--text-muted)] shrink-0">
+            Latest Writing
+          </h2>
+          <div className="h-px flex-1 bg-[var(--border)]" />
+        </div>
+
+        <div className="space-y-2">
+          {recentPosts.map((post) => (
+            <a
+              key={post.url}
+              href={post.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-start justify-between gap-4 minimal-card rounded-[var(--radius-lg)] p-5"
+            >
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2.5 mb-1.5">
+                  <span className={`px-2 py-0.5 rounded-[var(--radius-full)] text-[10px] font-medium border ${tagColors[post.tag]}`}>
+                    {post.tag}
+                  </span>
+                  <span className="font-mono text-[10px] text-[var(--text-muted)]">
+                    {post.date}
+                  </span>
+                </div>
+                <h3 className="text-[15px] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-1">
+                  {post.title}
+                </h3>
+                <p className="text-sm text-[var(--text-secondary)] line-clamp-1">
+                  {post.subtitle}
+                </p>
+              </div>
+              <span className="shrink-0 mt-6 inline-flex items-center gap-1 text-sm font-medium text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-all duration-200">
+                Read
+                <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
+                  <ArrowRightIcon size={12} />
+                </span>
+              </span>
+            </a>
+          ))}
+        </div>
+
+        <div className="text-center mt-6">
+          <Link
+            href="/posts"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] hover:underline transition-colors duration-200"
+          >
+            Read all posts
+            <span className="inline-block transition-transform duration-200 hover:translate-x-0.5">
+              <ArrowRightIcon size={12} />
+            </span>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
