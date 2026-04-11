@@ -15,18 +15,25 @@ A personal website (resume + blog) with a publishing pipeline from an Obsidian v
 ### Tech Stack
 
 - **Framework**: Next.js 16 with App Router, TypeScript, static export (`output: "export"`)
-- **Styling**: Tailwind CSS v4 with Fluent UI-inspired design tokens (colors, shadows, radii, motion)
-- **Fonts**: Inter (body) + JetBrains Mono (labels, dates, metadata)
-- **Theme**: Dark by default, light mode toggle available (`.light` class on `<html>`). Both themes use Fluent UI neutral/brand color scales.
-- **Blog**: External posts from Microsoft developer blogs, linked via `externalPosts` in `data.ts`
+- **Styling**: Tailwind CSS v4 with Spatial UI design tokens (cinema-dark surfaces, top-lit borders, inset shadows)
+- **Fonts**: Geist (body) + Geist Mono (labels, dates, metadata)
+- **Theme**: Dark by default (`#050506`), light mode toggle. Cyan accent (`#00b4d8`) used sparingly.
+- **Design**: Spatial UI — Bento/Passepartout cards, spring-like CSS animations, breathing gradient orb, 40px blueprint dot-matrix background
+- **i18n**: 3 locales (en, zh, ja) with locale-prefixed routes (`/en/about`, `/zh/work`). Overlay translation architecture.
+- **Blog**: External posts from Microsoft developer blogs, linked via `externalPosts` in `data.ts`, with translated titles/summaries per locale
 
 ### Pages
 
+All pages are under `[locale]/` prefix (en, zh, ja). Root `/` redirects to `/en`.
+
 | Page | Path | Description |
 |------|------|-------------|
-| Home | `/` | Profile photo + bio, CTAs, latest 5 posts |
-| About | `/about` | Compact profile card, experience (table layout), education, skills |
-| Posts | `/posts` | External blog posts grouped by year (current year full-width, older years 2-column grid) |
+| Home | `/[locale]` | Hero heading, "Currently building" pill, Impact Strip (1M+/130K/2), compact work cards (2-col), latest 3 posts |
+| About | `/[locale]/about` | Sidebar TOC + avatar (desktop), experience timeline, education, skills tags |
+| Work | `/[locale]/work` | Project listing with spatial-card hero images (Passepartout effect) |
+| Work Detail | `/[locale]/work/[slug]` | 7-section case study: problem, personas, journey, stories, features, architecture |
+| Posts | `/[locale]/posts` | Featured post hero, at-a-glance table, year-grouped cards (current 1-col, older 3-col) |
+| Post Detail | `/[locale]/posts/[slug]` | Markdown article (English content, translated chrome) |
 
 ### GitHub & Deployment
 
@@ -144,21 +151,38 @@ Note: `publish.sh` (or `obsidian-to-hugo.py`) must run first to generate posts i
 site-next/
   src/
     app/
-      layout.tsx          # Root layout (Inter + JetBrains Mono fonts, Header, Footer)
-      globals.css         # Fluent UI design tokens (colors, shadows, radii, motion), prose styles
-      page.tsx            # Home page (profile photo, bio, latest posts)
-      about/page.tsx      # Resume page (compact profile card, experience, education, skills)
-      posts/page.tsx      # Blog listing (grouped by year)
-      posts/[slug]/page.tsx  # Individual post
+      layout.tsx              # Root layout (Geist fonts, globals, html shell)
+      globals.css             # Spatial UI tokens, animations, card classes, prose styles
+      page.tsx                # Root redirect → /en
+      [locale]/
+        layout.tsx            # Locale layout (Header, Footer, SetLang, ScrollToTop)
+        page.tsx              # Home page (hero, impact strip, work cards, latest posts)
+        about/page.tsx        # Resume (sidebar TOC, experience, education, skills)
+        work/page.tsx         # Project listing (spatial-card with hero images)
+        work/[slug]/page.tsx  # Project detail (7-section case study)
+        posts/page.tsx        # Blog listing (featured + at-a-glance + year grid)
+        posts/[slug]/page.tsx # Individual post (markdown, English content)
     components/
-      Header.tsx          # Nav bar with theme toggle, mobile menu
-      Footer.tsx          # Footer with social links
-      Icons.tsx           # Shared SVG icon components (GitHub, LinkedIn, Email, ArrowRight)
+      Header.tsx              # Centered pill nav, icons, language switcher, theme toggle
+      Footer.tsx              # Footer with social icon buttons
+      Icons.tsx               # Shared SVG icons (GitHub, LinkedIn, Email, ArrowRight)
+      ScrollToTop.tsx         # Scroll-to-top button (slide-up entrance)
+      SetLang.tsx             # Client component: sets <html lang> per locale
+      LanguageSwitcher.tsx    # EN/中/日 pill selector
+      CountUp.tsx             # IntersectionObserver number counter animation
+    i18n/
+      config.ts               # Locale types, validation, defaultLocale
+      get-dictionary.ts       # Loads UI string dictionaries per locale
+      get-localized-data.ts   # Overlay merger for data translations
+      dictionaries/{en,zh,ja}.ts  # ~50 UI strings per locale
+      data/{en,zh,ja}.ts      # Profile, experience, education, skills translations
+      posts/{en,zh,ja}.ts     # 24 post title/subtitle/summary translations
+      projects/{en,zh,ja}.ts  # 2 project case study translations (all 7 sections)
     lib/
-      data.ts             # Profile, experience, education, skills, external posts data
-      posts.ts            # Markdown post reader (gray-matter + remark, legacy)
-  content/posts/          # Legacy blog post markdown files (unlisted)
-  next.config.ts          # Static export for Azure Static Web Apps
+      data.ts                 # Base data: profile, experience, education, skills, posts, projects
+      posts.ts                # Markdown post reader (gray-matter + remark, legacy)
+  content/posts/              # Legacy blog post markdown files (18 posts)
+  next.config.ts              # Static export for Azure Static Web Apps
 ```
 
 ## Vault Structure
@@ -181,8 +205,10 @@ Attachments/    # Local only — Images/, Videos/, Documents/, Other/ (not in gi
 - Obsidian wikilinks `[[filename]]` are still used for note-to-note links (converted to plain text for blog)
 - Sensitive data (`.env`, credentials) must never be committed
 - Resume/profile data lives in `site-next/src/lib/data.ts` — update there for career changes
+- Translations use overlay pattern: base `data.ts` stays English, locale-specific text in `i18n/{data,posts,projects}/{zh,ja}.ts`
 - Blog posts section shows external links to Microsoft developer blogs (not local markdown)
 - External posts are managed via `externalPosts` in `data.ts`, updated by `fetch-external-posts.mjs`
+- When adding new posts/projects, also add translations to `i18n/posts/` and `i18n/projects/` overlay files
 
 ## Publishing Guidelines
 
@@ -220,3 +246,21 @@ Notes in `Notes/Career/` have been reviewed. Previously published 18 local artic
 - 126 note files rewritten from local paths to Azure Blob URLs
 - Migration scripts kept for reference but should not need to run again
 - Ongoing media sync is handled by `sync-media.py`
+
+**Work section + Spatial UI redesign** completed 2026-04-12:
+- Added Work section with 2 project case studies (AI Toolkit, M365 Agents Toolkit) generated via PM Portfolio Generator
+- Full site redesign: Magic Portfolio → Structured Minimal → Spatial UI design system
+- Geist fonts, cinema-dark theme (#050506), cyan accent, 40px blueprint dot-matrix background
+- Centered pill nav with icons (desktop), bottom-fixed (mobile), language switcher
+- Spatial cards: Passepartout padding, inset shadow 3D volume, magnetic hover scale
+- Cinematic spring-like CSS animations (spatial-enter, hover-lift, scale-pop, CountUp)
+- Posts page: featured hero, color-coded tag badges, at-a-glance table, 3-col year grid
+
+**Full i18n** completed 2026-04-12:
+- 3 locales: English (en), Simplified Chinese (zh), Japanese (ja)
+- Route structure: all pages under `[locale]/` prefix, root `/` redirects to `/en`
+- Overlay translation architecture: base `data.ts` + locale text overlays merged at render
+- ~500 translated strings per locale (UI, profile, experience, posts, projects)
+- Language switcher: EN/中/日 pill selector in nav
+- SetLang client component updates `<html lang>` per locale
+- 75 static pages generated across 3 locales
