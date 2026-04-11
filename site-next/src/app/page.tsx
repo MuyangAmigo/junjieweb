@@ -156,12 +156,12 @@ export default function Home() {
 
           {/* Featured post (2/3) + side stack (1/3) */}
           <div className="grid md:grid-cols-[2fr_1fr] gap-3">
-            {/* Featured post — large card */}
+            {/* Featured post — large card with top-lit border */}
             <a
               href={featuredPost.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col rounded-[var(--radius-xl)] border border-white/[0.08] bg-white/[0.03] backdrop-blur-[8px] p-6 hover:border-white/[0.14] hover:bg-white/[0.05] transition-all duration-300 hover:shadow-[var(--shadow-16)]"
+              className="group flex flex-col minimal-card rounded-[var(--radius-xl)] p-6 hover:shadow-[var(--shadow-16)]"
             >
               <div className="flex items-center gap-2.5 mb-4">
                 <span className={`px-2.5 py-0.5 rounded-[var(--radius-full)] text-xs font-medium border ${tagColors[featuredPost.tag]}`}>
@@ -195,7 +195,7 @@ export default function Home() {
                   href={post.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col flex-1 rounded-[var(--radius-lg)] border border-white/[0.08] bg-white/[0.03] backdrop-blur-[8px] p-4 hover:border-white/[0.14] hover:bg-white/[0.05] transition-all duration-200"
+                  className="group flex flex-col flex-1 minimal-card rounded-[var(--radius-lg)] p-4"
                 >
                   <div className="flex items-center gap-2 mb-2">
                     <span className={`px-2 py-0.5 rounded-[var(--radius-full)] text-[10px] font-medium border ${tagColors[post.tag]}`}>

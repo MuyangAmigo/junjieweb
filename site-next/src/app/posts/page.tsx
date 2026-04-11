@@ -42,7 +42,7 @@ export default function PostsPage() {
         href={featured.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group block rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--bg-surface)] p-6 md:p-8 mb-16 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-16)] transition-all duration-300"
+        className="group block minimal-card rounded-[var(--radius-xl)] p-6 md:p-8 mb-16 hover:shadow-[var(--shadow-16)]"
       >
         <div className="flex items-center gap-3 mb-4">
           <span className={`px-2.5 py-0.5 rounded-[var(--radius-full)] text-xs font-medium border ${tagColors[featured.tag]}`}>
@@ -128,7 +128,7 @@ export default function PostsPage() {
                       href={post.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group block rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-surface)] p-5 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-8)] transition-all duration-200"
+                      className="group block minimal-card rounded-[var(--radius-lg)] p-5"
                     >
                       <div className="flex items-center gap-2.5 mb-2.5">
                         <span className={`px-2 py-0.5 rounded-[var(--radius-full)] text-xs font-medium border ${tagColors[post.tag]}`}>
@@ -159,7 +159,7 @@ export default function PostsPage() {
                       href={post.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-surface)] p-4 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-8)] transition-all duration-200"
+                      className="group flex flex-col minimal-card rounded-[var(--radius-lg)] p-4"
                     >
                       <div className="flex items-center gap-2 mb-2">
                         <span className={`px-2 py-0.5 rounded-[var(--radius-full)] text-[10px] font-medium border ${tagColors[post.tag]}`}>
