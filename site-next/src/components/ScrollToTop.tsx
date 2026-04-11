@@ -21,7 +21,7 @@ export default function ScrollToTop() {
     <button
       onClick={scrollToTop}
       aria-label="Scroll to top"
-      className="fixed bottom-20 md:bottom-8 right-6 z-40 flex items-center justify-center w-10 h-10 rounded-[var(--radius-full)] bg-[var(--bg-translucent)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] backdrop-blur-xl shadow-[var(--shadow-8)] transition-all duration-200"
+      className="animate-slide-up fixed bottom-20 md:bottom-8 right-6 z-40 flex items-center justify-center w-10 h-10 rounded-[var(--radius-full)] bg-[var(--bg-translucent)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] hover:scale-110 backdrop-blur-xl shadow-[var(--shadow-8)] transition-all duration-200"
     >
       <svg
         width="16"

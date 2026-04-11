@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { profile, projects } from "@/lib/data";
 import { GitHubIcon, LinkedInIcon, ArrowRightIcon } from "@/components/Icons";
+import CountUp from "@/components/CountUp";
 import { isValidLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { getLocalizedPosts } from "@/i18n/get-localized-data";
@@ -85,15 +86,15 @@ export default async function Home({
         <div className="minimal-card rounded-[var(--radius-xl)] p-6 md:p-8">
           <div className="grid grid-cols-3 gap-6 text-center">
             <div>
-              <div className="text-2xl md:text-3xl font-semibold text-[var(--text-primary)]">1M+</div>
+              <CountUp value="1M+" className="text-2xl md:text-3xl font-semibold text-[var(--text-primary)]" />
               <div className="font-mono text-xs text-[var(--text-muted)] uppercase tracking-wide mt-1">{dict.home.totalInstalls}</div>
             </div>
             <div className="border-x border-[var(--border)]">
-              <div className="text-2xl md:text-3xl font-semibold text-[var(--text-primary)]">130K</div>
+              <CountUp value="130K" className="text-2xl md:text-3xl font-semibold text-[var(--text-primary)]" />
               <div className="font-mono text-xs text-[var(--text-muted)] uppercase tracking-wide mt-1">{dict.home.peakMau}</div>
             </div>
             <div>
-              <div className="text-2xl md:text-3xl font-semibold text-[var(--text-primary)]">2</div>
+              <CountUp value="2" className="text-2xl md:text-3xl font-semibold text-[var(--text-primary)]" />
               <div className="font-mono text-xs text-[var(--text-muted)] uppercase tracking-wide mt-1">{dict.home.toolkitsLaunched}</div>
             </div>
           </div>

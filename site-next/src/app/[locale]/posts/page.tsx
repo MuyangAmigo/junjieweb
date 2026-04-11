@@ -64,7 +64,7 @@ export default async function PostsPage({ params }: { params: Promise<{ locale: 
         <div className="minimal-card rounded-[var(--radius-lg)] overflow-hidden">
           <div className="hidden md:grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-3 border-b border-[var(--border)] text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide"><span>{dict.posts.tableTitle}</span><span>{dict.posts.tableTag}</span><span>{dict.posts.tableDate}</span></div>
           {posts.slice(0, 8).map((post, i) => (
-            <a key={post.url} href={post.url} target="_blank" rel="noopener noreferrer" className={`group grid md:grid-cols-[1fr_auto_auto] gap-2 md:gap-4 px-5 py-3 hover:bg-white/[0.04] transition-colors duration-150 ${i > 0 ? "border-t border-[var(--border)]" : ""}`}>
+            <a key={post.url} href={post.url} target="_blank" rel="noopener noreferrer" className={`group grid md:grid-cols-[1fr_auto_auto] gap-2 md:gap-4 px-5 py-3 row-highlight ${i > 0 ? "border-t border-[var(--border)]" : ""}`}>
               <span className="text-sm font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-150 truncate">{post.title}</span>
               <span className={`px-2 py-0.5 rounded-[var(--radius-full)] text-xs font-medium border w-fit ${tagColors[post.tag]}`}>{post.tag}</span>
               <span className="font-mono text-xs text-[var(--text-muted)] whitespace-nowrap self-center">{post.date}</span>
