@@ -109,7 +109,7 @@ export default function Home() {
           return (
             <Link
               href={`/work/${featured.slug}`}
-              className="group block rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--bg-card)] overflow-hidden hover:border-[var(--border-hover)] transition-all duration-300 hover:shadow-[var(--shadow-16)]"
+              className="group block minimal-card rounded-[var(--radius-xl)] overflow-hidden"
             >
               {featured.heroImage && (
                 <div className="aspect-[16/9] overflow-hidden">
@@ -133,7 +133,10 @@ export default function Home() {
                       {featured.description}
                     </p>
                     <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)]">
-                      Read case study <ArrowRightIcon size={14} />
+                      Read case study
+                      <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
+                        <ArrowRightIcon size={14} />
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -182,7 +185,10 @@ export default function Home() {
                   {featuredPost.source}
                 </span>
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-[var(--accent)]">
-                  Read <ArrowRightIcon size={12} />
+                  Read
+                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
+                    <ArrowRightIcon size={12} />
+                  </span>
                 </span>
               </div>
             </a>
@@ -234,7 +240,7 @@ export default function Home() {
             <Link
               key={project.slug}
               href={`/work/${project.slug}`}
-              className="group block rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--bg-card)] overflow-hidden hover:border-[var(--border-hover)] transition-all duration-300 hover:shadow-[var(--shadow-16)]"
+              className="group block minimal-card rounded-[var(--radius-xl)] overflow-hidden"
             >
               {project.heroImage && (
                 <div className="aspect-[16/9] overflow-hidden">
@@ -257,7 +263,10 @@ export default function Home() {
                       {project.description}
                     </p>
                     <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)]">
-                      Read case study <ArrowRightIcon size={14} />
+                      Read case study
+                      <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
+                        <ArrowRightIcon size={14} />
+                      </span>
                     </span>
                   </div>
                 </div>

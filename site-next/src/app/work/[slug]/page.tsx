@@ -376,7 +376,10 @@ export default async function ProjectPage({
                   <div className="md:flex-[7]">
                     <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4">{rp.description}</p>
                     <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)]">
-                      Read case study <ArrowRightIcon size={14} />
+                      Read case study
+                      <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
+                        <ArrowRightIcon size={14} />
+                      </span>
                     </span>
                   </div>
                 </div>

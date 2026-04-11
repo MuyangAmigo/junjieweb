@@ -29,11 +29,11 @@ export default function PostsPage() {
   const years = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
 
   return (
-    <div className="max-w-[960px] mx-auto px-6 py-12 md:py-24">
+    <div className="max-w-[960px] mx-auto px-6 py-8 md:py-16">
       <h1 className="display-heading text-3xl md:text-5xl text-[var(--text-primary)] text-center mb-4">
         Posts
       </h1>
-      <p className="text-center text-[var(--text-secondary)] mb-16">
+      <p className="text-center text-[var(--text-secondary)] mb-12">
         Published articles on Microsoft developer blogs.
       </p>
 
@@ -42,7 +42,7 @@ export default function PostsPage() {
         href={featured.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group block minimal-card rounded-[var(--radius-xl)] p-6 md:p-8 mb-16 hover:shadow-[var(--shadow-16)]"
+        className="group block minimal-card rounded-[var(--radius-xl)] p-6 md:p-8 mb-16"
       >
         <div className="flex items-center gap-3 mb-4">
           <span className={`px-2.5 py-0.5 rounded-[var(--radius-full)] text-xs font-medium border ${tagColors[featured.tag]}`}>
@@ -59,11 +59,14 @@ export default function PostsPage() {
         <h2 className="text-xl md:text-2xl font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-3">
           {featured.title}
         </h2>
-        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-[640px]">
+        <p className="text-[var(--text-secondary)] leading-[1.7] mb-4 max-w-[640px]">
           {featured.summary}
         </p>
         <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)]">
-          Read article <ArrowRightIcon size={14} />
+          Read article
+          <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
+            <ArrowRightIcon size={14} />
+          </span>
         </span>
       </a>
 
@@ -77,7 +80,7 @@ export default function PostsPage() {
           <div className="h-px flex-1 bg-[var(--border)]" />
         </div>
 
-        <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-surface)] overflow-hidden">
+        <div className="minimal-card rounded-[var(--radius-lg)] overflow-hidden">
           <div className="hidden md:grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-3 border-b border-[var(--border)] text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">
             <span>Title</span>
             <span>Tag</span>
@@ -89,7 +92,7 @@ export default function PostsPage() {
               href={post.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`group grid md:grid-cols-[1fr_auto_auto] gap-2 md:gap-4 px-5 py-3 hover:bg-[var(--bg-muted)] transition-colors duration-150 ${
+              className={`group grid md:grid-cols-[1fr_auto_auto] gap-2 md:gap-4 px-5 py-3 hover:bg-white/[0.04] transition-colors duration-150 ${
                 i > 0 ? "border-t border-[var(--border)]" : ""
               }`}
             >
@@ -120,7 +123,6 @@ export default function PostsPage() {
               </h2>
 
               {isCurrentYear ? (
-                /* Current year: single column cards with full summary */
                 <div className="space-y-3">
                   {yearPosts.map((post) => (
                     <a
@@ -141,7 +143,7 @@ export default function PostsPage() {
                       <h3 className="text-base font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-2">
                         {post.title}
                       </h3>
-                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-2">
+                      <p className="text-sm text-[var(--text-secondary)] leading-[1.7] mb-2">
                         {post.summary}
                       </p>
                       <span className="text-xs text-[var(--text-muted)]">
@@ -151,7 +153,6 @@ export default function PostsPage() {
                   ))}
                 </div>
               ) : (
-                /* Older years: 3-column grid with compact cards */
                 <div className="grid md:grid-cols-3 gap-3">
                   {yearPosts.map((post) => (
                     <a

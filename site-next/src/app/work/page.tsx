@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 
 export default function WorkPage() {
   return (
-    <div className="max-w-[960px] mx-auto px-6 py-12 md:py-24">
-      <h1 className="display-heading text-3xl md:text-5xl text-[var(--text-primary)] text-center mb-16">
+    <div className="max-w-[960px] mx-auto px-6 py-8 md:py-16">
+      <h1 className="display-heading text-3xl md:text-5xl text-[var(--text-primary)] text-center mb-12">
         Projects
       </h1>
 
@@ -22,7 +22,7 @@ export default function WorkPage() {
           <Link
             key={project.slug}
             href={`/work/${project.slug}`}
-            className="group block rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--bg-card)] overflow-hidden hover:border-[var(--border-hover)] transition-all duration-300 hover:shadow-[var(--shadow-16)]"
+            className="group block minimal-card rounded-[var(--radius-xl)] overflow-hidden"
           >
             {/* Hero image */}
             {project.heroImage && (
@@ -37,7 +37,7 @@ export default function WorkPage() {
               </div>
             )}
 
-            {/* Card content */}
+            {/* Card content — items-start for strict top-alignment */}
             <div className="p-6 md:p-8">
               <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
                 <div className="md:flex-[5]">
@@ -50,16 +50,16 @@ export default function WorkPage() {
                 </div>
 
                 <div className="md:flex-[7]">
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
+                  <p className="text-sm text-[var(--text-secondary)] leading-[1.7] mb-4">
                     {project.description}
                   </p>
 
-                  {/* Stats as pills */}
+                  {/* Stat pills — brand-tinted */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.stats.slice(0, 3).map((stat) => (
                       <span
                         key={stat.label}
-                        className="px-2.5 py-1 rounded-[var(--radius-full)] text-xs font-mono border border-[var(--border)] text-[var(--text-secondary)]"
+                        className="px-2.5 py-1 rounded-[var(--radius-full)] text-xs font-mono bg-[rgba(14,165,233,0.05)] border border-[rgba(14,165,233,0.2)] text-[#7dd3fc]"
                       >
                         {stat.value} {stat.label.toLowerCase()}
                       </span>
@@ -67,7 +67,10 @@ export default function WorkPage() {
                   </div>
 
                   <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)]">
-                    Read case study <ArrowRightIcon size={14} />
+                    Read case study
+                    <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
+                      <ArrowRightIcon size={14} />
+                    </span>
                   </span>
                 </div>
               </div>

@@ -77,7 +77,7 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`flex items-center gap-2 px-4 py-2 rounded-[var(--radius-full)] text-sm font-medium transition-all duration-200 ${
+              className={`relative flex items-center gap-2 px-4 py-2 rounded-[var(--radius-full)] text-sm font-medium transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                 isActive(link.href)
                   ? "bg-[var(--text-primary)] text-[var(--bg)] shadow-sm"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)]"
