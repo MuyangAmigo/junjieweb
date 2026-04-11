@@ -344,6 +344,7 @@ export interface Project {
   team: string;
   period: string;
   current: boolean;
+  heroImage?: string;
   stats: ProjectStat[];
   marketplaceUrl?: string;
   githubUrl?: string;
@@ -377,6 +378,7 @@ export const projects: Project[] = [
     team: "CoreAI",
     period: "Mar 2024 — Present",
     current: true,
+    heroImage: "https://junjieblob.blob.core.windows.net/images/ai-toolkit-hero.png",
     stats: [
       { value: "1M+", label: "Installs" },
       { value: "9+", label: "Model Providers" },
@@ -656,6 +658,7 @@ export const projects: Project[] = [
     team: "Cloud & AI",
     period: "Sep 2020 — Mar 2024",
     current: false,
+    heroImage: "https://junjieblob.blob.core.windows.net/images/agent-toolkit-hero.png",
     stats: [
       { value: "443K+", label: "Installs" },
       { value: "40+", label: "Templates" },

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { projects } from "@/lib/data";
 import type {
@@ -105,9 +106,23 @@ export default async function ProjectPage({
           <p className="font-mono text-xs text-[var(--text-muted)] mb-3">
             {project.team} &middot; {project.period}
           </p>
-          <p className="text-[var(--text-secondary)] italic mb-2">
+          <p className="text-[var(--text-secondary)] italic mb-4">
             &ldquo;{project.tagline}&rdquo;
           </p>
+
+          {/* Hero image */}
+          {project.heroImage && (
+            <div className="rounded-[var(--radius-lg)] overflow-hidden border border-[var(--border)] mb-5">
+              <Image
+                src={project.heroImage}
+                alt={project.title}
+                width={820}
+                height={420}
+                className="w-full h-auto"
+              />
+            </div>
+          )}
+
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-5">
             {project.description}
           </p>
