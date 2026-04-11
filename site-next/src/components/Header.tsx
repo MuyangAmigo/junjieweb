@@ -47,9 +47,7 @@ export default function Header({ locale, dict }: HeaderProps) {
     { key: "about", href: `/${locale}/about`, label: dict.nav.about },
     { key: "work", href: `/${locale}/work`, label: dict.nav.work },
   ];
-  if (locale === "en") {
-    allNavLinks.push({ key: "posts", href: `/${locale}/posts`, label: dict.nav.posts });
-  }
+  allNavLinks.push({ key: "posts", href: `/${locale}/posts`, label: dict.nav.posts });
 
   useEffect(() => {
     const saved = localStorage.getItem("theme");

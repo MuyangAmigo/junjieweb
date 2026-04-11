@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
-import { externalPosts } from "@/lib/data";
 import { ArrowRightIcon } from "@/components/Icons";
+import { locales, isValidLocale, type Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/get-dictionary";
+import { getLocalizedPosts } from "@/i18n/get-localized-data";
 import { notFound } from "next/navigation";
 
-// Posts page is English-only
 export function generateStaticParams() {
-  return [{ locale: "en" }];
+  return locales.map((locale) => ({ locale }));
 }
 
-export const metadata: Metadata = {
-  title: "Posts",
-  description: "Published articles on Microsoft developer blogs.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const dict = await getDictionary(locale as Locale);
+  return { title: dict.posts.title, description: dict.posts.subtitle };
+}
 
 const tagColors: Record<string, string> = {
   Release: "text-[#22c55e] bg-[#22c55e]/10 border-[#22c55e]/20",
@@ -23,9 +25,10 @@ const tagColors: Record<string, string> = {
 
 export default async function PostsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  if (locale !== "en") notFound();
+  if (!isValidLocale(locale)) notFound();
 
-  const posts = externalPosts;
+  const dict = await getDictionary(locale as Locale);
+  const posts = await getLocalizedPosts(locale as Locale);
   const [featured, ...rest] = posts;
 
   const grouped = rest.reduce<Record<string, typeof posts>>((acc, post) => {
@@ -39,9 +42,10 @@ export default async function PostsPage({ params }: { params: Promise<{ locale: 
 
   return (
     <div className="max-w-[960px] mx-auto px-6 py-8 md:py-16">
-      <h1 className="display-heading text-3xl md:text-5xl text-[var(--text-primary)] text-center mb-4">Posts</h1>
-      <p className="text-center text-[var(--text-secondary)] mb-12">Published articles on Microsoft developer blogs.</p>
+      <h1 className="display-heading text-3xl md:text-5xl text-[var(--text-primary)] text-center mb-4">{dict.posts.title}</h1>
+      <p className="text-center text-[var(--text-secondary)] mb-12">{dict.posts.subtitle}</p>
 
+      {/* Featured latest post */}
       <a href={featured.url} target="_blank" rel="noopener noreferrer" className="group block minimal-card rounded-[var(--radius-xl)] p-6 md:p-8 mb-16">
         <div className="flex items-center gap-3 mb-4">
           <span className={`px-2.5 py-0.5 rounded-[var(--radius-full)] text-xs font-medium border ${tagColors[featured.tag]}`}>{featured.tag}</span>
@@ -51,13 +55,14 @@ export default async function PostsPage({ params }: { params: Promise<{ locale: 
         </div>
         <h2 className="text-xl md:text-2xl font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-3">{featured.title}</h2>
         <p className="text-[var(--text-secondary)] leading-[1.7] mb-4 max-w-[640px]">{featured.summary}</p>
-        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)]">Read article<span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5"><ArrowRightIcon size={14} /></span></span>
+        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)]">{dict.posts.readArticle}<span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5"><ArrowRightIcon size={14} /></span></span>
       </a>
 
+      {/* At a glance */}
       <div className="mb-16">
-        <div className="flex items-center gap-4 mb-6"><div className="h-px flex-1 bg-[var(--border)]" /><h2 className="text-sm font-medium text-[var(--text-muted)] shrink-0">At a glance</h2><div className="h-px flex-1 bg-[var(--border)]" /></div>
+        <div className="flex items-center gap-4 mb-6"><div className="h-px flex-1 bg-[var(--border)]" /><h2 className="text-sm font-medium text-[var(--text-muted)] shrink-0">{dict.posts.atAGlance}</h2><div className="h-px flex-1 bg-[var(--border)]" /></div>
         <div className="minimal-card rounded-[var(--radius-lg)] overflow-hidden">
-          <div className="hidden md:grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-3 border-b border-[var(--border)] text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide"><span>Title</span><span>Tag</span><span>Date</span></div>
+          <div className="hidden md:grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-3 border-b border-[var(--border)] text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide"><span>{dict.posts.tableTitle}</span><span>{dict.posts.tableTag}</span><span>{dict.posts.tableDate}</span></div>
           {posts.slice(0, 8).map((post, i) => (
             <a key={post.url} href={post.url} target="_blank" rel="noopener noreferrer" className={`group grid md:grid-cols-[1fr_auto_auto] gap-2 md:gap-4 px-5 py-3 hover:bg-white/[0.04] transition-colors duration-150 ${i > 0 ? "border-t border-[var(--border)]" : ""}`}>
               <span className="text-sm font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-150 truncate">{post.title}</span>
@@ -68,6 +73,7 @@ export default async function PostsPage({ params }: { params: Promise<{ locale: 
         </div>
       </div>
 
+      {/* Posts by year */}
       <div className="space-y-16">
         {years.map((year, yearIdx) => {
           const yearPosts = grouped[year];

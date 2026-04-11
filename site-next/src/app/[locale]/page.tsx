@@ -174,14 +174,12 @@ export default async function Home({
           ))}
         </div>
 
-        {locale === "en" && (
-          <div className="text-center mt-6">
-            <Link href={`/${locale}/posts`} className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] hover:underline transition-colors duration-200">
-              {dict.home.readAllPosts}
-              <span className="inline-block transition-transform duration-200 hover:translate-x-0.5"><ArrowRightIcon size={12} /></span>
-            </Link>
-          </div>
-        )}
+        <div className="text-center mt-6">
+          <Link href={`/${locale}/posts`} className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] hover:underline transition-colors duration-200">
+            {dict.home.readAllPosts}
+            <span className="inline-block transition-transform duration-200 hover:translate-x-0.5"><ArrowRightIcon size={12} /></span>
+          </Link>
+        </div>
       </section>
     </div>
   );

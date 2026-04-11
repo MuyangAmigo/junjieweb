@@ -1,16 +1,19 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import { locales, isValidLocale, type Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/get-dictionary";
 
-// English-only post detail pages
+// Generate for all locales — content stays English, chrome is translated
 export async function generateStaticParams() {
   const posts = getAllPosts();
-  return posts.map((post) => ({ locale: "en", slug: post.slug }));
+  return locales.flatMap((locale) =>
+    posts.map((post) => ({ locale, slug: post.slug }))
+  );
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
-  const { locale, slug } = await params;
-  if (locale !== "en") return {};
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return {};
   return { title: post.title, description: `${post.title} \u2014 Junjie Li` };
@@ -18,16 +21,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function PostPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params;
-  if (locale !== "en") notFound();
+  if (!isValidLocale(locale)) notFound();
 
+  const dict = await getDictionary(locale as Locale);
   const post = await getPostBySlug(slug);
   if (!post || post.draft) notFound();
 
   return (
     <article className="max-w-[660px] mx-auto px-6 py-12 md:py-20">
-      <Link href="/en/posts" className="inline-flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors mb-8">
+      <Link href={`/${locale}/posts`} className="inline-flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors mb-8">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="m12 19-7-7 7-7" /></svg>
-        Back to posts
+        {dict.posts.backToPosts}
       </Link>
       <header className="mb-10">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text-primary)] mb-4">{post.title}</h1>
