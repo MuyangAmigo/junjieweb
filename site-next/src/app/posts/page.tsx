@@ -1,15 +1,25 @@
 import type { Metadata } from "next";
 import { externalPosts } from "@/lib/data";
+import { ArrowRightIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
   title: "Posts",
   description: "Published articles on Microsoft developer blogs.",
 };
 
+const tagColors: Record<string, string> = {
+  Release: "text-[#22c55e] bg-[#22c55e]/10 border-[#22c55e]/20",
+  Feature: "text-[#a78bfa] bg-[#a78bfa]/10 border-[#a78bfa]/20",
+  Tutorial: "text-[#38bdf8] bg-[#38bdf8]/10 border-[#38bdf8]/20",
+  Integration: "text-[#fb923c] bg-[#fb923c]/10 border-[#fb923c]/20",
+  Announcement: "text-[#f472b6] bg-[#f472b6]/10 border-[#f472b6]/20",
+};
+
 export default function PostsPage() {
   const posts = externalPosts;
+  const [featured, ...rest] = posts;
 
-  const grouped = posts.reduce<Record<string, typeof posts>>((acc, post) => {
+  const grouped = rest.reduce<Record<string, typeof posts>>((acc, post) => {
     const year = post.date.split("-")[0] || "Undated";
     if (!acc[year]) acc[year] = [];
     acc[year].push(post);
@@ -19,71 +29,154 @@ export default function PostsPage() {
   const years = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
 
   return (
-    <div className="max-w-[820px] mx-auto px-6 py-12 md:py-20">
-      <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-[var(--text-primary)] mb-3">
+    <div className="max-w-[960px] mx-auto px-6 py-12 md:py-24">
+      <h1 className="display-heading text-3xl md:text-5xl text-[var(--text-primary)] text-center mb-4">
         Posts
       </h1>
-      <p className="text-lg text-[var(--text-secondary)] mb-10">
+      <p className="text-center text-[var(--text-secondary)] mb-16">
         Published articles on Microsoft developer blogs.
       </p>
 
-      <div className="space-y-10">
+      {/* ===== FEATURED LATEST POST ===== */}
+      <a
+        href={featured.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group block rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--bg-surface)] p-6 md:p-8 mb-16 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-16)] transition-all duration-300"
+      >
+        <div className="flex items-center gap-3 mb-4">
+          <span className={`px-2.5 py-0.5 rounded-[var(--radius-full)] text-xs font-medium border ${tagColors[featured.tag]}`}>
+            {featured.tag}
+          </span>
+          <span className="text-xs text-[var(--text-muted)]">
+            {featured.source}
+          </span>
+          <span className="text-xs text-[var(--text-muted)]">&middot;</span>
+          <span className="font-mono text-xs text-[var(--text-muted)]">
+            {featured.date}
+          </span>
+        </div>
+        <h2 className="text-xl md:text-2xl font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-3">
+          {featured.title}
+        </h2>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 max-w-[640px]">
+          {featured.summary}
+        </p>
+        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)]">
+          Read article <ArrowRightIcon size={14} />
+        </span>
+      </a>
+
+      {/* ===== AT A GLANCE ===== */}
+      <div className="mb-16">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="h-px flex-1 bg-[var(--border)]" />
+          <h2 className="text-sm font-medium text-[var(--text-muted)] shrink-0">
+            At a glance
+          </h2>
+          <div className="h-px flex-1 bg-[var(--border)]" />
+        </div>
+
+        <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-surface)] overflow-hidden">
+          <div className="hidden md:grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-3 border-b border-[var(--border)] text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">
+            <span>Title</span>
+            <span>Tag</span>
+            <span>Date</span>
+          </div>
+          {posts.slice(0, 8).map((post, i) => (
+            <a
+              key={post.url}
+              href={post.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`group grid md:grid-cols-[1fr_auto_auto] gap-2 md:gap-4 px-5 py-3 hover:bg-[var(--bg-muted)] transition-colors duration-150 ${
+                i > 0 ? "border-t border-[var(--border)]" : ""
+              }`}
+            >
+              <span className="text-sm font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-150 truncate">
+                {post.title}
+              </span>
+              <span className={`px-2 py-0.5 rounded-[var(--radius-full)] text-xs font-medium border w-fit ${tagColors[post.tag]}`}>
+                {post.tag}
+              </span>
+              <span className="font-mono text-xs text-[var(--text-muted)] whitespace-nowrap self-center">
+                {post.date}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ===== POSTS BY YEAR ===== */}
+      <div className="space-y-16">
         {years.map((year, yearIdx) => {
           const yearPosts = grouped[year];
           const isCurrentYear = yearIdx === 0;
 
           return (
             <div key={year}>
-              <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">
+              <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-6">
                 {year}
               </h2>
 
               {isCurrentYear ? (
-                /* Current year: full-width stacked cards */
-                <div className="space-y-1.5">
+                /* Current year: single column cards with full summary */
+                <div className="space-y-3">
                   {yearPosts.map((post) => (
                     <a
                       key={post.url}
                       href={post.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="fluent-card group flex items-center justify-between gap-4 px-4 py-3.5 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent)]"
+                      className="group block rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-surface)] p-5 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-8)] transition-all duration-200"
                     >
-                      <div className="min-w-0">
-                        <h3 className="text-base font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 truncate">
-                          {post.title}
-                        </h3>
+                      <div className="flex items-center gap-2.5 mb-2.5">
+                        <span className={`px-2 py-0.5 rounded-[var(--radius-full)] text-xs font-medium border ${tagColors[post.tag]}`}>
+                          {post.tag}
+                        </span>
                         <span className="font-mono text-xs text-[var(--text-muted)]">
-                          {post.source}
+                          {post.date}
                         </span>
                       </div>
-                      <span className="font-mono text-xs text-[var(--text-muted)] whitespace-nowrap shrink-0">
-                        {post.date.slice(5)}
+                      <h3 className="text-base font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-2">
+                        {post.title}
+                      </h3>
+                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-2">
+                        {post.summary}
+                      </p>
+                      <span className="text-xs text-[var(--text-muted)]">
+                        {post.source}
                       </span>
                     </a>
                   ))}
                 </div>
               ) : (
-                /* Older years: 2-column grid */
-                <div className="grid md:grid-cols-2 gap-1.5 min-w-0">
+                /* Older years: 3-column grid with compact cards */
+                <div className="grid md:grid-cols-3 gap-3">
                   {yearPosts.map((post) => (
                     <a
                       key={post.url}
                       href={post.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="fluent-card group flex items-center justify-between gap-3 px-4 py-3.5 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent)] overflow-hidden"
+                      className="group flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-surface)] p-4 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-8)] transition-all duration-200"
                     >
-                      <div className="min-w-0">
-                        <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 truncate">
-                          {post.title}
-                        </h3>
-                        <span className="font-mono text-xs text-[var(--text-muted)]">
-                          {post.source}
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className={`px-2 py-0.5 rounded-[var(--radius-full)] text-[10px] font-medium border ${tagColors[post.tag]}`}>
+                          {post.tag}
+                        </span>
+                        <span className="font-mono text-[10px] text-[var(--text-muted)]">
+                          {post.date.slice(5)}
                         </span>
                       </div>
-                      <span className="font-mono text-xs text-[var(--text-muted)] whitespace-nowrap shrink-0">
-                        {post.date.slice(5)}
+                      <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 line-clamp-2 mb-2 flex-1">
+                        {post.title}
+                      </h3>
+                      <p className="text-xs text-[var(--text-secondary)] leading-relaxed line-clamp-2 mb-2">
+                        {post.summary}
+                      </p>
+                      <span className="text-[10px] text-[var(--text-muted)] mt-auto">
+                        {post.source}
                       </span>
                     </a>
                   ))}
