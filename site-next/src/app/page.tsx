@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { profile, externalPosts } from "@/lib/data";
+import { profile, externalPosts, projects } from "@/lib/data";
 import { GitHubIcon, LinkedInIcon, ArrowRightIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
@@ -89,9 +89,56 @@ export default function Home() {
       {/* ===== DIVIDER ===== */}
       <div className="max-w-[820px] mx-auto px-6"><hr className="border-[var(--border)]" /></div>
 
+      {/* ===== FEATURED WORK ===== */}
+      <section className="max-w-[820px] mx-auto px-6 py-12 animate-fade-in-up opacity-0 animation-delay-300" aria-label="Featured work">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)]">
+            Featured Work
+          </h2>
+          <Link
+            href="/work"
+            className="text-sm font-medium text-[var(--accent)] hover:underline inline-flex items-center gap-1 transition-colors duration-200"
+          >
+            View all
+            <ArrowRightIcon size={12} />
+          </Link>
+        </div>
+
+        <div className="space-y-2">
+          {projects.map((project) => (
+            <Link
+              key={project.slug}
+              href={`/work/${project.slug}`}
+              className="fluent-card group flex items-center justify-between gap-4 px-4 py-3.5 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent)]"
+            >
+              <div className="min-w-0">
+                <h3 className="text-base font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 truncate">
+                  {project.title}
+                </h3>
+                <span className="font-mono text-xs text-[var(--text-muted)]">
+                  {project.team} &middot; {project.stats[0].value} {project.stats[0].label.toLowerCase()}
+                </span>
+              </div>
+              {project.current ? (
+                <span className="shrink-0 px-2 py-0.5 rounded-[var(--radius-md)] text-xs font-semibold font-mono bg-[var(--accent)] text-white">
+                  Current
+                </span>
+              ) : (
+                <span className="font-mono text-xs text-[var(--text-muted)] whitespace-nowrap shrink-0">
+                  {project.period.split(" — ")[1]}
+                </span>
+              )}
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ===== DIVIDER ===== */}
+      <div className="max-w-[820px] mx-auto px-6"><hr className="border-[var(--border)]" /></div>
+
       {/* ===== LATEST POSTS ===== */}
       {posts.length > 0 && (
-        <section className="max-w-[820px] mx-auto px-6 py-12 pb-20 animate-fade-in-up opacity-0 animation-delay-300" aria-label="Latest blog posts">
+        <section className="max-w-[820px] mx-auto px-6 py-12 pb-20 animate-fade-in-up opacity-0 animation-delay-400" aria-label="Latest blog posts">
           <div className="flex items-center justify-between mb-8">
             <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--text-muted)]">
               Recent Posts
