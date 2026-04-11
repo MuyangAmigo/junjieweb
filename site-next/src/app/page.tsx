@@ -11,23 +11,39 @@ export const metadata: Metadata = {
     title: "Junjie Li — Senior Product Manager at Microsoft",
     description: profile.bio,
     url: "https://junjie.li",
-    images: [{ url: "https://junjieblob.blob.core.windows.net/images/profile.jpg", width: 800, height: 800, alt: "Junjie Li" }],
+    images: [
+      {
+        url: "https://junjieblob.blob.core.windows.net/images/ai-toolkit-hero-new.png",
+        width: 1200,
+        height: 630,
+        alt: "Junjie Li — AI Toolkit for VS Code",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Junjie Li — Senior Product Manager at Microsoft",
     description: profile.bio,
+    images: ["https://junjieblob.blob.core.windows.net/images/ai-toolkit-hero-new.png"],
   },
+};
+
+const tagColors: Record<string, string> = {
+  Release: "text-[#22c55e] bg-[#22c55e]/10 border-[#22c55e]/20",
+  Feature: "text-[#a78bfa] bg-[#a78bfa]/10 border-[#a78bfa]/20",
+  Tutorial: "text-[#38bdf8] bg-[#38bdf8]/10 border-[#38bdf8]/20",
+  Integration: "text-[#fb923c] bg-[#fb923c]/10 border-[#fb923c]/20",
+  Announcement: "text-[#f472b6] bg-[#f472b6]/10 border-[#f472b6]/20",
 };
 
 export default function Home() {
   const posts = externalPosts.slice(0, 5);
+  const [featuredPost, ...sidePosts] = posts;
 
   return (
     <div className="max-w-[960px] mx-auto px-6">
       {/* ===== HERO ===== */}
       <section className="pt-12 pb-16 md:pt-20 md:pb-24" aria-label="Introduction">
-        {/* Featured badge */}
         <div className="animate-fade-in-up opacity-0">
           <Link
             href="/work/ai-toolkit"
@@ -38,17 +54,14 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Large display heading */}
         <h1 className="display-heading text-4xl md:text-6xl lg:text-7xl text-[var(--text-primary)] mb-6 max-w-[800px] animate-fade-in-up opacity-0 animation-delay-100">
           Building developer tools that empower millions
         </h1>
 
-        {/* Subheading */}
         <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed max-w-[560px] mb-10 animate-fade-in-up opacity-0 animation-delay-200">
           {profile.bio}
         </p>
 
-        {/* CTA with avatar */}
         <div className="flex flex-wrap items-center gap-3 animate-fade-in-up opacity-0 animation-delay-300">
           <Link
             href="/about"
@@ -72,7 +85,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-full)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] transition-all duration-200"
-              aria-label="GitHub"
+              aria-label="GitHub profile"
             >
               <GitHubIcon size={18} />
             </a>
@@ -81,7 +94,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-full)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] transition-all duration-200"
-              aria-label="LinkedIn"
+              aria-label="LinkedIn profile"
             >
               <LinkedInIcon size={18} />
             </a>
@@ -98,7 +111,6 @@ export default function Home() {
               href={`/work/${featured.slug}`}
               className="group block rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--bg-card)] overflow-hidden hover:border-[var(--border-hover)] transition-all duration-300 hover:shadow-[var(--shadow-16)]"
             >
-              {/* Project hero image */}
               {featured.heroImage && (
                 <div className="aspect-[16/9] overflow-hidden">
                   <Image
@@ -107,6 +119,7 @@ export default function Home() {
                     width={960}
                     height={540}
                     className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                    priority
                   />
                 </div>
               )}
@@ -130,7 +143,7 @@ export default function Home() {
         })()}
       </section>
 
-      {/* ===== LATEST POSTS ===== */}
+      {/* ===== LATEST FROM THE BLOG — Featured 2/3 + 1/3 layout ===== */}
       {posts.length > 0 && (
         <section className="pb-16 md:pb-24 animate-fade-in-up opacity-0 animation-delay-600" aria-label="Latest blog posts">
           <div className="flex items-center gap-4 mb-8">
@@ -141,32 +154,66 @@ export default function Home() {
             <div className="h-px flex-1 bg-[var(--border)]" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-3">
-            {posts.slice(0, 4).map((post) => (
-              <a
-                key={post.url}
-                href={post.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col gap-1.5 p-4 rounded-[var(--radius-lg)] border border-transparent hover:border-[var(--border)] hover:bg-[var(--bg-card)] transition-all duration-200"
-              >
-                <h3 className="text-[15px] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 line-clamp-2">
-                  {post.title}
-                </h3>
-                <p className="text-sm text-[var(--text-secondary)] line-clamp-1">
-                  {post.subtitle}
-                </p>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-xs text-[var(--text-muted)]">
-                    {post.date}
-                  </span>
-                  <span className="text-xs text-[var(--text-muted)]">&middot;</span>
-                  <span className="text-xs text-[var(--text-muted)]">
-                    {post.source}
-                  </span>
-                </div>
-              </a>
-            ))}
+          {/* Featured post (2/3) + side stack (1/3) */}
+          <div className="grid md:grid-cols-[2fr_1fr] gap-3">
+            {/* Featured post — large card */}
+            <a
+              href={featuredPost.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col rounded-[var(--radius-xl)] border border-white/[0.08] bg-white/[0.03] backdrop-blur-[8px] p-6 hover:border-white/[0.14] hover:bg-white/[0.05] transition-all duration-300 hover:shadow-[var(--shadow-16)]"
+            >
+              <div className="flex items-center gap-2.5 mb-4">
+                <span className={`px-2.5 py-0.5 rounded-[var(--radius-full)] text-xs font-medium border ${tagColors[featuredPost.tag]}`}>
+                  {featuredPost.tag}
+                </span>
+                <span className="font-mono text-xs text-[var(--text-muted)]">
+                  {featuredPost.date}
+                </span>
+              </div>
+              <h3 className="text-lg md:text-xl font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-3">
+                {featuredPost.title}
+              </h3>
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4 flex-1">
+                {featuredPost.summary}
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-[var(--text-muted)]">
+                  {featuredPost.source}
+                </span>
+                <span className="inline-flex items-center gap-1 text-sm font-medium text-[var(--accent)]">
+                  Read <ArrowRightIcon size={12} />
+                </span>
+              </div>
+            </a>
+
+            {/* Side stack — compact cards */}
+            <div className="flex flex-col gap-3">
+              {sidePosts.slice(0, 3).map((post) => (
+                <a
+                  key={post.url}
+                  href={post.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col flex-1 rounded-[var(--radius-lg)] border border-white/[0.08] bg-white/[0.03] backdrop-blur-[8px] p-4 hover:border-white/[0.14] hover:bg-white/[0.05] transition-all duration-200"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className={`px-2 py-0.5 rounded-[var(--radius-full)] text-[10px] font-medium border ${tagColors[post.tag]}`}>
+                      {post.tag}
+                    </span>
+                    <span className="font-mono text-[10px] text-[var(--text-muted)]">
+                      {post.date.slice(5)}
+                    </span>
+                  </div>
+                  <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 line-clamp-2 mb-1">
+                    {post.title}
+                  </h3>
+                  <p className="text-xs text-[var(--text-muted)] line-clamp-1 mt-auto">
+                    {post.subtitle}
+                  </p>
+                </a>
+              ))}
+            </div>
           </div>
 
           <div className="text-center mt-6">

@@ -449,7 +449,7 @@ export const projects: Project[] = [
     shortTitle: "AI Toolkit",
     tagline: "Making AI agent development fast and delightful",
     description:
-      "An end-to-end VS Code extension pack that lets developers discover models, build AI agents, evaluate performance, and deploy to cloud — all without leaving their editor.",
+      "AI developers were forced to context-switch between dozens of model provider portals, separate testing tools, and manual deployment pipelines. AI Toolkit unified the entire workflow — discover, build, evaluate, and deploy — inside VS Code, reaching 1M+ installs and becoming the go-to extension for AI agent development.",
     team: "CoreAI",
     period: "Mar 2024 — Present",
     current: true,
@@ -729,7 +729,7 @@ export const projects: Project[] = [
     shortTitle: "M365 Agents Toolkit",
     tagline: "The pro-code toolset for building AI agents across Microsoft 365",
     description:
-      "An end-to-end development experience — scaffold, debug, test, deploy, and publish AI agents and apps for Microsoft 365 Copilot, Teams, Outlook, and Office — all from your IDE.",
+      "Enterprise developers building for Microsoft 365 faced fragmented SDKs, complex auth configuration, and manual cloud provisioning for every new project. The Agents Toolkit streamlined the entire lifecycle — scaffold, debug, deploy, and publish — serving 20K+ monthly active developers across Teams, Copilot, and Outlook.",
     team: "Cloud & AI",
     period: "Sep 2020 — Mar 2024",
     current: false,
