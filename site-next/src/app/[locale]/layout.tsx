@@ -27,7 +27,7 @@ export default async function LocaleLayout({
       <SetLang locale={locale} />
       <Header locale={locale} dict={dict} />
       <main className="flex-1 pt-20">{children}</main>
-      <Footer />
+      <Footer locale={locale} />
       <ScrollToTop />
     </>
   );

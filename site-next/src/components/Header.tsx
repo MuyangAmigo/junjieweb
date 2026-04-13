@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 import type { Dictionary } from "@/i18n/dictionaries/en";
 
 const navIcons = {
@@ -92,7 +92,7 @@ export default function Header({ locale, dict }: HeaderProps) {
   return (
     <>
       {/* Desktop Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 hidden md:flex items-center justify-center h-20 pointer-events-none">
+      <header className="fixed top-0 left-0 right-0 z-50 hidden md:flex items-center justify-center h-20 pointer-events-none" style={{ paddingTop: "env(safe-area-inset-top)" }}>
         <nav
           className={`pointer-events-auto flex items-center gap-1 px-1.5 py-1.5 rounded-[var(--radius-full)] border border-[var(--border)] transition-all duration-300 ${
             scrolled
@@ -117,10 +117,6 @@ export default function Header({ locale, dict }: HeaderProps) {
 
           <div className="w-px h-5 bg-[var(--border)] mx-1" />
 
-          <LanguageSwitcher currentLocale={locale} />
-
-          <div className="w-px h-5 bg-[var(--border)] mx-1" />
-
           <button
             onClick={toggleTheme}
             aria-label={theme === "dark" ? dict.common.switchToLight : dict.common.switchToDark}
@@ -132,7 +128,7 @@ export default function Header({ locale, dict }: HeaderProps) {
       </header>
 
       {/* Mobile Header — fixed bottom */}
-      <div className="fixed bottom-4 left-0 right-0 z-50 flex md:hidden justify-center px-4">
+      <div className="fixed bottom-4 left-0 right-0 z-50 flex md:hidden justify-center px-4" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
         <nav className="flex items-center gap-1 px-2 py-2 rounded-[var(--radius-full)] border border-[var(--border)] bg-[var(--bg-translucent)] backdrop-blur-xl shadow-[var(--shadow-16)]">
           {allNavLinks.map((link) => (
             <Link
@@ -148,10 +144,6 @@ export default function Header({ locale, dict }: HeaderProps) {
               {navIcons[link.key]}
             </Link>
           ))}
-
-          <div className="w-px h-5 bg-[var(--border)] mx-0.5" />
-
-          <LanguageSwitcher currentLocale={locale} />
 
           <div className="w-px h-5 bg-[var(--border)] mx-0.5" />
 
