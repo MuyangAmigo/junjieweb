@@ -41,7 +41,7 @@ export default async function PostsPage({ params }: { params: Promise<{ locale: 
   const years = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
 
   return (
-    <div className="max-w-[960px] mx-auto px-6 py-8 md:py-16">
+    <div className="max-w-[960px] mx-auto px-6 pt-2 pb-8 md:pt-6 md:pb-16">
       <h1 className="display-heading text-3xl md:text-5xl text-[var(--text-primary)] text-center mb-4">{dict.posts.title}</h1>
       <p className="text-center text-[var(--text-secondary)] mb-12">{dict.posts.subtitle}</p>
 

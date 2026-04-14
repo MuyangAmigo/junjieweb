@@ -26,8 +26,12 @@ export default async function LocaleLayout({
     <>
       <SetLang locale={locale} />
       <Header locale={locale} dict={dict} />
-      <main className="flex-1 pt-20">{children}</main>
-      <Footer locale={locale} />
+      <main className="flex-1 pt-16">{children}</main>
+      <Footer
+        locale={locale}
+        switchToLightLabel={dict.common.switchToLight}
+        switchToDarkLabel={dict.common.switchToDark}
+      />
       <ScrollToTop />
     </>
   );

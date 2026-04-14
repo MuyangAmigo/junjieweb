@@ -28,7 +28,7 @@ export default async function PostPage({ params }: { params: Promise<{ locale: s
   if (!post || post.draft) notFound();
 
   return (
-    <article className="max-w-[660px] mx-auto px-6 py-12 md:py-20">
+    <article className="max-w-[660px] mx-auto px-6 pt-4 pb-12 md:pt-8 md:pb-20">
       <Link href={`/${locale}/posts`} className="inline-flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors mb-8">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="m12 19-7-7 7-7" /></svg>
         {dict.posts.backToPosts}

@@ -31,7 +31,7 @@ export default async function Home({
   return (
     <div className="max-w-[960px] mx-auto px-6">
       {/* ===== SECTION A: HERO & FOCUS ===== */}
-      <section className="pt-12 pb-16 md:pt-20 md:pb-20 relative overflow-hidden" aria-label="Introduction">
+      <section className="pt-4 pb-16 md:pt-8 md:pb-20 relative overflow-hidden" aria-label="Introduction">
         {/* Breathing gradient orb */}
         <div className="hero-orb" style={{ top: "20%", left: "70%" }} />
 

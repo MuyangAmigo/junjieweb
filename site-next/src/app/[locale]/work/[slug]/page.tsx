@@ -38,7 +38,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ locale
   const related = localizedProjects.filter((p) => p.slug !== project.slug).slice(0, 1);
 
   return (
-    <div className="max-w-[960px] mx-auto px-6 py-12 md:py-20">
+    <div className="max-w-[960px] mx-auto px-6 pt-4 pb-12 md:pt-8 md:pb-20">
       <Link href={`/${locale}/work`} className="inline-flex items-center gap-1.5 text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-200 mb-8">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></svg>
         {dict.work.backToProjects}

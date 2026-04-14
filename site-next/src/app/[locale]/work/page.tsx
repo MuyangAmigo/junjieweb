@@ -20,7 +20,7 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
   const projects = await getLocalizedProjects(locale as Locale);
 
   return (
-    <div className="max-w-[960px] mx-auto px-6 py-8 md:py-16">
+    <div className="max-w-[960px] mx-auto px-6 pt-2 pb-8 md:pt-6 md:pb-16">
       <h1 className="display-heading text-3xl md:text-5xl text-[var(--text-primary)] text-center mb-12">{dict.work.projects}</h1>
       <div className="space-y-8">
         {projects.map((project) => (

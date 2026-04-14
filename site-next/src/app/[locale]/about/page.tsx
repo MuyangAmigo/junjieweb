@@ -30,7 +30,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   ];
 
   return (
-    <div className="max-w-[960px] mx-auto px-6 py-12 md:py-20">
+    <div className="max-w-[960px] mx-auto px-6 pt-4 pb-12 md:pt-8 md:pb-20">
       <div className="flex gap-16">
         <aside className="hidden lg:block w-[200px] shrink-0">
           <div className="sticky top-24">
