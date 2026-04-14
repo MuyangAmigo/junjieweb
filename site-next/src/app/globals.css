@@ -101,7 +101,13 @@ html.light {
 }
 
 body {
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 18% -8%, rgba(0, 180, 216, 0.16), transparent 30%),
+    radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.08), transparent 24%),
+    radial-gradient(circle at 50% 115%, rgba(0, 180, 216, 0.08), transparent 36%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 34%);
+  background-attachment: fixed;
   color: var(--text-primary);
   font-feature-settings: "rlig" 1, "calt" 1;
   -webkit-font-smoothing: antialiased;
@@ -109,6 +115,16 @@ body {
   letter-spacing: -0.01em;
   line-height: 1.65;
   position: relative;
+  overflow-x: clip;
+}
+
+.light body {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 18% -8%, rgba(8, 145, 178, 0.12), transparent 28%),
+    radial-gradient(circle at 82% 10%, rgba(14, 116, 144, 0.08), transparent 22%),
+    radial-gradient(circle at 50% 115%, rgba(8, 145, 178, 0.06), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(248, 250, 252, 0.92) 100%);
 }
 
 /* Blueprint dot-matrix — 40px grid, barely visible */
@@ -120,12 +136,12 @@ body::before {
   pointer-events: none;
   background-image: radial-gradient(circle, #ffffff 0.5px, transparent 0.5px);
   background-size: 40px 40px;
-  opacity: 0.03;
+  opacity: 0.05;
 }
 
 .light body::before {
   background-image: radial-gradient(circle, #000000 0.5px, transparent 0.5px);
-  opacity: 0.025;
+  opacity: 0.04;
 }
 
 body > * {

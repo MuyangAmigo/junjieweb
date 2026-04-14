@@ -31,52 +31,54 @@ export default async function Home({
   return (
     <div className="max-w-[960px] mx-auto px-6">
       {/* ===== SECTION A: HERO & FOCUS ===== */}
-      <section className="pt-12 pb-16 md:pt-20 md:pb-20 relative text-center" aria-label="Introduction">
+      <section className="pt-12 pb-16 md:pt-20 md:pb-20 relative overflow-hidden" aria-label="Introduction">
         {/* Breathing gradient orb */}
         <div className="hero-orb" style={{ top: "20%", left: "70%" }} />
 
-        <h1 className="display-heading text-4xl md:text-6xl lg:text-7xl text-[var(--text-primary)] mb-6 max-w-[800px] mx-auto animate-fade-in-up opacity-0 relative z-1">
-          {dict.home.heroHeading}
-        </h1>
+        <div className="relative z-1 max-w-[800px] mx-auto text-left">
+          <h1 className="display-heading text-4xl md:text-6xl lg:text-7xl text-[var(--text-primary)] mb-6 max-w-[800px] animate-fade-in-up opacity-0">
+            {dict.home.heroHeading}
+          </h1>
 
-        <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-[1.7] max-w-[600px] mx-auto mb-6 animate-fade-in-up opacity-0 animation-delay-100">
-          {dict.home.heroSubtitle}
-        </p>
+          <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-[1.7] max-w-[600px] mb-6 animate-fade-in-up opacity-0 animation-delay-100">
+            {dict.home.heroSubtitle}
+          </p>
 
-        <div className="animate-fade-in-up opacity-0 animation-delay-200 mb-10">
-          <Link
-            href={`/${locale}/work/ai-toolkit`}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-[var(--radius-full)] bg-[var(--accent-subtle)] border border-[var(--accent)]/20 text-sm text-[var(--accent)] font-medium hover:bg-[var(--accent)]/15 transition-colors duration-200"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
-            {dict.home.currentFocus}
-          </Link>
-        </div>
+          <div className="animate-fade-in-up opacity-0 animation-delay-200 mb-10">
+            <Link
+              href={`/${locale}/work/ai-toolkit`}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-[var(--radius-full)] bg-[var(--accent-subtle)] border border-[var(--accent)]/20 text-sm text-[var(--accent)] font-medium hover:bg-[var(--accent)]/15 transition-colors duration-200"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+              {dict.home.currentFocus}
+            </Link>
+          </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 animate-fade-in-up opacity-0 animation-delay-300">
-          <Link
-            href={`/${locale}/about`}
-            className="group inline-flex items-center gap-3 pl-1.5 pr-5 py-1.5 rounded-[var(--radius-full)] bg-[var(--bg-surface)] border border-[var(--border)] hover:border-[var(--border-hover)] hover:bg-[var(--bg-muted)] transition-all duration-200"
-          >
-            <Image
-              src="https://junjieblob.blob.core.windows.net/images/profile.jpg"
-              alt={profile.name}
-              width={36}
-              height={36}
-              className="rounded-full object-cover"
-              style={{ width: 36, height: 36, objectPosition: "85% 10%" }}
-              priority
-            />
-            <span className="text-sm font-medium text-[var(--text-primary)]">{dict.home.aboutMe}</span>
-            <ArrowRightIcon size={14} />
-          </Link>
-          <div className="flex items-center gap-1.5">
-            <a href={profile.github} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-full)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] transition-all duration-200" aria-label={dict.common.githubProfile}>
-              <GitHubIcon size={18} />
-            </a>
-            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-full)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] transition-all duration-200" aria-label={dict.common.linkedinProfile}>
-              <LinkedInIcon size={18} />
-            </a>
+          <div className="flex flex-wrap items-center gap-3 animate-fade-in-up opacity-0 animation-delay-300">
+            <Link
+              href={`/${locale}/about`}
+              className="group inline-flex items-center gap-3 pl-1.5 pr-5 py-1.5 rounded-[var(--radius-full)] bg-[var(--bg-surface)] border border-[var(--border)] hover:border-[var(--border-hover)] hover:bg-[var(--bg-muted)] transition-all duration-200"
+            >
+              <Image
+                src="https://junjieblob.blob.core.windows.net/images/profile.jpg"
+                alt={profile.name}
+                width={36}
+                height={36}
+                className="rounded-full object-cover"
+                style={{ width: 36, height: 36, objectPosition: "85% 10%" }}
+                priority
+              />
+              <span className="text-sm font-medium text-[var(--text-primary)]">{dict.home.aboutMe}</span>
+              <ArrowRightIcon size={14} />
+            </Link>
+            <div className="flex items-center gap-1.5">
+              <a href={profile.github} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-full)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] transition-all duration-200" aria-label={dict.common.githubProfile}>
+                <GitHubIcon size={18} />
+              </a>
+              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-full)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-muted)] transition-all duration-200" aria-label={dict.common.linkedinProfile}>
+                <LinkedInIcon size={18} />
+              </a>
+            </div>
           </div>
         </div>
       </section>
