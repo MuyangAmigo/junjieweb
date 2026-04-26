@@ -132,6 +132,24 @@ export interface ExternalPost {
 
 export const externalPosts: ExternalPost[] = [
   {
+    title: "Microsoft Foundry Toolkit for VS Code is Now Generally Available",
+    date: "2026-04-16",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/microsoft-foundry-toolkit-for-vs-code-is-now-generally-available/4511831",
+    source: "Microsoft Tech Community",
+    subtitle: "AI Toolkit rebrands to Foundry Toolkit and reaches GA",
+    summary: "The Microsoft Foundry Toolkit for VS Code (formerly AI Toolkit) is now generally available. The GA release unifies the developer experience around a curated 100+ model playground, no-code/low-code agent builder, GitHub Copilot integration, advanced debugging, and edge-optimized Phi model deployment — all directly inside VS Code.",
+    tag: "Announcement",
+  },
+  {
+    title: "⚡ Foundry Toolkit for VS Code: A Deep Dive on GA",
+    date: "2026-04-17",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/%E2%9A%A1foundry-toolkit-for-vs-code-a-deep-dive-on-ga/4509510",
+    source: "Microsoft Tech Community",
+    subtitle: "End-to-end tour of the GA toolkit — models, agents, evals, and edge",
+    summary: "A deep dive into the GA release walks through exploring 100+ models, prototyping no-code agents, building production-ready agents with full debugging, running evaluations, and optimizing models for edge devices across AMD, NVIDIA, Intel, and Qualcomm hardware.",
+    tag: "Tutorial",
+  },
+  {
     title: "🚀 AI Toolkit for VS Code — March 2026 Update",
     date: "2026-03-16",
     url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/%F0%9F%9A%80-ai-toolkit-for-vs-code-%E2%80%94-march-2026-update/4502517",

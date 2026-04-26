@@ -1,5 +1,17 @@
 export const postOverlays = [
   {
+    title: "Microsoft Foundry Toolkit for VS Code 正式发布",
+    subtitle: "AI Toolkit 更名为 Foundry Toolkit 并迎来 GA",
+    summary:
+      "Microsoft Foundry Toolkit for VS Code（前身为 AI Toolkit）现已正式发布（GA）。本次 GA 版本统一了开发者体验，提供精选的 100+ 模型 Playground、无代码/低代码 Agent Builder、GitHub Copilot 集成、高级调试能力，以及面向边缘设备的 Phi 模型优化部署，全部直接在 VS Code 中完成。",
+  },
+  {
+    title: "⚡ Foundry Toolkit for VS Code：GA 深度解析",
+    subtitle: "GA 版本端到端导览——模型、代理、评估与边缘",
+    summary:
+      "本文深度解读 GA 版本，带你从浏览 100+ 模型、无代码原型化代理、构建可调试的生产级代理、运行评估，到为 AMD、NVIDIA、Intel 和 Qualcomm 等多种硬件的边缘设备优化模型，完整体验工具包能力。",
+  },
+  {
     title: "AI Toolkit for VS Code -- 2026 年 3 月更新",
     subtitle: "统一侧边栏、无代码 Agent Builder 及 Foundry 集成",
     summary:

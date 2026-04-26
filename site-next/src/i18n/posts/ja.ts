@@ -1,5 +1,17 @@
 export const postOverlays = [
   {
+    title: "Microsoft Foundry Toolkit for VS Code が一般提供を開始",
+    subtitle: "AI Toolkit が Foundry Toolkit に改称し GA に到達",
+    summary:
+      "Microsoft Foundry Toolkit for VS Code（旧 AI Toolkit）が一般提供（GA）となりました。本 GA リリースでは、厳選された 100 以上のモデルを試せる Playground、ノーコード/ローコード Agent Builder、GitHub Copilot 統合、高度なデバッグ機能、エッジ向けに最適化された Phi モデル展開を VS Code 内で統一的に提供します。",
+  },
+  {
+    title: "⚡ Foundry Toolkit for VS Code：GA 徹底解説",
+    subtitle: "GA リリースのエンドツーエンドツアー — モデル、エージェント、評価、エッジ",
+    summary:
+      "GA リリースを徹底解説し、100 以上のモデルの探索、ノーコードでのエージェント試作、デバッグ可能な本番品質エージェントの構築、評価の実行、AMD・NVIDIA・Intel・Qualcomm など多様なハードウェア上のエッジデバイス向けモデル最適化までをひと通り紹介します。",
+  },
+  {
     title: "AI Toolkit for VS Code -- 2026年3月アップデート",
     subtitle: "統合サイドバー、ノーコード Agent Builder、Foundry 統合",
     summary:
