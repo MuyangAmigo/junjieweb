@@ -60,12 +60,12 @@ export default async function Home({
               className="group inline-flex items-center gap-3 pl-1.5 pr-5 py-1.5 rounded-[var(--radius-full)] bg-[var(--bg-surface)] border border-[var(--border)] hover:border-[var(--border-hover)] hover:bg-[var(--bg-muted)] transition-all duration-200"
             >
               <Image
-                src="https://junjieblob.blob.core.windows.net/images/profile.jpg"
+                src="https://junjieblob.blob.core.windows.net/images/profile_photo.jpeg"
                 alt={profile.name}
                 width={36}
                 height={36}
                 className="rounded-full object-cover"
-                style={{ width: 36, height: 36, objectPosition: "85% 10%" }}
+                style={{ width: 36, height: 36 }}
                 priority
               />
               <span className="text-sm font-medium text-[var(--text-primary)]">{dict.home.aboutMe}</span>
