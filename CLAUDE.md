@@ -176,7 +176,7 @@ site-next/
       get-localized-data.ts   # Overlay merger for data translations
       dictionaries/{en,zh,ja}.ts  # ~50 UI strings per locale
       data/{en,zh,ja}.ts      # Profile, experience, education, skills translations
-      posts/{en,zh,ja}.ts     # 24 post title/subtitle/summary translations
+      posts/{en,zh,ja}.ts     # 26 post title/subtitle/summary translations
       projects/{en,zh,ja}.ts  # 2 project case study translations (all 7 sections)
     lib/
       data.ts                 # Base data: profile, experience, education, skills, posts, projects
@@ -221,7 +221,7 @@ When reviewing notes for publishing, **do NOT publish** notes containing:
 - Chat/messaging conversations (WeChat, etc.)
 - Performance ratings or salary information
 
-Notes in `Notes/Career/` have been reviewed. Previously published 18 local articles (now unlisted). Blog section now links to 24 external posts on Microsoft developer blogs. Certain sensitive files are kept private.
+Notes in `Notes/Career/` have been reviewed. Previously published 18 local articles (now unlisted). Blog section now links to 26 external posts on Microsoft developer blogs. Certain sensitive files are kept private.
 
 ## Migration Status
 

@@ -31,6 +31,9 @@ scripts/*.csv
 # Profile photo (served from Azure Blob Storage)
 site-next/public/profile.jpg
 
+# Local media source folder (uploaded to Azure, not committed)
+assets/
+
 # Environment secrets
 .env
 
