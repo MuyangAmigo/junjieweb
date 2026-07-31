@@ -28,10 +28,8 @@ scripts/rename-images.py
 scripts/fix-images-and-convert-links.py
 scripts/*.csv
 
-# Profile photo (served from Azure Blob Storage)
-site-next/public/profile.jpg
-
-# Local media source folder (uploaded to Azure, not committed)
+# Local media source folder (originals; optimized copies live in
+# site-next/public/images and are what actually ship)
 assets/
 
 # Environment secrets

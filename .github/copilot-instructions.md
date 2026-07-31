@@ -1,6 +1,6 @@
 # Copilot Instructions
 
-Personal website (resume + blog) with an Obsidian vault publishing pipeline, deployed on Azure Static Web Apps.
+Personal website (resume + blog) with an Obsidian vault publishing pipeline, deployed on GitHub Pages.
 
 ## Build & Dev Commands
 
@@ -19,10 +19,10 @@ No test suite or linter is configured. The build itself is the primary validatio
 ### Three-layer system
 
 1. **Obsidian vault** (iCloud, not in git) — Notes authored in Obsidian. Path set via `VAULT_PATH` in `.env`.
-2. **Publishing scripts** (`scripts/`) — Python/bash tools transform vault notes into site content and sync media to Azure Blob Storage.
-3. **Next.js site** (`site-next/`) — Static site with App Router, deployed to Azure Static Web Apps via GitHub Actions.
+2. **Publishing scripts** (`scripts/`) — Python/bash tools transform vault notes into site content and stage media into the site.
+3. **Next.js site** (`site-next/`) — Static site with App Router, deployed to GitHub Pages via GitHub Actions.
 
-Content flows one direction: Vault → scripts → `site-next/` → CI/CD → Azure.
+Content flows one direction: Vault → scripts → `site-next/` → CI/CD → GitHub Pages.
 
 ### Site data model
 
@@ -37,12 +37,12 @@ Legacy local markdown posts exist in `site-next/content/posts/` but are unlisted
 | `scripts/publish.sh` | One-command publish: runs `obsidian-to-hugo.py`, commits, pushes |
 | `scripts/obsidian-to-hugo.py` | Transforms vault notes with `publish: true` frontmatter → `site-next/content/posts/` |
 | `scripts/fetch-external-posts.mjs` | Scrapes Microsoft blogs → updates `externalPosts` in `data.ts` |
-| `scripts/sync-media.py` | Uploads new media to Azure Blob Storage, rewrites note references |
-| `scripts/upload-media.sh` | Upload a single file to Azure Blob, prints markdown embed |
+| `scripts/add-media.sh` | Copy an image into `site-next/public/images`, optimize it, print the markdown embed |
+| `site-next/scripts/optimize-images.mjs` | Downscale + recompress `public/images` (idempotent via content-hash manifest) |
 
 ### CI/CD
 
-Push to `main` → GitHub Actions → `npm ci` + `npx next build` in `site-next/` → deploys `site-next/out/` to Azure Static Web Apps. There is also a manual "Fetch External Posts" workflow that scrapes blogs and opens a PR.
+Push to `main` → GitHub Actions → `npm ci` + `npm run build` in `site-next/` → uploads `site-next/out/` as a Pages artifact → `actions/deploy-pages` publishes it to `junjie.li`. Pull requests build but do not deploy. There is also a manual "Fetch External Posts" workflow that scrapes blogs and opens a PR.
 
 ## Conventions
 
@@ -67,7 +67,7 @@ Theme toggle adds `.light` class to `<html>`. Both dark and light token sets are
 
 ### Media handling
 
-Media files (images, videos, documents) are stored in **Azure Blob Storage**, never committed to git. References use full Azure Blob URLs: `https://<account>.blob.core.windows.net/<container>/<filename>`.
+Site images live in `site-next/public/images/` and are referenced as `/images/<filename>`. They ship with the site, so run `npm run optimize:images` in `site-next/` after adding any — the build sets `images.unoptimized: true`, meaning committed bytes are exactly what visitors download. Keep the vault's full `Attachments/` library out of git; copy in only what a post actually uses.
 
 ### Path alias
 

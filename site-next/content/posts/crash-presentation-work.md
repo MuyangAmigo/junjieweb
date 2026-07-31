@@ -21,7 +21,7 @@ If you're going to be funny, make sure the joke lands by being relevant to who's
 
 > "Simplicity is the ultimate sophistication" — Leonardo da Vinci
 
-![leonardo da vinci simplicity quote](https://junjieblob.blob.core.windows.net/images/leonardo-da-vinci-simplicity-quote.png)
+![leonardo da vinci simplicity quote](/images/leonardo-da-vinci-simplicity-quote.png)
 
 Rule of thumb:
 - Only put **primary points** on slides — the key takeaways, short and memorable

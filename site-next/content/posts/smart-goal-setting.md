@@ -19,7 +19,7 @@ The classic framework for setting goals that actually stick. Simple, but surpris
 | **R** | Relevant | 有相关性的 |
 | **T** | Time-bound | 有时限的 |
 
-![smart goals study plan table](https://junjieblob.blob.core.windows.net/images/smart-goals-study-plan-table.jpeg)
+![smart goals study plan table](/images/smart-goals-study-plan-table.jpeg)
 
 ## Why This Matters
 

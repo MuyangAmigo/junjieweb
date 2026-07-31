@@ -14,7 +14,7 @@ title: 20 Career Development Tips — Notes from a Knowledge Planet
 
 > **TLDR:** A collection of 20 hard-won observations about work, learning, time, relationships, and career. Ranges from tactical (track your time) to philosophical (find your own joy). Worth re-reading periodically.
 
-![stairway to the clouds](https://junjieblob.blob.core.windows.net/images/stairway-to-the-clouds.png)
+![stairway to the clouds](/images/stairway-to-the-clouds.png)
 
 These came from a "知识星球" Q&A collection — 780 questions answered in one season. The best insights are below.
 

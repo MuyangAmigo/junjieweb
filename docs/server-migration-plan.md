@@ -1,5 +1,10 @@
 # Next.js Server Mode Migration Plan
 
+> **Superseded (2026-07-31).** This plan was never adopted. The site moved in the
+> opposite direction: it stayed a static export and was migrated off Azure entirely
+> onto GitHub Pages, with media moved from Blob Storage into `site-next/public/images`.
+> Kept for historical context — do not action the checklists below.
+
 Drafted 2026-03-28. Migrate from static export (`output: "export"` on Azure Static Web Apps) to full Next.js server mode on Azure, enabling API routes, SSR, and middleware.
 
 ---

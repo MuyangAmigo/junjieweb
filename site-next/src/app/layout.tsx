@@ -13,6 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // Required so the relative OG/Twitter image paths below resolve to absolute
+  // URLs — crawlers reject relative ones.
+  metadataBase: new URL("https://junjie.li"),
   title: {
     default: "Junjie Li \u2014 Senior Product Manager at Microsoft",
     template: "%s | Junjie Li",
@@ -30,9 +33,9 @@ export const metadata: Metadata = {
     description: "Building AI developer tools that reach 1M+ developers.",
     images: [
       {
-        url: "https://junjieblob.blob.core.windows.net/images/ai-toolkit-hero-new.png",
-        width: 1200,
-        height: 630,
+        url: "/images/ai-toolkit-hero-new.png",
+        width: 1920,
+        height: 1280,
         alt: "Junjie Li \u2014 AI Toolkit for VS Code",
       },
     ],
@@ -41,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Junjie Li \u2014 Senior Product Manager at Microsoft",
     description: "Building AI developer tools that reach 1M+ developers.",
-    images: ["https://junjieblob.blob.core.windows.net/images/ai-toolkit-hero-new.png"],
+    images: ["/images/ai-toolkit-hero-new.png"],
   },
 };
 

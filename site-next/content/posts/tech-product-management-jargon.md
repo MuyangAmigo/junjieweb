@@ -9,7 +9,7 @@ title: Tech Product Management Jargon
 
 A collection of buzzwords and 行话 that you hear constantly in Chinese tech companies. Half of these are genuinely useful frameworks. The other half are just... vibes.
 
-![abstract digital workspace](https://junjieblob.blob.core.windows.net/images/abstract-digital-workspace.png)
+![abstract digital workspace](/images/abstract-digital-workspace.png)
 
 ## The Full List
 

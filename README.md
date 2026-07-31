@@ -6,13 +6,13 @@
 
 [![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![Tailwind](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Azure](https://img.shields.io/badge/Azure_Static_Web_Apps-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/en-us/products/app-service/static)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-222222?style=for-the-badge&logo=githubpages&logoColor=white)](https://pages.github.com/)
 
 </div>
 
 ---
 
-A personal website with resume/portfolio and blog, built with Next.js and deployed on Azure Static Web Apps.
+A personal website with resume/portfolio and blog, built with Next.js and deployed on GitHub Pages.
 
 ## Tech Stack
 
@@ -22,8 +22,8 @@ A personal website with resume/portfolio and blog, built with Next.js and deploy
 | Styling | Tailwind CSS v4 with Fluent UI design tokens |
 | Fonts | Inter + JetBrains Mono |
 | Blog | External posts from Microsoft developer blogs |
-| Deployment | Azure Static Web Apps, GitHub Actions CI/CD |
-| Media | Azure Blob Storage |
+| Deployment | GitHub Pages, GitHub Actions CI/CD |
+| Media | `site-next/public/images`, served with the site |
 
 ## Repository Structure
 
@@ -33,8 +33,20 @@ site-next/              # Next.js personal site
   src/components/       #   Header, Footer
   src/lib/              #   Resume data, external posts data
   content/posts/        #   Blog post markdown files
-scripts/                # Publishing and media sync scripts
+  public/images/        #   Site media (referenced as /images/<file>)
+  scripts/              #   Image optimizer
+scripts/                # Publishing and media helper scripts
 .github/workflows/      # CI/CD pipeline
+```
+
+## Local Development
+
+```bash
+cd site-next
+npm install
+npm run dev              # http://localhost:3000
+npm run build            # static export to site-next/out
+npm run optimize:images  # run after adding images to public/images
 ```
 
 ---
