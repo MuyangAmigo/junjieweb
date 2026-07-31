@@ -1,0 +1,76 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Allow the deploy job to mint an OIDC token and publish to Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; let an in-flight run finish rather than
+# cancelling it mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: site-next/package-lock.json
+
+      - name: Install dependencies
+        working-directory: site-next
+        run: npm ci
+
+      - name: Build static export
+        working-directory: site-next
+        run: npm run build
+
+      # The site is served from a subpath, and the URLs Next does not rewrite
+      # itself (unoptimized next/image, markdown HTML, metadata) only 404 once
+      # deployed. Fail the build here instead of discovering it in production.
+      - name: Verify exported links
+        working-directory: site-next
+        run: npm run verify:export
+
+      # Pages' Actions-based deployment serves the artifact as-is, but this
+      # also keeps the output correct if it is ever published from a branch,
+      # where Jekyll would otherwise strip the _next/ directory.
+      - name: Disable Jekyll processing
+        run: touch site-next/out/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site-next/out
+
+  deploy:
+    # Pull requests build only — publishing happens on main.
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    name: Deploy
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

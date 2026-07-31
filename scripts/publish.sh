@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Publish blog posts: transform notes → commit → push
-# Vault lives at VAULT_PATH (set in .env). Images are already Azure Blob URLs.
+# Vault lives at VAULT_PATH (set in .env). Images are already site-relative /images/ URLs.
 # Usage: ./scripts/publish.sh
 
 set -euo pipefail

@@ -30,9 +30,9 @@ Apple heavily uses centered, symmetrical layouts across their product pages. Eve
 
 When two content blocks appear one after another on a long page, they're arranged in a subtle **triangle structure**.
 
-![figma triangle layout diagram](https://junjieblob.blob.core.windows.net/images/figma-triangle-layout-diagram.png)
+![figma triangle layout diagram](/images/figma-triangle-layout-diagram.png)
 
-![figma triangle layout tutorial](https://junjieblob.blob.core.windows.net/images/figma-triangle-layout-tutorial.png)
+![figma triangle layout tutorial](/images/figma-triangle-layout-tutorial.png)
 
 **Why it works:**
 - Creates guided reading — pulls the eye downward naturally

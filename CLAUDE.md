@@ -4,10 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A personal website (resume + blog) with a publishing pipeline from an Obsidian vault, deployed on Azure Static Web Apps.
+A personal website (resume + blog) with a publishing pipeline from an Obsidian vault, deployed on GitHub Pages.
 
 - **Vault** (iCloud, not git): Obsidian notes (path configured via `VAULT_PATH` in `.env`)
-- **Media** (Azure only): Images, videos, documents — stored in Azure Blob Storage, not in git
+- **Media** (in git): Images live in `site-next/public/images/` and ship with the site
 - **Website** (auto-deployed): Next.js site with resume/portfolio + blog, CI/CD via GitHub Actions
 
 ## Site Architecture
@@ -37,32 +37,36 @@ All pages are under `[locale]/` prefix (en, zh, ja). Root `/` redirects to `/en`
 
 ### GitHub & Deployment
 
-- **CI/CD**: Push to `main` → GitHub Actions installs deps → `npx next build` → deploys `site-next/out/` to Azure Static Web Apps
-- **Media storage**: Azure Blob Storage (account and container configured via `AZURE_STORAGE_ACCOUNT` and `AZURE_STORAGE_CONTAINER` env vars)
-  - Images: `https://<account>.blob.core.windows.net/<container>/<filename>`
-  - Videos: `https://<account>.blob.core.windows.net/<container>/videos/<filename>`
-  - Documents: `https://<account>.blob.core.windows.net/<container>/documents/<filename>`
+- **CI/CD**: Push to `main` → GitHub Actions installs deps → `npm run build` → uploads `site-next/out/` as a Pages artifact → `actions/deploy-pages` publishes it. Pull requests build but do not deploy.
+- **URL**: <https://muyangamigo.github.io/junjieweb/> — a project page, so the site is served from
+  the `/junjieweb` subpath rather than the domain root.
+- **Base path**: `BASE_PATH` in `site-next/next.config.ts` is the single source of truth. It feeds
+  Next's own `basePath` and is re-exported through `env` so `src/lib/base-path.ts` can prefix the
+  URLs Next does *not* rewrite. To move to a custom domain, set it to `""` — that is the only edit
+  required, since no content or component hardcodes the prefix.
+- **Media storage**: `site-next/public/images/`, served from the site itself at `/images/<filename>`.
+  Run `npm run optimize:images` in `site-next/` after adding files — the site builds with
+  `images.unoptimized: true`, so committed bytes are exactly what visitors download.
 
 ### What's Tracked in Git
 
 ```
-.github/workflows/azure-static-web-apps.yml  # CI/CD pipeline (deploy on push to main)
+.github/workflows/github-pages.yml  # CI/CD pipeline (build + deploy on push to main)
 .github/workflows/fetch-posts.yml             # Manual workflow: fetch external posts → PR
 .gitignore
 CLAUDE.md
 scripts/obsidian-to-hugo.py    # Transforms vault notes → blog posts (outputs to site-next/)
 scripts/publish.sh             # One-command publish workflow
-scripts/sync-media.py          # Detect new media, upload to Azure, fix note refs
-scripts/upload-media.sh        # Upload media to Azure, get markdown embed
+scripts/add-media.sh           # Copy an image into the site, optimize, print markdown embed
 scripts/fetch-external-posts.mjs  # Fetch posts from Microsoft blogs → update data.ts
-scripts/migrate-attachments-to-azure.sh  # One-time bulk upload (migration, reference only)
-scripts/migrate-note-links.py  # One-time link rewriter (migration, reference only)
 docs/                          # Site improvement plans and documentation
 site-next/                     # Active Next.js personal site
-  public/                      # Static assets (currently empty; profile photo served from Azure)
+  public/images/               # Site media (served at /images/<filename>)
+  scripts/optimize-images.mjs  # Downscale + recompress public/images (idempotent)
+  scripts/verify-export.mjs    # Post-build link check (catches missing base path)
   src/app/                     # App Router pages (home, about, posts, post detail)
-  src/components/              # Header, Footer, Icons
-  src/lib/                     # Data (resume info), posts (markdown reader)
+  src/components/              # Header, Footer, Icons, SiteImage
+  src/lib/                     # Data (resume info), posts (markdown reader), base-path helpers
   content/posts/               # Generated blog posts (markdown)
   next.config.ts               # Static export config
   postcss.config.mjs           # Tailwind CSS v4
@@ -72,7 +76,7 @@ site-next/                     # Active Next.js personal site
 ### What's NOT in Git
 
 - `Notes/`, `Journal/`, `Yearbook/` — vault content lives in iCloud (see Vault path above)
-- `Attachments/` — media files (images, videos, docs) are in Azure Blob Storage
+- `Attachments/` — vault media originals; only what the site uses is copied into `site-next/public/images/`
 - `.obsidian/` — Obsidian app config (optional, local only)
 - `site-next/.next/`, `site-next/out/`, `site-next/node_modules/` — Next.js build artifacts
 - Backup dirs, CSV mappings, vault-only scripts
@@ -84,13 +88,13 @@ site-next/                     # Active Next.js personal site
 **One-time setup** (after cloning repo):
 ```bash
 cp .env.example .env
-# Edit .env — set VAULT_PATH to your Obsidian vault and AZURE_STORAGE_ACCOUNT to your storage account
+# Edit .env — set VAULT_PATH to your Obsidian vault
 ```
 
 **Adding media to a note**:
 ```bash
-./scripts/upload-media.sh path/to/image.png
-# → Uploads to Azure, prints markdown to paste into your note
+./scripts/add-media.sh path/to/image.png
+# → Copies into site-next/public/images, optimizes, prints markdown to paste into your note
 ```
 
 **Local development**:
@@ -121,16 +125,18 @@ Note: `publish.sh` (or `obsidian-to-hugo.py`) must run first to generate posts i
 - Runs `obsidian-to-hugo.py`
 - Commits and pushes generated posts
 
-**`scripts/sync-media.py`** — Ongoing media sync:
-- Detects new files in `Attachments/` not yet on Azure (compares against remote blob list)
-- Uploads new files to Azure Blob Storage
-- Rewrites `![[wikilink]]` and relative-path references in notes to Azure Blob URLs
-- Flags: `--dry-run`, `--upload-only`, `--rewrite-only`
+**`scripts/add-media.sh`** — Media helper:
+- Copies an image into `site-next/public/images/`
+- Runs the optimizer over it
+- Prints the markdown embed (`/images/<filename>`) for copy-paste into notes
+- Refuses to overwrite an existing file
 
-**`scripts/upload-media.sh`** — Media upload helper:
-- Uploads a file to Azure Blob Storage (auto-detects type → correct path prefix)
-- Prints markdown embed for copy-paste into notes
-- Skips if file already exists on Azure
+**`site-next/scripts/optimize-images.mjs`** — Image optimizer:
+- Downscales to 1920px max width and recompresses (PNG palette / mozjpeg)
+- Keeps the original whenever "optimizing" would make the file bigger
+- Idempotent: processed files are tracked by content hash in `scripts/image-manifest.json`,
+  which matters because both codecs are lossy and would degrade on every re-run
+- Run: `cd site-next && npm run optimize:images` (flags: `--max-width`, `--dry-run`, `--force`)
 
 **`scripts/fetch-external-posts.mjs`** — External post indexer:
 - Fetches posts from Microsoft 365 Developer Blog and Microsoft Tech Community
@@ -182,7 +188,7 @@ site-next/
       data.ts                 # Base data: profile, experience, education, skills, posts, projects
       posts.ts                # Markdown post reader (gray-matter + remark, legacy)
   content/posts/              # Legacy blog post markdown files (18 posts)
-  next.config.ts              # Static export for Azure Static Web Apps
+  next.config.ts              # Static export for GitHub Pages
 ```
 
 ## Vault Structure
@@ -200,8 +206,14 @@ Attachments/    # Local only — Images/, Videos/, Documents/, Other/ (not in gi
 ## Key Constraints
 
 - Only files with `publish: true` in frontmatter are published to the blog
-- Media (images, videos, docs) must never be committed to git — use Azure Blob Storage
-- All media references in notes use Azure Blob Storage URLs (not local paths)
+- Site media lives in `site-next/public/images/` and is referenced as `/images/<filename>`
+- Run `npm run optimize:images` after adding images — nothing resizes them at request time
+- Use `SiteImage` (`src/components/SiteImage.tsx`), never `next/image` directly. Static export
+  forces `images.unoptimized`, and that loader emits `src` verbatim without applying `basePath`,
+  so a bare `next/image` 404s on the deployed subpath while looking fine in `next dev`
+- Any URL Next does not generate itself — markdown HTML, metadata, meta refresh targets — needs
+  `withBasePath` from `src/lib/base-path.ts`. `npm run verify:export` catches misses after a build
+- Keep the vault's full `Attachments/` library out of git; copy in only what a post actually uses
 - Obsidian wikilinks `[[filename]]` are still used for note-to-note links (converted to plain text for blog)
 - Sensitive data (`.env`, credentials) must never be committed
 - Resume/profile data lives in `site-next/src/lib/data.ts` — update there for career changes
@@ -244,8 +256,18 @@ Notes in `Notes/Career/` have been reviewed. Previously published 18 local artic
 **Attachments → Azure Blob Storage migration** completed 2026-03-22:
 - 590 media files uploaded (572 images, 9 videos, 9 documents)
 - 126 note files rewritten from local paths to Azure Blob URLs
-- Migration scripts kept for reference but should not need to run again
-- Ongoing media sync is handled by `sync-media.py`
+- Superseded by the GitHub Pages migration below; kept for historical context only
+
+**Azure → GitHub Pages migration** completed 2026-07-31:
+- Deployment moved from Azure Static Web Apps to GitHub Pages (`github-pages.yml`)
+- The 19 images the site actually uses were pulled out of Blob Storage into
+  `site-next/public/images/` and optimized (26.1 MB → 6.0 MB)
+- Azure media scripts (`sync-media.py`, `upload-media.sh`, `migrate-*`) deleted;
+  `add-media.sh` + `optimize-images.mjs` replace them
+- Root `/` now uses a meta refresh — `redirect()` silently produces an error shell
+  under `output: "export"`
+- `metadataBase` added so OG/Twitter image URLs resolve absolutely
+- Azure Static Web Apps resource and the Blob Storage account can now be deleted
 
 **Work section + Spatial UI redesign** completed 2026-04-12:
 - Added Work section with 2 project case studies (AI Toolkit, M365 Agents Toolkit) generated via PM Portfolio Generator

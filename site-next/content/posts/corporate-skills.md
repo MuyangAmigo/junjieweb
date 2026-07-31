@@ -9,7 +9,7 @@ title: Corporate Skills
 
 A collection of frameworks for more effective workplace communication. Less about soft skills fluff, more about concrete techniques.
 
-![corporate skills presentation icons](https://junjieblob.blob.core.windows.net/images/corporate-skills-presentation-icons.png)
+![corporate skills presentation icons](/images/corporate-skills-presentation-icons.png)
 
 ## Storytelling
 

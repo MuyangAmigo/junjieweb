@@ -17,7 +17,7 @@ The trick is creating a repo with the same name as your GitHub username — what
 
 ## A Good Example
 
-![matic vetracnik portfolio profile](https://junjieblob.blob.core.windows.net/images/matic-vetracnik-portfolio-profile.png)
+![matic vetracnik portfolio profile](/images/matic-vetracnik-portfolio-profile.png)
 
 Clean, personal, shows work samples and personality without being cluttered. This is the energy to aim for.
 

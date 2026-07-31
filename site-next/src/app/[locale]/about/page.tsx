@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import SiteImage from "@/components/SiteImage";
 import { profile } from "@/lib/data";
 import { GitHubIcon, LinkedInIcon, EmailIcon } from "@/components/Icons";
 import { isValidLocale, type Locale } from "@/i18n/config";
@@ -34,7 +34,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       <div className="flex gap-16">
         <aside className="hidden lg:block w-[200px] shrink-0">
           <div className="sticky top-24">
-            <Image src="https://junjieblob.blob.core.windows.net/images/profile_photo.jpeg" alt={profile.name} width={120} height={120} className="rounded-full object-cover border-2 border-[var(--border)] mb-4" style={{ width: 120, height: 120 }} priority />
+            <SiteImage src="/images/profile_photo.jpeg" alt={profile.name} width={120} height={120} className="rounded-full object-cover border-2 border-[var(--border)] mb-4" style={{ width: 120, height: 120 }} priority />
             <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] mb-6">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>
               {profile.location}
@@ -47,7 +47,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         <div className="flex-1 min-w-0">
           <section className="mb-16 animate-fade-in-up opacity-0" id="intro">
             <div className="lg:hidden flex items-center gap-4 mb-6">
-              <Image src="https://junjieblob.blob.core.windows.net/images/profile_photo.jpeg" alt={profile.name} width={80} height={80} className="rounded-full object-cover border-2 border-[var(--border)]" style={{ width: 80, height: 80 }} priority />
+              <SiteImage src="/images/profile_photo.jpeg" alt={profile.name} width={80} height={80} className="rounded-full object-cover border-2 border-[var(--border)]" style={{ width: 80, height: 80 }} priority />
               <div><h1 className="display-heading text-2xl text-[var(--text-primary)]">{profile.name}</h1><p className="text-sm text-[var(--text-muted)] mt-1">{profile.title} at {profile.company}</p></div>
             </div>
             <div className="hidden lg:block mb-4"><h1 className="display-heading text-3xl md:text-4xl text-[var(--text-primary)]">{profile.name}</h1><p className="text-[var(--text-muted)] mt-1">{profile.title} at {profile.company}</p></div>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import SiteImage from "@/components/SiteImage";
 import { notFound } from "next/navigation";
 import { projects } from "@/lib/data";
 import type { Persona, JourneyStep, UserStory, Feature, ArchitectureLayer, ArchitectureInsight, ProblemArea } from "@/lib/data";
@@ -58,7 +58,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ locale
       {project.heroImage && (
         <section className="mb-16 animate-fade-in-up opacity-0 animation-delay-100">
           <div className="rounded-[var(--radius-xl)] overflow-hidden border border-[var(--border)]">
-            <Image src={project.heroImage} alt={project.title} width={960} height={540} className="w-full h-auto" priority />
+            <SiteImage src={project.heroImage} alt={project.title} width={960} height={540} className="w-full h-auto" priority />
           </div>
         </section>
       )}
@@ -99,7 +99,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ locale
           <h2 className="text-sm font-medium text-[var(--text-muted)] mb-6">{dict.work.relatedProjects}</h2>
           {related.map((rp) => (
             <Link key={rp.slug} href={`/${locale}/work/${rp.slug}`} className="group block minimal-card rounded-[var(--radius-xl)] overflow-hidden">
-              {rp.heroImage && <div className="aspect-[16/9] overflow-hidden"><Image src={rp.heroImage} alt={rp.title} width={960} height={540} className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" /></div>}
+              {rp.heroImage && <div className="aspect-[16/9] overflow-hidden"><SiteImage src={rp.heroImage} alt={rp.title} width={960} height={540} className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" /></div>}
               <div className="p-6 md:p-8"><div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8"><h3 className="text-xl font-semibold text-[var(--text-primary)] md:flex-[5]">{rp.title}</h3><div className="md:flex-[7]"><p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4">{rp.description}</p><span className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)]">{dict.work.readCaseStudy}<span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5"><ArrowRightIcon size={14} /></span></span></div></div></div>
             </Link>
           ))}

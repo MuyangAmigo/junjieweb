@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import SiteImage from "@/components/SiteImage";
 import { ArrowRightIcon } from "@/components/Icons";
 import { isValidLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
@@ -27,7 +27,7 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
           <Link key={project.slug} href={`/${locale}/work/${project.slug}`} className="group block spatial-card p-2">
             {project.heroImage && (
               <div className="spatial-image aspect-[16/9]">
-                <Image src={project.heroImage} alt={project.title} width={960} height={540} className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" />
+                <SiteImage src={project.heroImage} alt={project.title} width={960} height={540} className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" />
               </div>
             )}
             <div className="p-6 md:p-8">

@@ -9,7 +9,7 @@ title: Project Management Workflow
 
 A structured framework for thinking through any project or initiative from start to finish. More comprehensive than most PM templates.
 
-![abstract data visualization wall](https://junjieblob.blob.core.windows.net/images/abstract-data-visualization-wall.png)
+![abstract data visualization wall](/images/abstract-data-visualization-wall.png)
 
 ## The Framework
 
