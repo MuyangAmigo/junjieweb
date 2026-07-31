@@ -40,3 +40,4 @@ assets/
 site-next/.next/
 site-next/out/
 site-next/node_modules/
+*.tsbuildinfo
