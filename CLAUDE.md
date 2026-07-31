@@ -38,7 +38,12 @@ All pages are under `[locale]/` prefix (en, zh, ja). Root `/` redirects to `/en`
 ### GitHub & Deployment
 
 - **CI/CD**: Push to `main` → GitHub Actions installs deps → `npm run build` → uploads `site-next/out/` as a Pages artifact → `actions/deploy-pages` publishes it. Pull requests build but do not deploy.
-- **Custom domain**: `junjie.li`, via `site-next/public/CNAME` (Next copies `public/` into `out/`).
+- **URL**: <https://muyangamigo.github.io/junjieweb/> — a project page, so the site is served from
+  the `/junjieweb` subpath rather than the domain root.
+- **Base path**: `BASE_PATH` in `site-next/next.config.ts` is the single source of truth. It feeds
+  Next's own `basePath` and is re-exported through `env` so `src/lib/base-path.ts` can prefix the
+  URLs Next does *not* rewrite. To move to a custom domain, set it to `""` — that is the only edit
+  required, since no content or component hardcodes the prefix.
 - **Media storage**: `site-next/public/images/`, served from the site itself at `/images/<filename>`.
   Run `npm run optimize:images` in `site-next/` after adding files — the site builds with
   `images.unoptimized: true`, so committed bytes are exactly what visitors download.
@@ -57,11 +62,11 @@ scripts/fetch-external-posts.mjs  # Fetch posts from Microsoft blogs → update 
 docs/                          # Site improvement plans and documentation
 site-next/                     # Active Next.js personal site
   public/images/               # Site media (served at /images/<filename>)
-  public/CNAME                 # Custom domain for GitHub Pages
   scripts/optimize-images.mjs  # Downscale + recompress public/images (idempotent)
+  scripts/verify-export.mjs    # Post-build link check (catches missing base path)
   src/app/                     # App Router pages (home, about, posts, post detail)
-  src/components/              # Header, Footer, Icons
-  src/lib/                     # Data (resume info), posts (markdown reader)
+  src/components/              # Header, Footer, Icons, SiteImage
+  src/lib/                     # Data (resume info), posts (markdown reader), base-path helpers
   content/posts/               # Generated blog posts (markdown)
   next.config.ts               # Static export config
   postcss.config.mjs           # Tailwind CSS v4
@@ -203,6 +208,11 @@ Attachments/    # Local only — Images/, Videos/, Documents/, Other/ (not in gi
 - Only files with `publish: true` in frontmatter are published to the blog
 - Site media lives in `site-next/public/images/` and is referenced as `/images/<filename>`
 - Run `npm run optimize:images` after adding images — nothing resizes them at request time
+- Use `SiteImage` (`src/components/SiteImage.tsx`), never `next/image` directly. Static export
+  forces `images.unoptimized`, and that loader emits `src` verbatim without applying `basePath`,
+  so a bare `next/image` 404s on the deployed subpath while looking fine in `next dev`
+- Any URL Next does not generate itself — markdown HTML, metadata, meta refresh targets — needs
+  `withBasePath` from `src/lib/base-path.ts`. `npm run verify:export` catches misses after a build
 - Keep the vault's full `Attachments/` library out of git; copy in only what a post actually uses
 - Obsidian wikilinks `[[filename]]` are still used for note-to-note links (converted to plain text for blog)
 - Sensitive data (`.env`, credentials) must never be committed

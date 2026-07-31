@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import SiteImage from "@/components/SiteImage";
 import { profile, projects } from "@/lib/data";
 import { GitHubIcon, LinkedInIcon, ArrowRightIcon } from "@/components/Icons";
 import CountUp from "@/components/CountUp";
@@ -59,7 +59,7 @@ export default async function Home({
               href={`/${locale}/about`}
               className="group inline-flex items-center gap-3 pl-1.5 pr-5 py-1.5 rounded-[var(--radius-full)] bg-[var(--bg-surface)] border border-[var(--border)] hover:border-[var(--border-hover)] hover:bg-[var(--bg-muted)] transition-all duration-200"
             >
-              <Image
+              <SiteImage
                 src="/images/profile_photo.jpeg"
                 alt={profile.name}
                 width={36}

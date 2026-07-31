@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { defaultLocale } from "@/i18n/config";
+import { withBasePath } from "@/lib/base-path";
 
 const target = `/${defaultLocale}`;
+// Raw HTML below bypasses Next's URL handling, so the prefix is applied here.
+const href = withBasePath(target);
 
 export const metadata: Metadata = {
-  alternates: { canonical: target },
+  // Next does not apply `basePath` to metadata URLs either.
+  alternates: { canonical: href },
 };
 
 /**
@@ -19,11 +23,11 @@ export const metadata: Metadata = {
 export default function RootPage() {
   return (
     <>
-      <meta httpEquiv="refresh" content={`0; url=${target}`} />
+      <meta httpEquiv="refresh" content={`0; url=${href}`} />
       <main className="flex min-h-screen items-center justify-center px-6">
         <p className="text-[var(--text-secondary)]">
           Redirecting to{" "}
-          <a className="text-[var(--accent)] underline" href={target}>
+          <a className="text-[var(--accent)] underline" href={href}>
             {target}
           </a>
           …

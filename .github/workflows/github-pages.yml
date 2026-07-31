@@ -43,6 +43,13 @@ jobs:
         working-directory: site-next
         run: npm run build
 
+      # The site is served from a subpath, and the URLs Next does not rewrite
+      # itself (unoptimized next/image, markdown HTML, metadata) only 404 once
+      # deployed. Fail the build here instead of discovering it in production.
+      - name: Verify exported links
+        working-directory: site-next
+        run: npm run verify:export
+
       # Pages' Actions-based deployment serves the artifact as-is, but this
       # also keeps the output correct if it is ever published from a branch,
       # where Jekyll would otherwise strip the _next/ directory.

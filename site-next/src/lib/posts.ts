@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 import readingTime from "reading-time";
+import { withBasePathInHtml } from "./base-path";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
@@ -74,7 +75,9 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     categories: (data.categories as string[]) || [],
     tags: (data.tags as string[]) || [],
     draft: data.draft === true,
-    content: processedContent.toString(),
+    // Posts author images as `/images/…`. This HTML is injected directly, so
+    // Next never sees those URLs and cannot apply `basePath` to them.
+    content: withBasePathInHtml(processedContent.toString()),
     readingTime: stats.text,
   };
 }

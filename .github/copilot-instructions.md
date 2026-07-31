@@ -42,7 +42,9 @@ Legacy local markdown posts exist in `site-next/content/posts/` but are unlisted
 
 ### CI/CD
 
-Push to `main` → GitHub Actions → `npm ci` + `npm run build` in `site-next/` → uploads `site-next/out/` as a Pages artifact → `actions/deploy-pages` publishes it to `junjie.li`. Pull requests build but do not deploy. There is also a manual "Fetch External Posts" workflow that scrapes blogs and opens a PR.
+Push to `main` → GitHub Actions → `npm ci` + `npm run build` in `site-next/` → `npm run verify:export` link check → uploads `site-next/out/` as a Pages artifact → `actions/deploy-pages` publishes it to <https://muyangamigo.github.io/junjieweb/>. Pull requests build but do not deploy. There is also a manual "Fetch External Posts" workflow that scrapes blogs and opens a PR.
+
+The site is served from the `/junjieweb` subpath. `BASE_PATH` in `site-next/next.config.ts` is the single source of truth; use `withBasePath` from `src/lib/base-path.ts` for any URL Next does not rewrite itself, and `SiteImage` instead of `next/image`.
 
 ## Conventions
 

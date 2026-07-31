@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { siteOrigin, siteUrl, withBasePath } from "@/lib/base-path";
 import "./globals.css";
 
 const geist = Geist({
@@ -13,9 +14,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  // Required so the relative OG/Twitter image paths below resolve to absolute
-  // URLs — crawlers reject relative ones.
-  metadataBase: new URL("https://junjie.li"),
+  // Required so the image paths below resolve to absolute URLs — crawlers
+  // reject relative ones. Note that Next does *not* apply `basePath` to
+  // metadata URLs, so those paths are prefixed explicitly via `withBasePath`.
+  metadataBase: new URL(siteOrigin),
   title: {
     default: "Junjie Li \u2014 Senior Product Manager at Microsoft",
     template: "%s | Junjie Li",
@@ -27,13 +29,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://junjie.li",
+    url: siteUrl,
     siteName: "Junjie Li",
     title: "Junjie Li \u2014 Senior Product Manager at Microsoft",
     description: "Building AI developer tools that reach 1M+ developers.",
     images: [
       {
-        url: "/images/ai-toolkit-hero-new.png",
+        url: withBasePath("/images/ai-toolkit-hero-new.png"),
         width: 1920,
         height: 1280,
         alt: "Junjie Li \u2014 AI Toolkit for VS Code",
@@ -44,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Junjie Li \u2014 Senior Product Manager at Microsoft",
     description: "Building AI developer tools that reach 1M+ developers.",
-    images: ["/images/ai-toolkit-hero-new.png"],
+    images: [withBasePath("/images/ai-toolkit-hero-new.png")],
   },
 };
 
