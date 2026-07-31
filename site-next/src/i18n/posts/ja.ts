@@ -1,15 +1,33 @@
 export const postOverlays = [
   {
-    title: "Microsoft Foundry Toolkit for VS Code が一般提供を開始",
-    subtitle: "AI Toolkit が Foundry Toolkit に改称し GA に到達",
+    title: "🚀 Foundry Toolkit for VS Code -- 2026年7月アップデート",
+    subtitle: "フラットなワークスペース、インラインツール、詳細な検査、エージェント最適化",
     summary:
-      "Microsoft Foundry Toolkit for VS Code（旧 AI Toolkit）が一般提供（GA）となりました。本 GA リリースでは、厳選された 100 以上のモデルを試せる Playground、ノーコード/ローコード Agent Builder、GitHub Copilot 統合、高度なデバッグ機能、エッジ向けに最適化された Phi モデル展開を VS Code 内で統一的に提供します。",
+      "7月のリリースでは Foundry Toolkit 1.6.3 から 1.6.6 までが提供され、フラットなタブ式ワークスペース、Tool Catalog のインライン操作、モデルの行単位管理、Hosted Agent デプロイの改善、Agent Inspector の完全な Events タブ、測定可能なプロンプト調整に向けた Agent Optimization プレビューが追加されました。",
+  },
+  {
+    title: "GitHub Copilot App のキャンバスから Foundry Hosted Agent を設計・テスト・出荷",
+    subtitle: "Hosted Agent ワークフローのためのプロジェクト対応 Foundry Canvas",
+    summary:
+      "Microsoft Foundry Canvas が GitHub Copilot App 拡張機能としてパブリックプレビューになり、Hosted Agent ワークフローをチャットの隣で進められるようになりました。Foundry プロジェクトを選択し、エージェントをスキャフォールドし、デプロイ済みモデル、ツールボックス、スキル、ガードレールを接続し、組み込みの Agent Inspector でローカルテストして、azd ベースの手順でデプロイできます。",
+  },
+  {
+    title: "🖼️ Foundry Toolkit で画像生成ワークフローを効率化",
+    subtitle: "VS Code 内で画像生成の発見、デプロイ、プロンプト、反復、コード出力を完結",
+    summary:
+      "Foundry Toolkit は GPT-Image-2 を Model Catalog に追加し、Image Playground フローを提供します。開発者は画像モデルを Azure AI Foundry プロジェクトへデプロイし、エディター内で画像を生成・比較し、結果をダウンロードし、すぐに使える API コードをコピーできます。",
   },
   {
     title: "⚡ Foundry Toolkit for VS Code：GA 徹底解説",
     subtitle: "GA リリースのエンドツーエンドツアー — モデル、エージェント、評価、エッジ",
     summary:
       "GA リリースを徹底解説し、100 以上のモデルの探索、ノーコードでのエージェント試作、デバッグ可能な本番品質エージェントの構築、評価の実行、AMD・NVIDIA・Intel・Qualcomm など多様なハードウェア上のエッジデバイス向けモデル最適化までをひと通り紹介します。",
+  },
+  {
+    title: "Microsoft Foundry Toolkit for VS Code が一般提供を開始",
+    subtitle: "AI Toolkit が Foundry Toolkit に改称し GA に到達",
+    summary:
+      "Microsoft Foundry Toolkit for VS Code（旧 AI Toolkit）が一般提供（GA）となりました。本 GA リリースでは、厳選された 100 以上のモデルを試せる Playground、ノーコード/ローコード Agent Builder、GitHub Copilot 統合、高度なデバッグ機能、エッジ向けに最適化された Phi モデル展開を VS Code 内で統一的に提供します。",
   },
   {
     title: "AI Toolkit for VS Code -- 2026年3月アップデート",

@@ -132,13 +132,31 @@ export interface ExternalPost {
 
 export const externalPosts: ExternalPost[] = [
   {
-    title: "Microsoft Foundry Toolkit for VS Code is Now Generally Available",
-    date: "2026-04-16",
-    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/microsoft-foundry-toolkit-for-vs-code-is-now-generally-available/4511831",
+    title: "🚀 Foundry Toolkit for VS Code — July 2026 Update",
+    date: "2026-07-31",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/%F0%9F%9A%80-foundry-toolkit-for-vs-code-%E2%80%94-july-2026-update/4542786",
     source: "Microsoft Tech Community",
-    subtitle: "AI Toolkit rebrands to Foundry Toolkit and reaches GA",
-    summary: "The Microsoft Foundry Toolkit for VS Code (formerly AI Toolkit) is now generally available. The GA release unifies the developer experience around a curated 100+ model playground, no-code/low-code agent builder, GitHub Copilot integration, advanced debugging, and edge-optimized Phi model deployment — all directly inside VS Code.",
-    tag: "Announcement",
+    subtitle: "A flatter workspace, inline tools, deeper inspection, and agent optimization",
+    summary: "The July release ships Foundry Toolkit versions 1.6.3 through 1.6.6 with a flatter tabbed workspace, inline Tool Catalog actions, row-level model management, Hosted Agent deployment polish, a full Agent Inspector Events tab, and Agent Optimization preview for measured prompt tuning.",
+    tag: "Release",
+  },
+  {
+    title: "Design, test, and ship Foundry hosted agents from a canvas in GitHub Copilot App",
+    date: "2026-07-23",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/design-test-and-ship-foundry-hosted-agents-from-a-canvas-in-github-copilot-app/4539921",
+    source: "Microsoft Tech Community",
+    subtitle: "A visual Foundry Canvas for project-aware hosted-agent workflows",
+    summary: "The Microsoft Foundry Canvas enters public preview as a GitHub Copilot App extension that keeps the hosted-agent workflow beside chat. Developers can select a Foundry project, scaffold an agent, wire deployed models, toolboxes, skills, and guardrails, test locally with embedded Agent Inspector, and deploy through azd-backed steps.",
+    tag: "Feature",
+  },
+  {
+    title: "🖼️ Streamline Image Generation Workflow in Foundry Toolkit",
+    date: "2026-04-30",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/%F0%9F%96%BC%EF%B8%8Fstreamline-image-generation-workflow-in-foundry-toolkit/4516055",
+    source: "Microsoft Tech Community",
+    subtitle: "Discover, deploy, prompt, iterate, and export image-generation code in VS Code",
+    summary: "Foundry Toolkit brings GPT-Image-2 into the Model Catalog and adds an Image Playground flow so developers can deploy image models to Azure AI Foundry projects, generate and compare images in the editor, download results, and copy ready-to-use API code without switching tools.",
+    tag: "Feature",
   },
   {
     title: "⚡ Foundry Toolkit for VS Code: A Deep Dive on GA",
@@ -148,6 +166,15 @@ export const externalPosts: ExternalPost[] = [
     subtitle: "End-to-end tour of the GA toolkit — models, agents, evals, and edge",
     summary: "A deep dive into the GA release walks through exploring 100+ models, prototyping no-code agents, building production-ready agents with full debugging, running evaluations, and optimizing models for edge devices across AMD, NVIDIA, Intel, and Qualcomm hardware.",
     tag: "Tutorial",
+  },
+  {
+    title: "Microsoft Foundry Toolkit for VS Code is Now Generally Available",
+    date: "2026-04-16",
+    url: "https://techcommunity.microsoft.com/blog/azuredevcommunityblog/microsoft-foundry-toolkit-for-vs-code-is-now-generally-available/4511831",
+    source: "Microsoft Tech Community",
+    subtitle: "AI Toolkit rebrands to Foundry Toolkit and reaches GA",
+    summary: "The Microsoft Foundry Toolkit for VS Code (formerly AI Toolkit) is now generally available. The GA release unifies the developer experience around a curated 100+ model playground, no-code/low-code agent builder, GitHub Copilot integration, advanced debugging, and edge-optimized Phi model deployment — all directly inside VS Code.",
+    tag: "Announcement",
   },
   {
     title: "🚀 AI Toolkit for VS Code — March 2026 Update",
