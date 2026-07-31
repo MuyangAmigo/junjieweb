@@ -1,15 +1,33 @@
 export const postOverlays = [
   {
-    title: "Microsoft Foundry Toolkit for VS Code 正式发布",
-    subtitle: "AI Toolkit 更名为 Foundry Toolkit 并迎来 GA",
+    title: "🚀 Foundry Toolkit for VS Code -- 2026 年 7 月更新",
+    subtitle: "更扁平的工作区、内联工具、更深入的检查与代理优化",
     summary:
-      "Microsoft Foundry Toolkit for VS Code（前身为 AI Toolkit）现已正式发布（GA）。本次 GA 版本统一了开发者体验，提供精选的 100+ 模型 Playground、无代码/低代码 Agent Builder、GitHub Copilot 集成、高级调试能力，以及面向边缘设备的 Phi 模型优化部署，全部直接在 VS Code 中完成。",
+      "7 月版本包含 Foundry Toolkit 1.6.3 到 1.6.6，带来更扁平的标签页式工作区、Tool Catalog 的内联操作、模型行级管理、Hosted Agent 部署体验优化、完整的 Agent Inspector Events 标签页，以及用于可度量提示调优的 Agent Optimization 预览版。",
+  },
+  {
+    title: "在 GitHub Copilot App 画布中设计、测试并发布 Foundry Hosted Agent",
+    subtitle: "面向 Hosted Agent 工作流的项目感知 Foundry Canvas",
+    summary:
+      "Microsoft Foundry Canvas 以 GitHub Copilot App 扩展的形式进入公共预览，将 Hosted Agent 工作流放在聊天旁边。开发者可以选择 Foundry 项目、搭建代理、连接已部署模型、工具箱、技能和护栏，并通过嵌入式 Agent Inspector 本地测试，再使用基于 azd 的步骤部署。",
+  },
+  {
+    title: "🖼️ 简化 Foundry Toolkit 中的图像生成工作流",
+    subtitle: "在 VS Code 中完成发现、部署、提示、迭代和导出图像生成代码",
+    summary:
+      "Foundry Toolkit 将 GPT-Image-2 带入 Model Catalog，并新增 Image Playground 流程。开发者可以将图像模型部署到 Azure AI Foundry 项目，在编辑器中生成和对比图像、下载结果，并复制可直接使用的 API 代码，无需在多个工具间切换。",
   },
   {
     title: "⚡ Foundry Toolkit for VS Code：GA 深度解析",
     subtitle: "GA 版本端到端导览——模型、代理、评估与边缘",
     summary:
       "本文深度解读 GA 版本，带你从浏览 100+ 模型、无代码原型化代理、构建可调试的生产级代理、运行评估，到为 AMD、NVIDIA、Intel 和 Qualcomm 等多种硬件的边缘设备优化模型，完整体验工具包能力。",
+  },
+  {
+    title: "Microsoft Foundry Toolkit for VS Code 正式发布",
+    subtitle: "AI Toolkit 更名为 Foundry Toolkit 并迎来 GA",
+    summary:
+      "Microsoft Foundry Toolkit for VS Code（前身为 AI Toolkit）现已正式发布（GA）。本次 GA 版本统一了开发者体验，提供精选的 100+ 模型 Playground、无代码/低代码 Agent Builder、GitHub Copilot 集成、高级调试能力，以及面向边缘设备的 Phi 模型优化部署，全部直接在 VS Code 中完成。",
   },
   {
     title: "AI Toolkit for VS Code -- 2026 年 3 月更新",
